@@ -1,0 +1,274 @@
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.4
+#------------------------------------------------------------
+
+- getEffects function can now export effects with group means added (set `gm=TRUE`; see ?getEffects)
+- Some changes for CRAN compability, internal restructuring
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.2.1
+#------------------------------------------------------------
+
+- changed order of authorship
+- much less time for checking examples
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.2
+#------------------------------------------------------------
+
+- Now with correct citation information, see `citation("TripleR")`
+- New sanity check: If double entries are present, now a warning is given. (Before version 1.2, only the uninformative "Aggregation requires fun.aggregate: length used as default" was printed)
+- General R 3.0.2 compability
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.1.7  ----------------------
+#------------------------------------------------------------
+
+- Minor changes to be compatible with ggplot 0.9.2
+- Finally got rid of the R CMD check warnings about global bindings
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.1.6  ----------------------
+#------------------------------------------------------------
+
+NEW FEATURES
+
+- An error is printed if actor or partner IDs are not unique (they have to be unique across groups). Non-unique IDs sometimes caused strange errors.
+
+BUG FIXES
+
+- removed an unnecessary print-out of the effects at each calculation
+- established compatibility to the forthcoming 0.9.0 release of ggplot2
+
+IMPROVEMENTS
+
+- reduced size of vignette
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.1.5  ----------------------
+#------------------------------------------------------------
+
+BUG FIXES
+
+- corrected bug in calculation of p-values for the single group significance test as well as in the parCor function. t-values now are correctly translated into p-values (p-values have been too conservative before; t-values were always correct)
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.1.4  ----------------------
+#------------------------------------------------------------
+
+NEW FEATURES
+
+- added argument minVar to RR, getEffects, and RR.style. Actor and partners effects are only calculated if the respective relative variance component is greater than minVar. Set minVar to NA if this cleaning should not be performed. For small groups, Kenny (1994) suggests a minimum relative variance of 10% for the interpretation of SRM effects. In any case, actor/ partner effects and correlations with these variables should *not* be interpreted if these components have negative variance estimates. minVar defaults to zero; with RR.style this default can be changed for all subsequent analyses. If minVar is set to NA, all effects are calculated, regardless of the size of the variance component.
+- Bivariate correlations are not printed for variance components < minVar.
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.1.0  ----------------------
+#------------------------------------------------------------
+
+NEW FEATURES
+
+- added new user-visible function 'parCor' which computes partial correlations between variables, controlled for group membership. This can be used to compute partial correlations between SRA effects and external variables like age, personality scales, etc. See help file for an example.
+- If self ratings are present, partial correlations of self-ratings with actor and partner effects are printed in the standard output (controlled for group membership if multiple groups are present)
+- function RR now has a new parameter "varname". In latent analysis where two variables are combined to one latent construct, this latent variable now is called "varname" in RR$effects, e.g.:
+
+	RR3 <- RR(liking_a / liking_b ~ actor.id*partner.id, data=likingLong)
+	#latent (construct-level) univariate SRM analysis, define new variable name for the latent construct
+	RR3b <- RR(liking_a / liking_b ~ actor.id*partner.id, data=likingLong, varname="liking")
+	# compare:
+	head(RR3$effects)
+	head(RR3b$effects)
+
+
+ADDITIONALLY
+
+- renamed variables in demo data sets to perceiver.id and target.id (as they are about interpersonal perception)
+
+
+BUG FIXES
+
+- fixed a minor bug in getEffects / long2matrix were corrupt groups led to a crash
+- fixed wrong column names in multiple group
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.0.7  ----------------------
+#------------------------------------------------------------
+
+- added a group id column to the relationship effects
+- prepared a helper function to convert relationship effects from long format (which is the default output of the RR function) to wide format. Long format is best suited for subsequent MLM analyses, wide format is needed for SEM analyses.
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.0.6  ----------------------
+#------------------------------------------------------------
+
+- moved ggplot2 to "Depends"
+- minor updates in vignette
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.0.5  ----------------------
+#------------------------------------------------------------
+
+BUG FIXES
+
+- the labeling of missing values in plot_missings now is correct (swapped 'yes' and 'no')
+- minData now works correctly in the bivariate latent case
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.0.3  ----------------------
+#------------------------------------------------------------
+
+IMPROVEMENTS
+
+- in bivariate analyses now both univariate and the bivariate results are based on the same set of participants (in previous versions, data sets with many NAs could cause the exclusion of participants in one of both variables).
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.0.2  ----------------------
+#------------------------------------------------------------
+
+NEW FEATURES
+
+- added a function to display group statistics (group sizes, excluded groups, etc.): ?RR.summary
+- added the possibility to calculate self enhancement index (Kwan-Index) in the RR and getEffects function (set index="enhance"). These indices are reported along with the actor and partner effects, see RR_object$effects
+- effects-with-group-mean-added are now also provided in latent analyses
+
+BUG FIXES
+
+- the warning message about excluded participants now is correct
+
+IMPROVEMENTS
+
+- warning messages are more concise
+- many under-the-hood improvements
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.0.1  ----------------------
+#------------------------------------------------------------
+
+- Adjusted the recommendations for missing values based on simulations (they now are a bit more liberal)
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.0  ----------------------
+#------------------------------------------------------------
+
+*As everything works now beautifully, we celebrate version 1.0!*
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.5.4  ----------------------
+#------------------------------------------------------------
+
+- renamed the labels of the dyads in the effectsRel variable: now each dyad has a unique id, which is important for subsequent APIM analyses
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.5.2  ----------------------
+#------------------------------------------------------------
+
+
+- Reliabilities are always printed with 3 decimals
+- Warnings about excluded groups and/or participants are more meaningful and cleaned up (double warnings should not occur anymore)
+- Increased reliability with many NAs (especially in latent analyses)
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.5.1  ----------------------
+#------------------------------------------------------------
+
+BUG FIXES
+
+- self ratings are now correctly centered
+
+MINOR IMPROVEMENTS/ CHANGES
+
+- updated vignette with sections on missing values and installation of R
+- Handling of multiple groups now is more robust in cases where some groups contained self ratings and others do not
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.5  ----------------------
+#------------------------------------------------------------
+
+- checked 2.12.0 compatibility ( ... it works)
+- introduced new parameter to RR: minData. minData (default = 1) controls the minimum amount of data points which should be in each row or column of the round robin matrix. For example, minData=2 means that for each participant, at least two data points have to be present both as actor and as target.
+- Updated the procedure for missing values: For the calculation of variance components and effects, missing values are imputed as the average of the respective row and col means. Relationship effects which were missing in the original data set then are set to NA again.
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.4.6  ----------------------
+#------------------------------------------------------------
+
+NEW FEATURES
+
+- added significance test for covariances in the univariate latent case
+
+
+MINOR IMPROVEMENTS/ CHANGES
+
+- improved vignette
+- added a link to TripleR.pdf in the main help page
+- fixed a small bug in printing multiple groups: The variable name now is displayed
+- fixed a namespace conflict with imported packages
+
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.4.5  ----------------------
+#------------------------------------------------------------
+
+MINOR IMPROVEMENTS/ CHANGES
+
+- updated vignette with an instruction how to calculate partial correlations between
+SRM effects and external variables
+- speed improvements
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.4.4  ----------------------
+#------------------------------------------------------------
+
+MINOR IMPROVEMENTS/ CHANGES
+
+- Improved help files, added help file for plot.RR
+
+BUG FIXES
+
+- Fixed minor bug in styles: Labels of reliabilities now always are displayed correctly
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.4.3  ----------------------
+#------------------------------------------------------------
+
+BUG FIXES
+
+- Standardized variances in bivariate manifest analysis are corrected
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 0.4.2  ----------------------
+#------------------------------------------------------------
+
+NEW FEATURES
+
+- Added a NEWS file (you're reading it) to document changes
+- Relationship effects now have a new column called 'dyad'. This facilitates subsequent dyadic analyses.
+- Relationship effects now are sorted that each pair of dyadic effects is in consecutive lines
+- Added new labeling system: all labels can now centrally controlled by one function: RR.style. 
+You set your styles once at the beginning of the project (e.g., RR.style("perception")), and all 
+subsequent calls of RR are styled accordingly (i.e., in RR.print appropriate labels are taken, and 
+the suffixes of the effects are appropriately set)
+- Reliability of relationship effects now is printed (provided only in latent analyses)
+
+
+MINOR IMPROVEMENTS/ CHANGES
+
+- Improved help files
+- Removed warning, that variance components < 10% should not be interpreted (the relevant indicator is 
+the significance of these components)
+- The labels of the reliabilities now are correctly set to actor/partner or perceiver/target, 
+depending on the style set.
+- Fixed line breaks in the vignette
+
+
+BUG FIXES
+
+- Labeling of perception/metaperception now is correct

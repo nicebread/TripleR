@@ -1,0 +1,14 @@
+citHeader("To cite TripleR in publications use:")
+
+citEntry(entry = "Article",
+	title = "{TripleR:} An R package for social relations analyses based on round-robin designs",
+	volume = "44",
+	doi = "10.3758/s13428-011-0150-4",
+	number = {2},
+	journal = "Behavior Research Methods",
+	author = c(as.person("Schönbrodt, F. D."), as.person("Back, M. D."), as.person("Schmukle, S. C.")),
+	year = "2012",
+	pages = "455--470",
+	
+	textVersion  = "Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (2012). TripleR: An R package for social relations analyses based on round-robin designs. Behavior Research Methods, 44, 455-470. doi:10.3758/s13428-011-0150-4"
+)
