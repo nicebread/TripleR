@@ -97,7 +97,7 @@ long2matrix <- function(formule, data, minData=1, verbose=TRUE, reduce=TRUE, ski
 
 		
 		#box <- as.matrix(cast(block.clean, f1, value=var.id, fill=NA))		
-		box <- as.matrix(acast(block.clean, f1, value.var=var.id, fill=NA))
+		box <- as.matrix(reshape2::acast(block.clean, f1, value.var=var.id, fill=NA))
 		
 		
 		if (reduce==FALSE) {

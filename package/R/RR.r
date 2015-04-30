@@ -1282,7 +1282,10 @@ RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", min
 	res <- data.frame()
 	res.bi <- data.frame()
 	g.uni <- list()
+	
+	# n.m stores the group sizes
 	saa <- sbb <- scc <- sccs <- n.m <- c()
+	
 	undc1 <- unp1 <- unt1 <- unr1 <- un.raw  <- c()
 	
 	self <- FALSE	# are self ratings present?
@@ -1416,7 +1419,7 @@ RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", min
 		attr(effect[,grep(localOptions$suffixes[2], colnames(effect), fixed=TRUE)], "reliability") <- clamp(rel.p)
 		
 		# group mean & group variance		
-		group.means <- tapply(data[,all.vars(f1)[1]], data[,group.id], mean, na.rm=TRUE)
+		group.means <- tapply(data[, all.vars(f1)[1]], data[, group.id], mean, na.rm=TRUE)
 		group.var <- var(group.means) - ((varComp$estimate[1] + varComp$estimate[2] + 2*varComp$estimate[5])/n + (varComp$estimate[3]+varComp$estimate[6])/(n*(n-1)))
 		
 		
