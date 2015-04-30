@@ -10,7 +10,7 @@ Depends:
     ggplot2 (>= 0.9.3)
 Imports:
     reshape2,
-    plyr (>= 1.8.2)
+    plyr
 Suggests:
     lme4
 Description: Social Relation Model (SRM) analyses for single or multiple
