@@ -1,5 +1,3 @@
-
-
 #------------------------------------
 #-- Skinning variables
 #------------------------------------
@@ -39,6 +37,7 @@ bilabels_pb <- c("perceiver-actor covariance","target-partner covariance",
 
 bilabels_meta <- c("Perceiver assumed reciprocity","Generalized assumed reciprocity",
 "Perceiver meta-accuracy", "Generalized meta-accuracy", "Dyadic assumed reciprocity", "Dyadic meta-accuracy")
+
 
 
 #' @export
@@ -96,15 +95,6 @@ RR.style <- function(style="behavior", suffixes=NA, minVar=NA) {
 }
 
 
-# corrects values < -1 to -1 and values > 1 to 1
-clamp <- function(...) {
-	x <- c(...)
-	x[x < -1] <- -1
-	x[x >  1] <-  1
-	return(x)
-}
-
-
 
 clearLongData <- function(formule, data, minData=1) {
 	ll1 <- long2matrix(formule, data, reduce=TRUE, minData=minData)
@@ -117,8 +107,6 @@ clearLongData <- function(formule, data, minData=1) {
 	partner.id <- rhs[2]
 	if (length(rhs)>=3) {group.id <- rhs[3]} else {group.id="group.id"}
 	
-	
-	
 	ll2 <- ldply(ll1, function(x) {
 		matrix2long(x, new.ids=FALSE, var.id=var.id)
 	})
@@ -126,7 +114,6 @@ clearLongData <- function(formule, data, minData=1) {
 
 	return(ll2)
 }
-
 
 
 
@@ -146,73 +133,6 @@ quickeffects <- function(RRMatrix) {
    c <- RRMatrix - am - bm - mpp		 # relationship effect
 
 	return(list(a=a,b=b,c=c,m=mpp))
-}
-
-impute <- function(RRMatrix, na.rm="meansNA", stress.max = 0.01, maxIt=100) {
-
-	# in Matrix umwandeln, sonst geht's nicht ...
-	RRMatrix2 <- as.matrix(RRMatrix)
-	rownames(RRMatrix2) <- rownames(RRMatrix)
-	colnames(RRMatrix2) <- colnames(RRMatrix)
-	RRMatrix <- RRMatrix2
-	
-	NAs <- is.na(RRMatrix)		# Matrix, die die Position der NAs ausserhalb der Diagonale speichert
-	
-	save.diag <- diag(RRMatrix)	# self ratings aus der Diagonale abspeichern
-	diag(RRMatrix) <- NA
-
-	eff0 <- eff <- quickeffects(RRMatrix)
-	stress <- 1
-	it <- 0
-
-	# save evolution of parameters
-	as <- matrix(eff$a, nrow=1, ncol=ncol(RRMatrix))
-	bs <- matrix(eff$b, nrow=1, ncol=ncol(RRMatrix))
-	ms <- c()
-	
-	while (stress > stress.max) {
-	
-		rM <- rowMeans(RRMatrix, na.rm=TRUE)
-		cM <- colMeans(RRMatrix, na.rm=TRUE)
-		rM_mean <- mean(rM)
-		cM_mean <- mean(cM)
-		grandmean <- mean(RRMatrix, na.rm=TRUE)
-		
-		for (i in 1:ncol(RRMatrix)) {
-			for (j in 1:nrow(RRMatrix)) {
-				if (NAs[j,i]==TRUE) {
-					
-					# Ersetzung durch mittleres Zeilen/ Spaltenmittel
-					if (grepl("mean", na.rm)) {
-						RRMatrix[j,i] <- (rM[j] + cM[i])/2
-					}
-				
-				}
-			}
-		}
-
-		if (grepl("1", na.rm)) break; # bei means1, chi1: beim ersten Durchgang gleich rausspringen
-
-		eff <- quickeffects(RRMatrix)
-
-		stress <- max(max(abs(eff$a - eff0$a)), max(abs(eff$b - eff0$b)))
-		eff0 <- eff
-		it <- it + 1
-		
-		if (it > maxIt) {
-			warning("Maximum iterations exceeded; fall back to single imputation.", call.=FALSE)
-			return(impute(RRMatrix2, paste(na.rm,"1",sep="")))
-		}
-		
-		as <- rbind(as, eff$a)
-		bs <- rbind(bs, eff$b)
-		ms <- c(ms, eff$m)
-	}	
-	
-	diag(RRMatrix) <- save.diag
-	if (!grepl("NA", na.rm)) {NAs[] <- FALSE}
-	
-	return(list(RRMatrix=RRMatrix, NAs=NAs, iterations=it, as=as, bs=bs, ms=ms))
 }
 
 
@@ -404,6 +324,8 @@ RR.univariate <- function(RRMatrix, na.rm=FALSE, verbose=TRUE, corr.fac="1", ind
 	rccs <- sccs/scc2 #relationship correlation
 	
 	
+	# ---------------------------------------------------------------------
+	# Compute SE and t-value for a single group using the formula of Lashley & Bond
 	w = (n^2 - 3*n + 6) * (n^2 - 3*n + 4)
 
 	sesaa <- sqrt((2*saa^2) / (n+1) + (2*(n^6 - 7*n^5 + 28*n^4 - 66*n^3 + 102*n^2 - 84*n + 32)* scc^2)/ (w*(n+1)*n^2*(n-2)^2)
@@ -533,7 +455,7 @@ RR.bivariate <- function(RRMatrix1, RRMatrix2, analysis="manifest", na.rm=FALSE,
 	
 	
 	# standardized covariances (=correlations), bivariate case
-	#standardized <- clamp(raf,rbg,rag,rbf,rch,rchs)
+	# standardized <- clamp(raf,rbg,rag,rbf,rch,rchs)
 	w <- getOption("warn")
 	options(warn=-1)
 		raf <-  saf/(sqrt(varComp.1[1])*sqrt(varComp.2[1])) # bivariate correlations
@@ -759,26 +681,18 @@ ifg <- function(g) {
 }
 
 
-checkVar <- function(x, minVar=0) {
-	if (is.null(minVar)) return(FALSE)
-	if (is.na(minVar)) return(FALSE)
-	if (is.null(x)) return(TRUE)
-	if (is.nan(x)) return(TRUE)
-	if (is.na(x)) return(TRUE)
-	if (x < minVar) return(TRUE)
-	return(FALSE)
-}
-
-
 # Wrapper function: depending on parameters, different results are calculated:
+# @param se Either "SOREMO" (= between group significance test) or "LashleyBond" (= advanced significance test)
 #' @export
 #' @importFrom reshape2 melt
 #' @importFrom reshape2 acast
 #' @importFrom plyr ldply
 #' @importFrom plyr laply
-RR <- function(formula, data, na.rm=FALSE, minData = 1, verbose=TRUE, g.id=NULL, index="", exclude.ids="", varname=NA, minVar=localOptions$minVar, ...) {
+RR <- function(formula, data, na.rm=FALSE, minData = 1, verbose=TRUE, g.id=NULL, index="", exclude.ids="", varname=NA, se="LashleyBond", minVar=localOptions$minVar, ...) {
 
 	extra <- list(...)
+	
+	se <- match.arg(se, choices=c("LashleyBond", "SOREMO"))
 
 	# set default
 	analysis <- "manifest"
@@ -799,7 +713,7 @@ RR <- function(formula, data, na.rm=FALSE, minData = 1, verbose=TRUE, g.id=NULL,
 
 	# if a grouping factor is provided: forward to RR.multi
 	if (!is.null(group.id)) {
-		res <- RR.multi(f1, data=data, na.rm=na.rm, verbose=verbose, index=index, minData=minData, exclude.ids=exclude.ids, varname=varname, ...)
+		res <- RR.multi(f1, data=data, na.rm=na.rm, verbose=verbose, index=index, minData=minData, exclude.ids=exclude.ids, varname=varname, se=se, ...)
 		
 		if (!is.null(res$univariate)) {
 			
@@ -1096,76 +1010,8 @@ if (is.null(RRMatrix1) & is.null(RRMatrix2) & is.null(RRMatrix3) & is.null(RRMat
  
 
 
-# weighted variance, inspired by a function from Gavin Simpson on R-Help
-var.wt <- function(x, w, na.rm = FALSE) {
-    if (na.rm) {
-        w <- w[i <- !is.na(x)]
-        x <- x[i]
-    }
-    sum.w <- sum(w)
-    return((sum(w*x^2) * sum.w - sum(w*x)^2) / (sum.w^2 - sum(w^2)))
-}
-
-
-
-
-weighted.t.test <- function(x, w, mu, conf.level = 0.95, alternative="two.sided", na.rm=TRUE) {
-	
-	if(!missing(conf.level) &&
-       (length(conf.level) != 1 || !is.finite(conf.level) ||
-        conf.level < 0 || conf.level > 1))
-        stop("'conf.level' must be a single number between 0 and 1")
-	
-	if (na.rm) { 
-		w <- w[i <- !is.na(x)] 
-		x <- x[i] 
-	}
-	
-	# to achieve consistent behavior in loops, return NA-structure in case of complete missings
-	if (sum(is.na(x)) == length(x)) return(list(estimate=NA, se=NA, conf.int=NA, statistic=NA, df=NA, p.value=NA))
-	
-	# if only one value is present: this is the best estimate, no significance test provided
-	if (sum(!is.na(x)) == 1) {
-		warning("Warning weighted.t.test: only one value provided; this value is returned without test of significance!", call.=FALSE)
-		return(list(estimate=x[which(!is.na(x))], se=NA, conf.int=NA, statistic=NA, df=NA, p.value=NA))
-	}
-	
-	x.w <- weighted.mean(x,w, na.rm=na.rm)
-	var.w <- var.wt(x,w, na.rm=na.rm)
-	df <- length(x)-1
-	t.value <- sqrt(length(x))*((x.w-mu)/sqrt(var.w))
-	se <- sqrt(var.w)/sqrt(length(x))
-	
-	if (alternative == "less") {
-		pval <- pt(t.value, df)
-		cint <- c(-Inf, x.w + se*qt(conf.level, df) )
-    }
-    else if (alternative == "greater") {
-		pval <- pt(t.value, df, lower.tail = FALSE)
-		cint <- c(x.w - se * qt(conf.level, df), Inf)
-    }
-    else {
-		pval <- 2 * pt(-abs(t.value), df)
-		alpha <- 1 - conf.level
-        cint <- x.w + se*qt(1 - alpha/2, df)*c(-1,1)
-    }
-	
-	names(t.value) <- "t"
-	return(list(estimate=x.w, se=se, conf.int=cint, statistic=t.value, df=df, p.value=pval))
-}
-
-
-
-# helper-functions
-posOrNA <- function(x) {
-	return(ifelse(x>=0, x, NA))
-}
-
-
-
 # uni1, uni2: univariate Analysen der beiden Konstrukte (Daten werden zum Standardisieren der bivariaten Koeffizienten gebraucht)
-
-getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA) {
+getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA, se="LashleyBond") {
 	
 	if (is.null(RR0)) return();
 	
@@ -1178,14 +1024,46 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA)
 			w.t <- weighted.t.test(res1$estimate[res1$type == v], res1$group.size[res1$type == v]-1, mu=0)
 	
 			varComp[varComp$type==v,]$estimate <- w.t$estimate
-			varComp[varComp$type==v,]$se <- w.t$se
-			varComp[varComp$type==v,]$t.value <- w.t$statistic
-			varComp[varComp$type==v,]$p.value <- w.t$p.value
+			
+			#------------------------------------
+			#--  Significance test for Variance Components (OLD STYLE)
+			# -- calculate weighted mean and weighted between groups t-test
+			#------------------------------------
+			
+			if (se == "SOREMO") {
+				varComp[varComp$type==v,]$se <- w.t$se
+				varComp[varComp$type==v,]$t.value <- w.t$statistic
+				varComp[varComp$type==v,]$p.value <- w.t$p.value
+			}
+			
+			#------------------------------------
+			#--  Significance test for Variance Components (LASHLEY-BOND STYLE)
+			#------------------------------------
+			
+			if (se == "LashleyBond") {
+				print("LashleyBond significance test not implemented yet! Please use se='SOREMO'.")
+				#stop();
+				
+				# Suppose we are interested in testing to see if the mean actor variance
+				# is zero, and suppose we have twenty round robins of 5 individuals each.
+				# Then you should get the estimated standard error for actor variance from
+				# group 1 and square it, the estimated standard error for actor variance from
+				# group 2 and square it, ... and the estimated standard error for actor variance
+				# from group 20 and square it.
+				#      Next take the mean of those squared terms, and (after getting the mean
+				# of those terms) divide it by 20 (the number of groups). The square root of that
+				# quantity would be the denominator in a statistic that had the mean actor variance in the numerator.
+
+				sqrt(mean(res1$se[res1$type == v]^2)/length(res1$se[res1$type == v]))
+				
+				# varComp[varComp$type==v,]$se <-
+# 				varComp[varComp$type==v,]$t.value <-
+# 				varComp[varComp$type==v,]$p.value <-
+			}
 		}
+		
 		varComp$p.value[1:4] <- varComp$p.value[1:4] / 2
 		# Varianzen nur einseitig testen (Voreinstellung bei weighted.t.test ist zweiseitig)
-
-		
 		
 		# unstable variance im latent bivariaten Fall wird von aussen in die Funktion gegeben
 		if (!is.na(unstable)) {
@@ -1261,8 +1139,7 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA)
 
 
 
-
-RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData=1, exclude.ids="", varname=NA, ...) {
+RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData=1, exclude.ids="", varname=NA, se="LashleyBond", ...) {
 
 	# this function needs data in long format ...
 	extra <- list(...)
@@ -1372,7 +1249,7 @@ RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", min
 		effect <- data.frame(actor=NA, partner=NA, relationship=NA)
 	}
 	# get weighted variance components
-	varComp <- getWTest(RR1, res, unstable=ifelse(is.null(unstable.raw.m), NULL, unstable.raw.m))
+	varComp <- getWTest(RR1, res, unstable=ifelse(is.null(unstable.raw.m), NULL, unstable.raw.m), se=se)
 
 
 	# calculate reliability for actor and partner effects, and variance of group means
@@ -1425,34 +1302,31 @@ RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", min
 		
 	}	
 	
-	#------------------------------------
-	#--  Variance Components: calculate weighted mean and weighted between groups t-test
-	#------------------------------------
 	
-	anal.type <- paste(RR1$anal.type, " in multiple groups",sep="")
 	
+	anal.type <- paste0(RR1$anal.type, " in multiple groups")
+
 	if (!is.null(varComp)) {
-	
+
 		res2 <- list(effects = effect, effectsRel = effectRel, effects.gm = eff.gm, varComp = varComp, groups = g.uni, varComp.groups=res, group.var=group.var, anal.type=anal.type)
 		class(res2) <- "RRmulti"
 		attr(res2, "varname") <- attr(g.uni[[1]], "varname")
 		attr(res2, "self") <- self
-		
+	
 		# # noch rausfinden, welche Teilnehmer ausgeschlossen wurden
 		# l1 <- long2matrix(formule, data, verbose=FALSE)
 		# attr(res2, "excluded.participants") <- attr(l1, "excluded.participants")
 		# attr(res2, "excluded.groups") <- attr(l1, "excluded.groups")
-		
+	
 		return(res2)
 	} else {return();}
-	
 }
 
 
 
 
-
-RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData=1, exclude.ids="", varname=NA, ...) {
+# @param se Either "SOREMO" (= between group significance test) or "LashleyBond" (= advanced significance test)
+RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData=1, exclude.ids="", varname=NA, se="LashleyBond", ...) {
 
 	# this function needs data in long format ...
 	extra <- list(...)
@@ -1475,7 +1349,7 @@ RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData
 	df <- data[data[,group.id]==data[1,group.id],]
 	mode <- ifelse(length(f3)==2,"bi","uni")
 
-	if (mode=="uni") return(RR.multi.uni(formule, data, na.rm, verbose, index=index, minData=minData, exclude.ids=exclude.ids, varname=varname, ...))
+	if (mode=="uni") return(RR.multi.uni(formule, data, na.rm, verbose, index=index, minData=minData, exclude.ids=exclude.ids, varname=varname, se=se, ...))
 
 	# ... ansonsten bi-mode durchfuehren
 	
@@ -1492,8 +1366,8 @@ RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData
 		ex3 <- Reduce(union, list(ex1a, ex1b, ex2a, ex2b, exclude.ids))
 	}
 	
-	V1 <- RR.multi.uni(formula(paste(f3[1], "~", f4)), data, na.rm, verbose=verbose, index=index, minData=minData, exclude.ids=ex3, bistyle=TRUE)
-	V2 <- RR.multi.uni(formula(paste(f3[2], "~", f4)), data, na.rm, verbose=FALSE, index=index, minData=minData, exclude.ids=ex3)
+	V1 <- RR.multi.uni(formula(paste(f3[1], "~", f4)), data, na.rm, verbose=verbose, index=index, minData=minData, exclude.ids=ex3, bistyle=TRUE, se=se)
+	V2 <- RR.multi.uni(formula(paste(f3[2], "~", f4)), data, na.rm, verbose=FALSE, index=index, minData=minData, exclude.ids=ex3, se=se)
 	V2$varComp.groups$variable <- 2
 		
 	res <- data.frame()
@@ -1516,173 +1390,11 @@ RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData
 	
 	anal.type <- paste(RR1$anal.type, "in multiple groups")
 	
-	bivariate <- getWTest(RR1, res.bi, typ="bivariate", V1$varComp, V2$varComp)
+	bivariate <- getWTest(RR1, res.bi, typ="bivariate", V1$varComp, V2$varComp, se=se)
 	
 	res <- list(univariate = list(V1, V2), bivariate = bivariate, anal.type=anal.type, groups=bi.groups)
 	class(res) <- "RRmulti"
 
 	return(res)
-}
-
-
-
-
-
-# Workaround: When @export does not recognize that this is a S3-method, you need the extra @method statement
-#' @method print RRmulti
-#' @export 
-print.RRmulti <- function(x, ...) {
-	print.RR(x, ...)
-}
-
-#' @method print RRuni
-#' @export
-print.RRuni <- function(x, ...) {
-	print.RR(x, ...)
-}
-
-#' @method print RRbi
-#' @export
-print.RRbi <- function(x, ...) {
-	print.RR(x, ...)
-}
-
-# simple wrapper: formats a number in f.2 format
-f2 <- function(x, digits=3, prepoint=0) {
-	if (length(dim(x)) == 2) {
-		apply(x, 2, function(x2) {gsub("0.", ".", sprintf(paste("%",prepoint,".",digits,"f",sep=""), x2) , fixed=TRUE)})
-	} else {
-		gsub("0.", ".", sprintf(paste("%",prepoint,".",digits,"f",sep=""), x) , fixed=TRUE)
-	}
-}
-
-
-# x muss hier direkt auf das univariate-Objekt verweisen
-print.uni <- function(x, ..., measure=NA, digits=3, r.names=NULL, minVar=0) {
-	
-	# print descriptivers for multi group
-	if (length(x$groups) > 1) {
-		groupsizes <- laply(x$groups, function(y) return(attr(y, "group.size")))
-		av.groupsize <- round(mean(groupsizes), 2)
-		
-		 print(paste("Group descriptives: n = ",length(x$groups),"; average group size = ",av.groupsize, "; range: ", min(groupsizes), "-", max(groupsizes)))
-	}
-	
-	uni <- round(x$varComp[,2:ncol(x$varComp)], digits)	
-	
-	if (checkVar(uni[1, 2], minVar)) {uni[5, 2:5] <- NA}
-	if (checkVar(uni[2, 2], minVar)) {uni[5, 2:5] <- NA}
-	if (checkVar(uni[3, 2], minVar)) {uni[6, 2:5] <- NA}
-		
-	if (is.na(measure)) {
-		measure <- localOptions$style
-	} else {
-		measure <- match.arg(measure, c("behavior", "perception", "metaperception"))
-	}
-	
-	if (!is.null(r.names)) {rownames(uni) <- r.names} else {
-		if (measure == "behavior") rownames(uni) <- unilabels_b
-		if (measure == "perception") rownames(uni) <- unilabels_p
-		if (measure == "metaperception") {
-			warning("Warning: the current RR-object only consists of a single variable. Labels for metaperception are only provided when two variables are specified.", call.=FALSE)
-			rownames(uni) <- unilabels_b
-		}
-	}
-	
-	print(uni)
-	
-	
-	# Actor effect reliability
-	if (!is.null(x$effects[,grep(localOptions$suffixes[1], colnames(x$effects), fixed=TRUE)])) print(paste(role[[measure]][1], "effect reliability:",f2(attr(x$effects[,grep(localOptions$suffixes[1], colnames(x$effects), fixed=TRUE)], "reliability"), 3)))
-	
-	# Partner effect reliability
-	if (!is.null(x$effects[,grep(localOptions$suffixes[2], colnames(x$effects), fixed=TRUE)])) print(paste(role[[measure]][2], "effect reliability:",f2(attr(x$effects[,grep(localOptions$suffixes[2], colnames(x$effects), fixed=TRUE)], "reliability"), 3)))
-	
-	# Relationship effect reliability
-	if (!is.null(attr(x$effectsRel$relationship, "reliability"))) print(paste(role[[measure]][3], "effect reliability:",f2(attr(x$effectsRel$relationship, "reliability"), 3)))
-	
-	selfCor(x, measure=measure)
-}
-
-
-
-# Here the default print method for RR-objects gets overwritten, so that 
-# the information in the RR-class is displayed in a convenient way
-print.RR <- function(x, ..., measure1=NA, measure2=NA, digits=3, measure=NULL) {
-	
-	if (is.na(measure1)) {
-		measure1 <- localOptions$style
-	} else {
-		measure1 <- match.arg(measure1, c("behavior", "perception", "metaperception"))
-	}
-	if (is.na(measure2)) {
-		measure2 <- measure1
-	} else {
-		measure2 <- match.arg(measure2, c("behavior", "perception", "metaperception"))
-	}
-	
-	print("Round-Robin object ('RR'), calculated by TripleR")
-	print(x$anal.type)
-	
-	
-	if (!is.null(measure)) {measure1 <- measure}
-	
-	# bivariate case
-	if (length(x$univariate) == 2) {
-		
-		uni <- lapply(x$univariate, function(x) return(x))
-		bi <- round(x$bivariate[,2:ncol(x$bivariate)], digits)
-				
-		# Erase bivariate correlations for variance components < minVar
-		if (checkVar(uni[[1]]$varComp[1, 2], x$minVar)) {bi[c(1,3), 2:5] <- NA}
-		if (checkVar(uni[[1]]$varComp[2, 2], x$minVar)) {bi[c(2,4), 2:5] <- NA}
-		if (checkVar(uni[[1]]$varComp[3, 2], x$minVar)) {bi[c(5,6), 2:5] <- NA}
-		if (checkVar(uni[[2]]$varComp[1, 2], x$minVar)) {bi[c(1,4), 2:5] <- NA}
-		if (checkVar(uni[[2]]$varComp[2, 2], x$minVar)) {bi[c(2,3), 2:5] <- NA}
-		if (checkVar(uni[[2]]$varComp[3, 2], x$minVar)) {bi[c(5,6), 2:5] <- NA}
-		                                     
-		r.names1 <- r.names2 <- NULL
-		if (measure1 == "behavior" & measure2 == "behavior") {
-			rownames(bi) <- bilabels_bb
-		} else
-   		if (measure1 == "behavior" & measure2 == "perception") {
-				rownames(bi) <- bilabels_bp
-		} else
-		if (measure1 == "perception" & measure2 == "behavior") {
-				rownames(bi) <- bilabels_pb
-		} else
-		if (measure1 == "perception" & measure2 == "perception") {
-				rownames(bi) <- bilabels_pp
-		} else
-		if (measure1 == "perception" & measure2 == "metaperception") {
-			r.names1 <- unilabels_b_meta1
-			r.names2 <- unilabels_b_meta2
-			rownames(bi) <- bilabels_meta
-		} else {
-			stop("This combination of measurement labels does not fit.")
-		}
-		print(paste("Univariate analyses for:", attr(uni[[1]], "varname")))
-		print.uni(uni[[1]], measure=measure1, r.names=r.names1, minVar=x$minVar)
-		cat("\n")
-		print(paste("Univariate analyses for:", attr(uni[[2]], "varname")))
-		print.uni(uni[[2]], measure=measure2, r.names=r.names2, minVar=x$minVar)
-		cat("\n")
-		print("Bivariate analyses:")
-		
-		print(bi)
-		
-		if (length(uni[[1]]$groups) != length(uni[[2]]$groups)) {
-			warning(paste("Note: Univariate analyses of both variables are based on different numbers of groups. Bivariate analyses therefore are based on the common groups of both variables (n=",min(length(uni[[1]]$groups), length(uni[[2]]$groups)),")", sep=""), call.=FALSE)
-		}
-		
-	} else
-	
-	# univariate case
-	{
-		print(paste("Univariate analyses for:", attr(x, "varname")))
-		print.uni(x, measure=measure1, minVar=x$minVar)
-	}
-	
-	
 }
 

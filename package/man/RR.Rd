@@ -16,7 +16,7 @@ The function RR performs Social Relation Model (SRM) analyses for single or mult
 }
 \usage{
 RR(formula, data, na.rm=FALSE, minData=1, verbose=TRUE, g.id=NULL, index="", 
-	exclude.ids="", varname=NA, minVar=localOptions$minVar, ...)
+	exclude.ids="", varname=NA, se="LashleyBond", minVar=localOptions$minVar, ...)
 }
 
 
@@ -30,6 +30,7 @@ RR(formula, data, na.rm=FALSE, minData=1, verbose=TRUE, g.id=NULL, index="",
 \item{index}{set \code{index = 'enhance'} for additionally requesting an index for self enhancement (self rating - perceiver effect - target effect - group mean of self ratings; Kwan, John, Kenny, Bond, & Robins, 2004) along with the actor and partner effects.}
 \item{exclude.ids}{For internal use only; do not set this parameter}
 \item{varname}{The name stem of the effects variables. By default, this is the first variable passed in the formula. In case of latent constructs, however, it might be preferable to set a new name for the latent construct.}
+\item{se}{This defines how significance tests are computed in the multi-group case. Either "LashleyBond" (= advanced significance test; default) or "SOREMO" (= between group significance test)}
 \item{minVar}{Actor and partners effects are only calculated if the respective relative variance component is greater than minVar. Set minVar to NA if this cleaning should not be performed. For small groups, Kenny (1994) suggests a minimum relative variance of 10\% for the interpretation of SRM effects. In any case, actor/ partner effects and correlations with these variables should not be interpreted if these components have negative variance estimates. minVar defaults to zero; with RR.style this default can be changed for all subsequent analyses.}
 
 \item{...}{Further undocumented or internal arguments passed to the function}

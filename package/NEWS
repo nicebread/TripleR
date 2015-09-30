@@ -1,4 +1,13 @@
 #------------------------------------------------------------
+# ---- Changes in TripleR version 1.5
+#------------------------------------------------------------
+
+- Refactored a lot for a (somewhat) cleaner structure of the package
+- New computation of significance tests in multiple groups.
+	- Standard errors and p-values of multiple groups are now based on the single-group SE derived by Lashley & Bond (1997)
+	- You can get the old behavior by setting RR(..., se = "SOREMO")
+
+#------------------------------------------------------------
 # ---- Changes in TripleR version 1.4.1
 #------------------------------------------------------------
 

@@ -2,8 +2,8 @@ Encoding: UTF-8
 Package: TripleR
 Type: Package
 Title: Social Relation Model (SRM) Analyses for Single or Multiple Groups
-Version: 1.4.1
-Date: 2015-04-30
+Version: 1.5
+Date: 2015-09-24
 Author: F. D. Schönbrodt, M. D. Back, S. C. Schmukle
 Maintainer: Felix Schönbrodt <felix.schoenbrodt@psy.lmu.de>
 Depends:
