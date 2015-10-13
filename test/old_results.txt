@@ -1,0 +1,800 @@
+
+> ### ** Examples
+> 
+> data("likingLong")
+> 
+> RR.style("behavior")
+> RR(liking_a ~ perceiver.id*target.id, data=likingLong)
+[1] "Round-Robin object ('RR'), calculated by TripleR"
+[1] "Univariate analysis of one round robin variable"
+[1] "Univariate analyses for: liking_a"
+[1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+                         estimate standardized    se t.value p.value
+actor variance              0.172        0.194 0.035   4.914   0.000
+partner variance            0.105        0.119 0.022   4.727   0.000
+relationship variance       0.609        0.687 0.017  36.827   0.000
+error variance                 NA           NA    NA      NA      NA
+actor-partner covariance    0.014        0.105 0.020   0.703   0.485
+relationship covariance     0.080        0.131 0.017   4.809   0.000
+[1] "Actor effect reliability: .937"
+[1] "Partner effect reliability: .901"
+NULL
+> 
+> RR.style("p")	# a "p" is enough for "perception"
+> RR(liking_a ~ perceiver.id*target.id, data=likingLong)
+[1] "Round-Robin object ('RR'), calculated by TripleR"
+[1] "Univariate analysis of one round robin variable"
+[1] "Univariate analyses for: liking_a"
+[1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+                            estimate standardized    se t.value p.value
+perceiver variance             0.172        0.194 0.035   4.914   0.000
+target variance                0.105        0.119 0.022   4.727   0.000
+relationship variance          0.609        0.687 0.017  36.827   0.000
+error variance                    NA           NA    NA      NA      NA
+perceiver-target covariance    0.014        0.105 0.020   0.703   0.485
+relationship covariance        0.080        0.131 0.017   4.809   0.000
+[1] "Perceiver effect reliability: .937"
+[1] "Target effect reliability: .901"
+NULL
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("RR.style", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("RR.summary")
+> ### * RR.summary
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: RR.summary
+> ### Title: Print group descriptives
+> ### Aliases: RR.summary
+> 
+> ### ** Examples
+> 
+> 
+> data("multiGroup")
+> RR.summary(ex~perceiver.id*target.id|group.id, data=multiGroup) 
+Warning: ex :  4  participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .
+Warning: ex :  3  participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .
+Warning: ex :  4  participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .
+Warning: ex :  1  participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .
+Warning: ex :  1  participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .
+Warning: ex :  1  participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .
+Warning: ex :  6  participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .
+Warning: ex :  4  participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .
+Warning: ex :  4  participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .
+Number of groups: 10
+Number of valid groups (i.e., more than 3 group members):
+ 10
+Group sizes:
+2: n=21
+5: n=22
+6: n=19
+8: n=24
+9: n=24
+12: n=24
+13: n=24
+14: n=19
+18: n=20
+20: n=20
+
+
+Group member statistics:
+n=19 n=20 n=21 n=22 n=24 
+   2    2    1    1    4 
+
+Min: 19
+Max: 24
+Mean: 21.7
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("RR.summary", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("getEffects")
+> ### * getEffects
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: getEffects
+> ### Title: Calculates round robin effects for multiple variables
+> ### Aliases: getEffects
+> 
+> ### ** Examples
+> 
+> 
+> data(likingLong)
+> res <- getEffects(~perceiver.id*target.id, 
++ 				  data=likingLong, 
++ 				  varlist=c("liking_a", "liking_b", "metaliking_a", "metaliking_b"))
+[1] "Calculate: liking_a"
+[1] "Calculate: liking_b"
+[1] "Calculate: metaliking_a"
+[1] "Calculate: metaliking_b"
+> str(res)
+'data.frame':	54 obs. of  9 variables:
+ $ id            : Factor w/ 54 levels "1","10","11",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ liking_a.p    : num  -0.477 -0.367 -0.406 0.152 0.663 ...
+ $ liking_a.t    : num  0.26389 0.07728 0.00107 -0.40349 -0.33725 ...
+ $ liking_b.p    : num  -0.228 -0.265 -0.498 0.099 0.404 ...
+ $ liking_b.t    : num  0.253 0.309 -0.016 -0.401 -0.244 ...
+ $ metaliking_a.p: num  -0.251 -0.173 -0.478 0.348 1.085 ...
+ $ metaliking_a.t: num  0.00855 0.10434 -0.03348 -0.2443 -0.21154 ...
+ $ metaliking_b.p: num  -0.0958 -0.338 -0.3219 0.0894 0.7098 ...
+ $ metaliking_b.t: num  0.0524 0.2176 0.067 -0.1328 -0.2532 ...
+> 
+> # effects including group means:
+> res.gm <- getEffects(~perceiver.id*target.id, 
++ 				  data=likingLong, gm=TRUE,
++ 				  varlist=c("liking_a", "liking_b", "metaliking_a", "metaliking_b"))
+[1] "Calculate: liking_a"
+[1] "Calculate: liking_b"
+[1] "Calculate: metaliking_a"
+[1] "Calculate: metaliking_b"
+> str(res.gm)
+'data.frame':	54 obs. of  9 variables:
+ $ id            : Factor w/ 54 levels "1","10","11",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ liking_a.p    : num  2.7 2.81 2.77 3.33 3.84 ...
+ $ liking_a.t    : num  3.44 3.26 3.18 2.78 2.84 ...
+ $ liking_b.p    : num  2.65 2.61 2.38 2.97 3.28 ...
+ $ liking_b.t    : num  3.13 3.18 2.86 2.47 2.63 ...
+ $ metaliking_a.p: num  2.51 2.59 2.28 3.11 3.85 ...
+ $ metaliking_a.t: num  2.77 2.86 2.73 2.52 2.55 ...
+ $ metaliking_b.p: num  2.47 2.23 2.25 2.66 3.28 ...
+ $ metaliking_b.t: num  2.62 2.79 2.64 2.44 2.32 ...
+> 
+> 
+> # Multipe groups
+> #-----------------------
+> data("multiLikingLong")
+> 
+> res.g <- getEffects(~perceiver.id*target.id|group.id, 
++ 				  data=multiLikingLong, 
++ 				  varlist=c("liking_a", "liking_b", "metaliking_a", "metaliking_b"))
+[1] "Calculate: liking_a"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "Calculate: liking_b"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "Calculate: metaliking_a"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "Calculate: metaliking_b"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+> str(res.g)
+'data.frame':	50 obs. of  10 variables:
+ $ id            : Factor w/ 50 levels "1","10","2","3",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ group.id      : Factor w/ 5 levels "1","2","3","4",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ liking_a.p    : num  -0.538 -0.162 -0.288 -0.225 -0.813 ...
+ $ liking_a.t    : num  0.362 -0.262 -0.388 0.175 -0.112 ...
+ $ liking_b.p    : num  -0.525 -0.487 -0.025 -0.475 -0.613 ...
+ $ liking_b.t    : num  0.675 0.0125 -0.825 0.125 -0.1125 ...
+ $ metaliking_a.p: num  -4.44e-16 -3.12e-01 -1.06 2.87e-01 -1.75e-01 ...
+ $ metaliking_a.t: num  0.4 -0.4125 -0.1625 -0.0125 -0.175 ...
+ $ metaliking_b.p: num  0.1375 -0.35 -0.875 -0.025 -0.0625 ...
+ $ metaliking_b.t: num  0.337 -0.05 0.225 -0.125 -0.462 ...
+> 
+> # effects including group means:
+> res.g.gm <- getEffects(~perceiver.id*target.id|group.id, 
++ 				  data=multiLikingLong, gm=TRUE,
++ 				  varlist=c("liking_a", "liking_b", "metaliking_a", "metaliking_b"))
+[1] "Calculate: liking_a"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "Calculate: liking_b"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "Calculate: metaliking_a"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "Calculate: metaliking_b"
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+> str(res.g.gm)
+'data.frame':	50 obs. of  10 variables:
+ $ id            : Factor w/ 50 levels "1","10","2","3",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ group.id      : Factor w/ 5 levels "1","2","3","4",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ liking_a.p    : num  2.82 3.19 3.07 3.13 2.54 ...
+ $ liking_a.t    : num  3.72 3.09 2.97 3.53 3.24 ...
+ $ liking_b.p    : num  2.63 2.67 3.13 2.68 2.54 ...
+ $ liking_b.t    : num  3.83 3.17 2.33 3.28 3.04 ...
+ $ metaliking_a.p: num  2.71 2.4 1.65 3 2.54 ...
+ $ metaliking_a.t: num  3.11 2.3 2.55 2.7 2.54 ...
+ $ metaliking_b.p: num  2.7 2.22 1.69 2.54 2.5 ...
+ $ metaliking_b.t: num  2.9 2.52 2.79 2.44 2.1 ...
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("getEffects", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("long2matrix")
+> ### * long2matrix
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: long2matrix
+> ### Title: Convert long format to a quadratic matrix
+> ### Aliases: long2matrix
+> 
+> ### ** Examples
+> 
+> 
+> #load a data set in long style
+> data("multiGroup")
+> 
+> str(multiGroup)
+'data.frame':	5114 obs. of  5 variables:
+ $ perceiver.id: int  90201 90201 90201 90201 90201 90201 90201 90201 90201 90201 ...
+ $ target.id   : int  90201 90202 90203 90204 90205 90206 90207 90208 90209 90210 ...
+ $ group.id    : int  2 2 2 2 2 2 2 2 2 2 ...
+ $ ex          : int  6 5 4 4 5 4 3 5 6 4 ...
+ $ ne          : int  5 4 5 4 6 3 3 2 4 3 ...
+> qm <- long2matrix(ex~perceiver.id*target.id|group.id, multiGroup)
+Warning: ex :  4  participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .
+Warning: ex :  3  participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .
+Warning: ex :  4  participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .
+Warning: ex :  1  participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .
+Warning: ex :  1  participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .
+Warning: ex :  1  participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .
+Warning: ex :  6  participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .
+Warning: ex :  4  participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .
+Warning: ex :  4  participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .
+> qm[[2]]
+      90501 90502 90503 90505 90506 90507 90508 90510 90511 90512 90513 90514
+90501    NA     5     5     5     5     6     4     5     6     4     5     5
+90502     3    NA     3     3     3     4     3     4     3     3     2     2
+90503     6     2    NA     5     3     6     3     6     6     2     2     3
+90505     7     2     1    NA     3     7     2     7     6     2     3     5
+90506     6     6     3     5    NA     6     3     4     5     3     3     5
+90507     7     4     2     6    NA    NA     3     7    NA    NA     5     2
+90508     6     5     4     5     4     5    NA     5     5     1     3     4
+90510     5     5     5     5     3     6     1    NA     6     1     4     4
+90511     5     5     2     7     2     7     1     7    NA     2     3     3
+90512     5     5     5     6     4     5     5     3     3    NA     3     3
+90513     7     5     4     6     4     7     4     7     6     3    NA     2
+90514     6     6     4     5     4     7     5     6     5     4     4    NA
+90515     6     5     2     5     3     5     4     2     2     2     2     2
+90516     6     6     2     6     2     7     1     6     7     1     6     5
+90517     7     6     5     5     3     7     4     6     7     2     2     5
+90518     6     5     2     3     4     4     3     5     7     4     4     3
+90519     7     5     2     4     3     6     3     6     6     3     3     4
+90520     6     5     2     5     3     4     4     4     4     2     2     2
+90522     6     3     4     5     3     7     5     6     6     3     5     3
+90523     6     4     2     6     4     4     2     5     3     4     3     3
+90524     7     4     3     6     3     6     3     5     5     1     4     4
+90525     5     4     4     4     4     4     4     4     5     4     4     5
+      90515 90516 90517 90518 90519 90520 90522 90523 90524 90525
+90501     5     6     5    NA    NA     5     5     5     5     5
+90502     5     6     6     3     4     5     4     4     4     4
+90503     6     5     5     2     3     3     5     2     3     2
+90505     7     7     7     1     2     2     6     3     2     3
+90506     6     5     5     3     4     4     3     4     4     4
+90507     7     6     5     2     3     4     5     4     4     5
+90508     5     5     6     2     3     2     4     2     4     4
+90510     6     6     4     2     4     2     4     2     3     4
+90511     6     4     7     1     4     4     6     3     2     4
+90512     3     5     4     3     3     3     6     4     4     6
+90513     7     6     5     4     5     5     5     5     4     4
+90514     6     6     5     3     5     4     5     4     4     5
+90515    NA     5     4     3     3     4     6     4     3     3
+90516     6    NA     5     3     6     6     6     5     4     5
+90517     7     7    NA     3     4     4     6     4     4     4
+90518     5     6     4    NA     4     5     5     5     4     4
+90519     7     5     4     2    NA     5     3     5     3     3
+90520     4     5     4     3     3    NA     6     5     4     4
+90522     6     6     7     4     5     4    NA     4     5     6
+90523     5     5     4     3     3     5     6    NA     5     4
+90524     5     6     5     3     3     5     6     4    NA     4
+90525     4     6     5     4     5     4     4     4     4    NA
+attr(,"group.id")
+[1] "5"
+attr(,"varname")
+[1] "ex"
+attr(,"self.ratings")
+90501 90502 90503 90505 90506 90507 90508 90510 90511 90512 90513 90514 90515 
+    5     5     2     7     3     7     4     6     4     3     5     3     6 
+90516 90517 90518 90519 90520 90522 90523 90524 90525 
+    6     5     4     2     5     6     5     3     4 
+> 
+> # we see some warnings that some persons are only actors or only partners. 
+> # Let's check the data without removing them:
+> qm2 <- long2matrix(ex~perceiver.id*target.id|group.id, multiGroup, reduce=FALSE)
+> qm2[[2]]
+      90501 90502 90503 90504 90505 90506 90507 90508 90509 90510 90511 90512
+90501    NA     5     5     6     5     5     6     4     5     5     6     4
+90502     3    NA     3     5     3     3     4     3     4     4     3     3
+90503     6     2    NA     4     5     3     6     3     6     6     6     2
+90504    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+90505     7     2     1     4    NA     3     7     2     6     7     6     2
+90506     6     6     3     4     5    NA     6     3     4     4     5     3
+90507     7     4     2     5     6    NA    NA     3     3     7    NA    NA
+90508     6     5     4     4     5     4     5    NA     4     5     5     1
+90509    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+90510     5     5     5     5     5     3     6     1     2    NA     6     1
+90511     5     5     2     3     7     2     7     1     5     7    NA     2
+90512     5     5     5     5     6     4     5     5     3     3     3    NA
+90513     7     5     4     4     6     4     7     4     5     7     6     3
+90514     6     6     4     2     5     4     7     5     5     6     5     4
+90515     6     5     2     6     5     3     5     4     3     2     2     2
+90516     6     6     2     6     6     2     7     1     3     6     7     1
+90517     7     6     5     4     5     3     7     4     5     6     7     2
+90518     6     5     2     5     3     4     4     3     4     5     7     4
+90519     7     5     2     4     4     3     6     3     3     6     6     3
+90520     6     5     2     5     5     3     4     4     4     4     4     2
+90521    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+90522     6     3     4     3     5     3     7     5     5     6     6     3
+90523     6     4     2     5     6     4     4     2     4     5     3     4
+90524     7     4     3     5     6     3     6     3     5     5     5     1
+90525     5     4     4     4     4     4     4     4     4     4     5     4
+      90513 90514 90515 90516 90517 90518 90519 90520 90521 90522 90523 90524
+90501     5     5     5     6     5    NA    NA     5     5     5     5     5
+90502     2     2     5     6     6     3     4     5     3     4     4     4
+90503     2     3     6     5     5     2     3     3     2     5     2     3
+90504    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+90505     3     5     7     7     7     1     2     2     3     6     3     2
+90506     3     5     6     5     5     3     4     4     5     3     4     4
+90507     5     2     7     6     5     2     3     4     3     5     4     4
+90508     3     4     5     5     6     2     3     2     3     4     2     4
+90509    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+90510     4     4     6     6     4     2     4     2     5     4     2     3
+90511     3     3     6     4     7     1     4     4     5     6     3     2
+90512     3     3     3     5     4     3     3     3     6     6     4     4
+90513    NA     2     7     6     5     4     5     5     4     5     5     4
+90514     4    NA     6     6     5     3     5     4     5     5     4     4
+90515     2     2    NA     5     4     3     3     4     4     6     4     3
+90516     6     5     6    NA     5     3     6     6     5     6     5     4
+90517     2     5     7     7    NA     3     4     4     3     6     4     4
+90518     4     3     5     6     4    NA     4     5     5     5     5     4
+90519     3     4     7     5     4     2    NA     5     5     3     5     3
+90520     2     2     4     5     4     3     3    NA     6     6     5     4
+90521    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+90522     5     3     6     6     7     4     5     4     4    NA     4     5
+90523     3     3     5     5     4     3     3     5     5     6    NA     5
+90524     4     4     5     6     5     3     3     5     4     6     4    NA
+90525     4     5     4     6     5     4     5     4     4     4     4     4
+      90525
+90501     5
+90502     4
+90503     2
+90504    NA
+90505     3
+90506     4
+90507     5
+90508     4
+90509    NA
+90510     4
+90511     4
+90512     6
+90513     4
+90514     5
+90515     3
+90516     5
+90517     4
+90518     4
+90519     3
+90520     4
+90521    NA
+90522     6
+90523     4
+90524     4
+90525    NA
+attr(,"group.id")
+[1] "5"
+attr(,"varname")
+[1] "ex"
+attr(,"self.ratings")
+90501 90502 90503 90504 90505 90506 90507 90508 90509 90510 90511 90512 90513 
+    5     5     2     6     7     3     7     4    NA     6     4     3     5 
+90514 90515 90516 90517 90518 90519 90520 90521 90522 90523 90524 90525 
+    3     6     6     5     4     2     5     1     6     5     3     4 
+>  
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("long2matrix", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("matrix2long")
+> ### * matrix2long
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: matrix2long
+> ### Title: Convert a quadratic matrix to long format
+> ### Aliases: matrix2long
+> 
+> ### ** Examples
+> 
+> #The example data are taken from the "Mainz Freshman Study" and consist 
+> # of ratings of liking as well as ratings of the metaperception of 
+> # liking at zero-acquaintance using a Round-Robin group of 54 participants 
+> # (Back, Schmukle, & Egloff, in pres)
+> 
+> # load a data set in matrix style
+> data("liking_a")
+> 
+> str(liking_a)
+'data.frame':	54 obs. of  54 variables:
+ $ V1 : int  NA 4 4 3 5 3 5 4 3 3 ...
+ $ V2 : int  3 NA 3 3 4 3 3 3 2 3 ...
+ $ V3 : int  3 3 NA 3 4 4 4 4 4 3 ...
+ $ V4 : int  2 4 3 NA 4 3 3 4 4 3 ...
+ $ V5 : int  2 3 3 4 NA 4 4 4 2 3 ...
+ $ V6 : int  4 4 3 2 4 NA 5 5 4 4 ...
+ $ V7 : int  3 3 4 1 3 5 NA 5 4 4 ...
+ $ V8 : int  3 2 3 2 2 5 5 NA 4 4 ...
+ $ V9 : int  2 2 2 3 3 3 4 4 NA 2 ...
+ $ V10: int  3 3 3 2 3 4 3 5 2 NA ...
+ $ V11: int  3 2 2 2 4 5 3 4 3 4 ...
+ $ V12: int  2 3 3 4 3 4 3 4 3 3 ...
+ $ V13: int  2 3 1 2 2 4 3 3 3 2 ...
+ $ V14: int  3 3 4 3 4 5 4 5 5 3 ...
+ $ V15: int  2 4 2 2 3 4 3 3 1 3 ...
+ $ V16: int  3 3 4 3 4 5 5 4 4 3 ...
+ $ V17: int  2 2 0 2 3 4 3 2 2 1 ...
+ $ V18: int  3 3 3 4 4 4 4 4 3 4 ...
+ $ V19: int  2 3 2 4 4 5 3 3 2 2 ...
+ $ V20: int  3 4 3 3 4 5 4 4 4 4 ...
+ $ V21: int  2 4 2 3 2 4 4 3 3 2 ...
+ $ V22: int  2 4 3 3 3 5 3 3 3 3 ...
+ $ V23: int  3 3 3 2 3 4 3 2 3 2 ...
+ $ V24: int  3 4 2 2 4 3 3 3 3 2 ...
+ $ V25: int  3 3 1 3 3 3 3 3 3 4 ...
+ $ V26: int  3 4 2 3 4 4 3 3 3 3 ...
+ $ V27: int  3 4 3 3 4 5 3 4 4 3 ...
+ $ V28: int  3 3 2 3 4 5 4 4 3 4 ...
+ $ V29: int  3 4 3 3 3 4 5 4 3 3 ...
+ $ V30: int  2 4 2 3 3 4 3 3 5 2 ...
+ $ V31: int  2 4 4 2 3 5 3 4 1 4 ...
+ $ V32: int  3 4 2 3 4 4 3 3 3 2 ...
+ $ V33: int  1 4 4 4 4 3 4 4 2 2 ...
+ $ V34: int  3 4 4 3 2 5 4 4 4 3 ...
+ $ V35: int  3 4 3 3 4 4 4 3 3 1 ...
+ $ V36: int  3 2 2 3 4 5 3 4 3 3 ...
+ $ V37: int  2 3 3 2 4 5 4 3 4 3 ...
+ $ V38: int  2 4 3 4 4 4 3 4 2 2 ...
+ $ V39: int  3 4 3 3 3 4 3 4 3 2 ...
+ $ V40: int  3 4 2 3 3 4 3 4 4 3 ...
+ $ V41: int  3 4 4 3 4 5 4 4 4 4 ...
+ $ V42: int  3 4 3 3 4 4 3 3 3 2 ...
+ $ V43: int  3 4 2 3 4 4 4 3 3 1 ...
+ $ V44: int  3 3 4 4 3 5 4 4 4 3 ...
+ $ V45: int  2 4 3 3 3 3 4 4 4 2 ...
+ $ V46: int  3 3 2 2 3 4 3 3 2 2 ...
+ $ V47: int  3 4 3 3 3 3 3 3 3 2 ...
+ $ V48: int  3 4 4 3 2 5 4 4 4 3 ...
+ $ V49: int  3 3 4 3 4 4 5 4 4 4 ...
+ $ V50: int  3 4 3 3 3 4 4 4 3 2 ...
+ $ V51: int  3 3 3 3 2 5 5 4 4 3 ...
+ $ V52: int  3 4 4 3 3 5 4 4 4 4 ...
+ $ V53: int  3 4 4 3 3 5 4 4 5 4 ...
+ $ V54: int  3 4 3 2 3 5 4 3 4 2 ...
+> long <- matrix2long(liking_a)
+> 
+> str(long)
+'data.frame':	2916 obs. of  3 variables:
+ $ actor.id  : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ partner.id: int  1 1 1 1 1 1 1 1 1 1 ...
+ $ value     : int  NA 4 4 3 5 3 5 4 3 3 ...
+>  
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("matrix2long", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("parCor")
+> ### * parCor
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: parCor
+> ### Title: partial correlation
+> ### Aliases: parCor
+> ### Keywords: htest
+> 
+> ### ** Examples
+> 
+> data(multiGroup)
+> data(multiNarc)
+> 
+> # the function 'head' shows the first few lines of a data structure:
+> head(multiNarc)
+         id narc
+90201 90201    7
+90205 90205    6
+90207 90207    3
+90209 90209   12
+90210 90210    8
+90212 90212    6
+> 
+> # calculate SRA effects for extraversion ratings
+> RR.style("p")
+> RR1 <- RR(ex ~ perceiver.id * target.id | group.id, multiGroup, na.rm=TRUE)
+Warning: ex :  4  participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .
+Warning: ex :  3  participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .
+Warning: ex :  4  participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .
+Warning: ex :  1  participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .
+Warning: ex :  1  participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .
+Warning: ex :  1  participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .
+Warning: ex :  6  participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .
+Warning: ex :  4  participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .
+Warning: ex :  4  participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+> 
+> # merge variables to one data set
+> dat <- merge(RR1$effects, multiNarc, by="id")
+> 
+> # We now have a combined data set with SRA effects and external self ratings:
+> head(dat)
+     id group.id        ex.p       ex.t       ex.s narc
+1 90201        2 -0.59649123  0.6892231  1.1428571    7
+2 90205        2  0.04511278  0.5213033  0.1428571    6
+3 90207        2  0.03007519 -1.7794486 -1.8571429    3
+4 90209        2 -0.16541353  2.3107769  2.1428571   12
+5 90210        2 -0.02756892  1.0676692  1.1428571    8
+6 90212        2  0.30075188 -0.3659148  1.1428571    6
+> 
+> # function parCor(x, y, z) computes partial correlation between x and y, 
+> # controlled for group membership z
+> d1 <- parCor(dat$ex.t, dat$narc, dat$group.id)
+> d1
+$par.cor
+[1] 0.7620022
+
+$t.value
+[1] 15.91813
+
+$df
+[1] 183
+
+$p
+[1] 0
+
+> 
+> 
+> # disattenuate for target effect reliability
+> parCor2 <- d1$par.cor * (1/sqrt(attr(RR1$effects$ex.t, "reliability")))
+> parCor2
+[1] 0.7879463
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("parCor", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("plot.RRuni")
+> ### * plot.RRuni
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: plot.RRuni
+> ### Title: Plot variance components from SRAs
+> ### Aliases: plot.RRuni plot.RRbi plot.RRmulti
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D 	data(likingLong)
+> ##D 	RR1 <- RR(liking_a ~ perceiver.id*target.id, data=likingLong)
+> ##D 	plot(RR1)
+> ##D 	plot(RR1, geom="pie")
+> ##D 	
+> ##D 	RR2 <- RR(liking_a + metaliking_a ~ perceiver.id*target.id, data=likingLong)
+> ##D 	plot(RR2)
+> ##D 	
+> ##D 	
+> ##D 	data("multiLikingLong")
+> ##D 	RR1m <- RR(liking_a ~ perceiver.id*target.id|group.id, data=multiLikingLong)
+> ##D 	plot(RR1m)
+> ##D 	plot(RR1m, measure="perception")
+> ##D 	plot(RR1m, measure="perception", geom="bar")
+> ##D 	plot(RR1m, measure="perception", connect=TRUE)
+> ##D 
+> ##D 	RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, data=multiLikingLong)
+> ##D 	plot(RR2m)
+> ## End(Not run)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plot.RRuni", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("plot_missings")
+> ### * plot_missings
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: plot_missings
+> ### Title: Plot missing values
+> ### Aliases: plot_missings
+> 
+> ### ** Examples
+> 
+> data(multiGroup)
+> m2 <- multiGroup
+> m2$ex[m2$perceiver.id==90201] <- NA
+> m2$ex[m2$perceiver.id>92001] <- NA
+> m2$ex[sample(nrow(m2),  1000)] <- NA
+> plot_missings(ex~perceiver.id*target.id|group.id, data=m2)
+> (RR1m <- RR(ex~perceiver.id*target.id|group.id, data=m2, na.rm=TRUE))
+Warning: ex :  5  participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217, 90201 .
+Warning: ex :  3  participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .
+Warning: ex: The number of missing values (n.NA=97; 21%) in group 5 exceeds the recommended maximum number of missings according to Schoenbrodt, Back, & Schmukle (in prep.). Estimates might be biased.
+Warning: ex :  4  participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .
+Warning: ex :  1  participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .
+Warning: ex: The number of missing values (n.NA=157; 28.4%) in group 8 exceeds the recommended maximum number of missings according to Schoenbrodt, Back, & Schmukle (in prep.). Estimates might be biased.
+Warning: ex :  1  participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .
+Warning: ex: The number of missing values (n.NA=130; 23.6%) in group 9 exceeds the recommended maximum number of missings according to Schoenbrodt, Back, & Schmukle (in prep.). Estimates might be biased.
+Warning: ex :  1  participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .
+Warning: ex: The number of missing values (n.NA=111; 20.1%) in group 13 exceeds the recommended maximum number of missings according to Schoenbrodt, Back, & Schmukle (in prep.). Estimates might be biased.
+Warning: ex :  6  participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .
+Warning: ex: The number of missing values (n.NA=77; 22.5%) in group 14 exceeds the recommended maximum number of missings according to Schoenbrodt, Back, & Schmukle (in prep.). Estimates might be biased.
+Warning: ex :  4  participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .
+Warning: ex: The number of missing values (n.NA=94; 24.7%) in group 18 exceeds the recommended maximum number of missings according to Schoenbrodt, Back, & Schmukle (in prep.). Estimates might be biased.
+Warning: ex :  24  participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019, 92001, 92003, 92004, 92005, 92006, 92007, 92008, 92010, 92011, 92012, 92014, 92015, 92016, 92017, 92018, 92020, 92021, 92022, 92023, 92024 .
+Warning: ex : group 20 has 3 or fewer subjects - the group is excluded from the analyses.
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "Round-Robin object ('RR'), calculated by TripleR"
+[1] "Univariate analysis of one round robin variable in multiple groups"
+[1] "Univariate analyses for: ex"
+[1] "Group descriptives: n =  9 ; average group size =  21.78 ; range:  19 - 24"
+                            estimate standardized    se t.value p.value
+perceiver variance             0.211        0.125 0.009  24.844   0.000
+target variance                0.723        0.429 0.028  26.254   0.000
+relationship variance          0.750        0.445 0.006 125.528   0.000
+error variance                    NA           NA    NA      NA      NA
+perceiver-target covariance   -0.013       -0.032 0.011  -1.189   0.882
+relationship covariance        0.065        0.087 0.006  10.924   0.000
+[1] "Perceiver effect reliability: .854"
+[1] "Target effect reliability: .951"
+NULL
+
+
+Partial correlations with self ratings (controlled for group membership):
+                                                       r    t     df      p   
+self rating with Perceiver effect (assumed similarity) .318 4.185 156.000 .000
+self rating with Target effect (self-other agreement)  .615 9.733 156.000 .000
+
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plot_missings", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("selfCor")
+> ### * selfCor
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: selfCor
+> ### Title: partial correlation
+> ### Aliases: selfCor
+> ### Keywords: htest
+> 
+> ### ** Examples
+> 
+> data(multiGroup)
+> 
+> RR.style("p")
+> # a single group
+> RR1 <- RR(ex~perceiver.id*target.id, data=multiGroup[multiGroup$group.id=="2", ], na.rm=TRUE)
+Warning: ex :  4  participant(s) have been excluded from group 1 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .
+> selfCor(RR1)
+NULL
+
+
+Correlations with self ratings:
+                                                       r    t     df     p   
+self rating with Perceiver effect (assumed similarity) .393 1.862 19.000 .078
+self rating with Target effect (self-other agreement)  .527 2.705 19.000 .014
+
+
+> 
+> # multiple groups
+> RR2 <- RR(ex~perceiver.id*target.id|group.id, data=multiGroup, na.rm=TRUE)
+Warning: ex :  4  participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .
+Warning: ex :  3  participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .
+Warning: ex :  4  participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .
+Warning: ex :  1  participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .
+Warning: ex :  1  participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .
+Warning: ex :  1  participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .
+Warning: ex :  6  participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .
+Warning: ex :  4  participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .
+Warning: ex :  4  participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+[1] "LashleyBond significance test not implemented yet! Please use se='SOREMO'."
+> selfCor(RR2)
+NULL
+
+
+Partial correlations with self ratings (controlled for group membership):
+                                                       r    t      df      p   
+self rating with Perceiver effect (assumed similarity) .307 4.634  206.000 .000
+self rating with Target effect (self-other agreement)  .609 11.012 206.000 .000
+
+
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("selfCor", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  9.69 0.11 9.84 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

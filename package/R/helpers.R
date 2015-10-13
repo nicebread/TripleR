@@ -63,3 +63,24 @@ exportForREML <- function(formula, data) {
 		dat3   <- rbind(dat1, dat2)
 		return(dat3)
 }
+
+
+clearLongData <- function(formule, data, minData=1) {
+	ll1 <- long2matrix(formule, data, reduce=TRUE, minData=minData)
+	
+	lhs <- strsplit(gsub(" ","",as.character(formule)[2], fixed=TRUE), "+", fixed=TRUE)[[1]]
+	rhs <- strsplit(gsub(" ","",as.character(formule)[3], fixed=TRUE),"\\*|\\|", perl=TRUE)[[1]]
+	
+	var.id <- lhs
+	actor.id <- rhs[1]
+	partner.id <- rhs[2]
+	if (length(rhs)>=3) {group.id <- rhs[3]} else {group.id="group.id"}
+	
+	ll2 <- ldply(ll1, function(x) {
+		matrix2long(x, new.ids=FALSE, var.id=var.id)
+	})
+	colnames(ll2)[1:3] <- c(group.id, actor.id, partner.id)
+
+	return(ll2)
+}
+
