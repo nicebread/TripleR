@@ -371,12 +371,11 @@ RR.bivariate <- function(RRMatrix1, RRMatrix2, analysis="manifest", na.rm=FALSE,
 		stabtarvar1 <- sbg
 		stabrelvar1 <- sch
 		
-    	stabapcov1 <- (sag + sbf)/2		
+    	stabapcov1 <- (sag + sbf)/2	# latent actor-partner-covariance
     	stabdycov1 <- schs
 		unstabper1 <- (varComp.1[1] + varComp.2[1])/2 - saf
 		unstabtar1 <- (varComp.1[2] + varComp.2[2])/2 - sbg
-		unstabrel1 <- (varComp.1[3] + varComp.2[3]) / 2 - sch
-		
+		unstabrel1 <- (varComp.1[3] + varComp.2[3]) / 2 - sch		
 		
 		saf2 <- max(saf, 0)
 		sbg2 <- max(sbg, 0)
@@ -397,6 +396,7 @@ RR.bivariate <- function(RRMatrix1, RRMatrix2, analysis="manifest", na.rm=FALSE,
 
 	# Compute standard errors (se) und t-values (t) of bivariate srm-parameters
 	biSEVAR <- compute_bivariate_LB_SE2(varComp.1, varComp.2, saf, sag, sbg, sbf, sch, schs, n)
+	
 	biSE <- sqrt(biSEVAR)
 	names(biSE) <- c("sesaf", "sesbg", "sesag", "sesbf", "sesch", "seschs")
 
@@ -433,7 +433,7 @@ if (analysis=="manifest") {
 	
 	t.value <- c(taf,tbg,tag,tbf,tch,tchs)
 	pvalues <- (1-pt(abs(t.value), n-1))*2 	# alles Kovarianzen, daher zweiseitig testen!
-	bivariate <- data.frame(type=bilabels_bb, estimate, standardized, se=biSE, biSEVAR=biSEVAR, t.value, p.value=pvalues)
+	bivariate <- data.frame(type=bilabels_bb, estimate, standardized, se=biSE, t.value, p.value=pvalues)
 	
 	if (noCorrection==FALSE) {
 		# erase covariances if one variance component is < 0
@@ -458,8 +458,9 @@ if (analysis=="manifest") {
 	stand[is.infinite(stand)] <- NaN
 	
 	# se, t, und p werden aus dem bivariaten Fall uebernommen
-	se <- c(sestabpervar1, sestabtarvar1, sestabrelvar1, NA, (biSE["sesag"]+biSE["sesbf"])/2, biSE["seschs"])
-	tvalues <- c(tstabpervar1,tstabtarvar1,tstabrelvar1,NA,stabapcov1/((biSE["sesag"]+biSE["sesbf"])/2), tchs)
+	#stop()
+	se <- c(sestabpervar1, sestabtarvar1, sestabrelvar1, NA, sqrt((biSE["sesag"]^2+biSE["sesbf"]^2)/2), biSE["seschs"])
+	tvalues <- c(tstabpervar1,tstabtarvar1,tstabrelvar1,NA,stabapcov1/sqrt((biSE["sesag"]^2+biSE["sesbf"]^2)/2), tchs)
 	pvalues <- (1-pt(abs(tvalues), n-1))
 	pvalues[4:5] <- pvalues[4:5]*2
 	
@@ -920,7 +921,8 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				t.value <- VAR.mean.weighted / SE.mean.weighted
 								
 				df <- sum(res1$group.size[res1$type == v]-1)
- 				p.value <- pt(t.value, df, lower.tail=FALSE)
+				# compute two-tailed p-value (p-values for variances are divided by two later)
+ 				p.value <- pt(t.value, df, lower.tail=FALSE)*2	
 				
 				varComp[varComp$type==v,]$estimate <- VAR.mean.weighted
 				varComp[varComp$type==v,]$se <- as.vector(SE.mean.weighted)
@@ -988,6 +990,8 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 			#------------------------------------
 			
 			if (se == "LashleyBond") {
+				#v="intrapersonal relationship covariance"
+				#v="interpersonal relationship covariance"
 				SEs2 <- res1$biSEVAR[res1$type == v]
 				VAR <- res1$estimate[res1$type == v]
 				
@@ -1010,8 +1014,6 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				bivariate[bivariate$type==v,]$p.value <- p.value
 			}			
 		}
-		
-		#stop()
 		
 		#standardized coefficients need special treatment ...
 		w <- getOption("warn")

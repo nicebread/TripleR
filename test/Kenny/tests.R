@@ -12,14 +12,20 @@ dat <- import("roundrobin.sav")
 dat2 <- import("Raw_data_Ratings_Social_Mimicry.sav")
 
 #' ### Univariate manifest
-(SMZ_Mean_GlobalandActions.compounds <- RR(ZSM_Mean_GlobalandActions ~ subject * target | group, data=dat2, se="SOREMO"))
-(SMZ_Mean_GlobalandActions.compounds <- RR(ZSM_Mean_GlobalandActions ~ subject * target | group, data=dat2, se="LashleyBond"))
+(SMZ_Mean_GlobalandActions.compounds <- RR(ZSM_Mean_GlobalandActions ~ subject * target | group, 
+	data=dat2, se="SOREMO"))
+(SMZ_Mean_GlobalandActions.compounds <- RR(ZSM_Mean_GlobalandActions ~ subject * target | group, 
+	data=dat2, se="LashleyBond"))
 
-(SMcompounds <- RR(social_mimicry_global_rater1_rater2_rater3 ~ subject * target | group, data=dat2, se="SOREMO"))
-(SMcompounds <- RR(social_mimicry_global_rater1_rater2_rater3 ~ subject * target | group, data=dat2, se="LashleyBond"))
+(SMcompounds <- RR(social_mimicry_global_rater1_rater2_rater3 ~ subject * target | group, 
+	data=dat2, se="SOREMO"))
+(SMcompounds <- RR(social_mimicry_global_rater1_rater2_rater3 ~ subject * target | group, 
+	data=dat2, se="LashleyBond"))
 
-(Liking_1compounds <- RR(liking_1 ~ subject * target | group, data=dat2, se="SOREMO"))
-(Liking_1compounds <- RR(liking_1 ~ subject * target | group, data=dat2, se="LashleyBond"))
+(Liking_1compounds <- 
+	RR(liking_1 ~ subject * target | group, data=dat2, se="SOREMO"))
+(Liking_1compounds <- 
+	RR(liking_1 ~ subject * target | group, data=dat2, se="LashleyBond"))
 
 
 #' ### Univariate manifest
@@ -31,15 +37,51 @@ dat2 <- import("Raw_data_Ratings_Social_Mimicry.sav")
 #' ### Bivariate manifest
 data(multiLikingLong)
 #manifest bivariate SRM analysis
-(RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, data=multiLikingLong, se="SOREMO"))
-(RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, data=multiLikingLong, se="LashleyBond"))
+(RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="SOREMO"))
+(RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="LashleyBond"))
 
 #' ### Univariate latent
 data(multiLikingLong)
-(RR2m <- RR(liking_a/liking_b ~ perceiver.id*target.id|group.id, data=multiLikingLong, se="SOREMO"))
-(RR2m <- RR(liking_a/liking_b ~ perceiver.id*target.id|group.id, data=multiLikingLong, se="LashleyBond"))
+(RR2m <- RR(liking_a/liking_b ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="SOREMO"))
+(RR2m <- RR(liking_a/liking_b ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="LashleyBond"))
 
 #' ### Bivariate latent
 #latent (construct-level) bivariate SRM analysis
-(RR4m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, data=multiLikingLong, se="SOREMO"))
-(RR4m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, data=multiLikingLong, se="LashleyBond"))
+(RR4m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="SOREMO"))
+(RR4m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="LashleyBond"))
+		
+#' ### Bivariate latent, single group: Same SE for intra- and interpersonal bivariate rel-cov!
+data(likingLong)
+(RR4 <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id, data=likingLong))
+
+data(likingLong)
+(RR4 <- RR(liking_a/liking_b ~ perceiver.id*target.id, data=likingLong))
+
+
+#' ## Special test: error in univariate analysis of bivariate latent multigroup
+
+# no problem in single group
+data(likingLong)
+(RR4 <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id, data=likingLong))
+
+# no problem in multigroup manifest bivariate
+data(multiLikingLong)
+
+(RR2m <- RR(liking_a/liking_b ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="LashleyBond"))
+
+(RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="LashleyBond"))
+	
+# no problem in multigroup latent bivariate and SOREMO style
+(RR2m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="SOREMO"))	
+	
+(RR2m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, 
+	data=multiLikingLong, se="LashleyBond"))		
