@@ -433,7 +433,7 @@ if (analysis=="manifest") {
 	
 	t.value <- c(taf,tbg,tag,tbf,tch,tchs)
 	pvalues <- (1-pt(abs(t.value), n-1))*2 	# alles Kovarianzen, daher zweiseitig testen!
-	bivariate <- data.frame(type=bilabels_bb, estimate, standardized, se=biSE, t.value, p.value=pvalues)
+	bivariate <- data.frame(type=bilabels_bb, estimate, standardized, se=biSE, biSEVAR=biSEVAR, t.value, p.value=pvalues)
 	
 	if (noCorrection==FALSE) {
 		# erase covariances if one variance component is < 0
@@ -458,13 +458,12 @@ if (analysis=="manifest") {
 	stand[is.infinite(stand)] <- NaN
 	
 	# se, t, und p werden aus dem bivariaten Fall uebernommen
-	#stop()
 	se <- c(sestabpervar1, sestabtarvar1, sestabrelvar1, NA, sqrt((biSE["sesag"]^2+biSE["sesbf"]^2)/2), biSE["seschs"])
 	tvalues <- c(tstabpervar1,tstabtarvar1,tstabrelvar1,NA,stabapcov1/sqrt((biSE["sesag"]^2+biSE["sesbf"]^2)/2), tchs)
 	pvalues <- (1-pt(abs(tvalues), n-1))
 	pvalues[4:5] <- pvalues[4:5]*2
 	
-	results <- data.frame(type=unilabels_b, estimate=unstand, standardized=stand, se=se, SEVAR=biSEVAR, t.value=tvalues, p.value=pvalues)
+	results <- data.frame(type=unilabels_b, estimate=unstand, standardized=stand, se=se, SEVAR=c(biSEVAR[1:2], biSEVAR["sesch2"], NA, (biSE["sesag"]^2+biSE["sesbf"]^2)/2, biSEVAR[6]), t.value=tvalues, p.value=pvalues)
 	
 	# erase indices for negative variances
 	results[1:3,][results$estimate[1:3]<0, c("standardized", "se", "t.value", "p.value")] <- NaN
@@ -514,7 +513,7 @@ if (analysis=="manifest") {
 	attr(eff[,grep(localOptions$suffixes[2], colnames(eff), fixed=TRUE)], "reliability") <- rel.p
 	attr(effRel$relationship, "reliability") <- rel.r
 	
-	res <- list(effects = eff, effects.gm=eff.gm, effectsRel=effRel, varComp=results, unstabdycov1=unstabdycov1, unstabper1=unstabper1, unstabtar1=unstabtar1, unstabrel1=unstabrel1, unstable.raw=unstable.raw, latent=TRUE, SEVAR=biSEVAR, anal.type="Latent construct analysis of one construct measured by two round robin variables")
+	res <- list(effects = eff, effects.gm=eff.gm, effectsRel=effRel, varComp=results, unstabdycov1=unstabdycov1, unstabper1=unstabper1, unstabtar1=unstabtar1, unstabrel1=unstabrel1, unstable.raw=unstable.raw, latent=TRUE, SEVAR=c(biSEVAR[1:2], biSEVAR["sesch2"], NA, (biSE["sesag"]^2+biSE["sesbf"]^2)/2, biSEVAR[6]), anal.type="Latent construct analysis of one construct measured by two round robin variables")
 	attr(res, "group.size") <- n
 	attr(res, "varname") <- paste(attr(RR.1, "varname"), attr(RR.2, "varname"), sep="/")
 	if ((attr(RR.1, "self") == TRUE) & (attr(RR.2, "self") == TRUE)) {attr(res, "self") <- TRUE} else {attr(res, "self") <- FALSE}
@@ -922,7 +921,7 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 								
 				df <- sum(res1$group.size[res1$type == v]-1)
 				# compute two-tailed p-value (p-values for variances are divided by two later)
- 				p.value <- pt(t.value, df, lower.tail=FALSE)*2	
+ 				p.value <- pt(abs(t.value), df, lower.tail=FALSE)*2
 				
 				varComp[varComp$type==v,]$estimate <- VAR.mean.weighted
 				varComp[varComp$type==v,]$se <- as.vector(SE.mean.weighted)
@@ -931,6 +930,7 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 			}
 		}
 
+		#stop()
 		varComp$p.value[1:4] <- varComp$p.value[1:4] / 2
 		# Varianzen nur einseitig testen (Voreinstellung bei weighted.t.test ist zweiseitig)
 		
@@ -990,8 +990,6 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 			#------------------------------------
 			
 			if (se == "LashleyBond") {
-				#v="intrapersonal relationship covariance"
-				#v="interpersonal relationship covariance"
 				SEs2 <- res1$biSEVAR[res1$type == v]
 				VAR <- res1$estimate[res1$type == v]
 				
@@ -1014,6 +1012,8 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				bivariate[bivariate$type==v,]$p.value <- p.value
 			}			
 		}
+		
+		#stop();
 		
 		#standardized coefficients need special treatment ...
 		w <- getOption("warn")
@@ -1109,6 +1109,8 @@ RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", min
 		res <- rbind(res, u1)
 		
 	}
+	
+	#stop()
 	
 	# aus der liste die Effekte extrahieren und zusammenfuegen
 	effect <- ldply(g.uni, function(x) {return(x$effects)})

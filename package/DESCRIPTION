@@ -3,7 +3,7 @@ Package: TripleR
 Type: Package
 Title: Social Relation Model (SRM) Analyses for Single or Multiple Groups
 Version: 1.5
-Date: 2015-10-13
+Date: 2015-11-06
 Author: F. D. Schönbrodt, M. D. Back, S. C. Schmukle
 Maintainer: Felix Schönbrodt <felix.schoenbrodt@psy.lmu.de>
 Depends:
