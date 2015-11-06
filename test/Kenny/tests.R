@@ -56,32 +56,10 @@ data(multiLikingLong)
 (RR4m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, 
 	data=multiLikingLong, se="LashleyBond"))
 		
-#' ### Bivariate latent, single group: Same SE for intra- and interpersonal bivariate rel-cov!
-data(likingLong)
-(RR4 <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id, data=likingLong))
-
-data(likingLong)
-(RR4 <- RR(liking_a/liking_b ~ perceiver.id*target.id, data=likingLong))
-
-
-#' ## Special test: error in univariate analysis of bivariate latent multigroup
-
-# no problem in single group
-data(likingLong)
-(RR4 <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id, data=likingLong))
-
-# no problem in multigroup manifest bivariate
-data(multiLikingLong)
-
-(RR2m <- RR(liking_a/liking_b ~ perceiver.id*target.id|group.id, 
-	data=multiLikingLong, se="LashleyBond"))
-
-(RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, 
-	data=multiLikingLong, se="LashleyBond"))
-	
-# no problem in multigroup latent bivariate and SOREMO style
+#' ### Bivariate latent, multi group
 (RR2m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, 
-	data=multiLikingLong, se="SOREMO"))	
+	data=multiLikingLong, se="SOREMO"))
 	
 (RR2m <- RR(liking_a/liking_b + metaliking_a/metaliking_b ~ perceiver.id*target.id|group.id, 
-	data=multiLikingLong, se="LashleyBond"))		
+	data=multiLikingLong, se="LashleyBond"))
+	
