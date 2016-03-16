@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99c (TeX Live 2009)
+The top-level auxiliary file: TripleR.aux
+The style file: apacitex.bst
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Database file #1: TripleR.bib
+apacitex.bst [2009/03/01 v4.05 APA bibl. style with author index info]
+You've used 5 entries,
+            6361 wiz_defined-function locations,
+            1211 strings with 10328 characters,
+and the built_in function-call counts, 11810 in all, are:
+= -- 1395
+> -- 81
+< -- 459
++ -- 626
+- -- 10
+* -- 714
+:= -- 2006
+add.period$ -- 20
+call.type$ -- 5
+change.case$ -- 55
+chr.to.int$ -- 0
+cite$ -- 10
+duplicate$ -- 522
+empty$ -- 492
+format.name$ -- 284
+if$ -- 2125
+int.to.chr$ -- 0
+int.to.str$ -- 10
+missing$ -- 0
+newline$ -- 183
+num.names$ -- 40
+pop$ -- 240
+preamble$ -- 1
+purify$ -- 50
+quote$ -- 0
+skip$ -- 625
+stack$ -- 0
+substring$ -- 799
+swap$ -- 262
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 1
+type$ -- 400
+warning$ -- 0
+while$ -- 108
+width$ -- 0
+write$ -- 277

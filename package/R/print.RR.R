@@ -33,6 +33,9 @@ print.uni <- function(x, ..., measure=NA, digits=3, r.names=NULL, minVar=0) {
 	
 	uni <- round(x$varComp[,2:ncol(x$varComp)], digits)	
 	
+	# remove SEVAR columns form output
+	uni <- uni[, !grepl("SEVAR", colnames(uni))]
+	
 	if (checkVar(uni[1, 2], minVar)) {uni[5, 2:5] <- NA}
 	if (checkVar(uni[2, 2], minVar)) {uni[5, 2:5] <- NA}
 	if (checkVar(uni[3, 2], minVar)) {uni[6, 2:5] <- NA}
@@ -95,6 +98,9 @@ print.RR <- function(x, ..., measure1=NA, measure2=NA, digits=3, measure=NULL) {
 		
 		uni <- lapply(x$univariate, function(x) return(x))
 		bi <- round(x$bivariate[,2:ncol(x$bivariate)], digits)
+		
+		# remove SEVAR columns form output
+		bi <- bi[, !grepl("SEVAR", colnames(bi))]
 				
 		# Erase bivariate correlations for variance components < minVar
 		if (checkVar(uni[[1]]$varComp[1, 2], x$minVar)) {bi[c(1,3), 2:5] <- NA}
@@ -125,10 +131,10 @@ print.RR <- function(x, ..., measure1=NA, measure2=NA, digits=3, measure=NULL) {
 			stop("This combination of measurement labels does not fit.")
 		}
 		print(paste("Univariate analyses for:", attr(uni[[1]], "varname")))
-		print.uni(uni[[1]], measure=measure1, r.names=r.names1, minVar=x$minVar)
+		print.uni(uni[[1]], measure=measure1, r.names=r.names1, minVar=x$minVar, digits=digits)
 		cat("\n")
 		print(paste("Univariate analyses for:", attr(uni[[2]], "varname")))
-		print.uni(uni[[2]], measure=measure2, r.names=r.names2, minVar=x$minVar)
+		print.uni(uni[[2]], measure=measure2, r.names=r.names2, minVar=x$minVar, digits=digits)
 		cat("\n")
 		print("Bivariate analyses:")
 		
@@ -143,6 +149,6 @@ print.RR <- function(x, ..., measure1=NA, measure2=NA, digits=3, measure=NULL) {
 	# univariate case
 	{
 		print(paste("Univariate analyses for:", attr(x, "varname")))
-		print.uni(x, measure=measure1, minVar=x$minVar)
+		print.uni(x, measure=measure1, minVar=x$minVar, digits=digits)
 	}
 }

@@ -1,0 +1,28 @@
+\select@language {american}
+\contentsline {section}{\numberline {1}Installing R and TripleR}{2}{section.1}
+\contentsline {section}{\numberline {2}Getting the data into the right format}{2}{section.2}
+\contentsline {section}{\numberline {3}Importing your data into R}{4}{section.3}
+\contentsline {section}{\numberline {4}How to do the analyses}{5}{section.4}
+\contentsline {subsection}{\numberline {4.1}Univariate manifest analysis}{6}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Univariate latent analyses}{6}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Bivariate manifest analysis}{7}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Bivariate latent analysis}{8}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Multiple groups}{9}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Missing values}{10}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}Inspecting the results object}{12}{subsection.4.7}
+\contentsline {section}{\numberline {5}Plots}{13}{section.5}
+\contentsline {section}{\numberline {6}Formatting the output}{16}{section.6}
+\contentsline {section}{\numberline {7}Subsequent analyses}{19}{section.7}
+\contentsline {subsection}{\numberline {7.1}Assumed similarity and self-other agreement: Correlations with self-ratings}{20}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Calculating partial correlations with external variables: Treating groups as fixed effects}{21}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Calculating partial correlations with external variables: Treating groups as random effects - the multilevel approach}{22}{subsection.7.3}
+\contentsline {subsection}{\numberline {7.4}Subsequent analyses of relationship effects}{22}{subsection.7.4}
+\contentsline {section}{\numberline {8}Exporting results}{23}{section.8}
+\contentsline {section}{\numberline {9}FAQ}{23}{section.9}
+\contentsline {subsection}{\numberline {9.1}How can I calculate a bivariate analysis between one manifest variable and a latent construct indicated by two variables?}{23}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}This long data format really sounds good. But unfortunately my data already are in the wide format - how can I convert them into the long format?}{23}{subsection.9.2}
+\contentsline {subsection}{\numberline {9.3}I have to run many, many round robin analyses in a huge data set. What is the most convenient way to do this?}{24}{subsection.9.3}
+\contentsline {subsection}{\numberline {9.4}An error occurs: `Aggregation requires fun.aggregate: length used as default'}{26}{subsection.9.4}
+\contentsline {subsection}{\numberline {9.5}My original multi group data set has X participants - the effects of the RR analysis, however, only have Y (Y<X) rows!}{26}{subsection.9.5}
+\contentsline {subsection}{\numberline {9.6}A comparison with SOREMO.exe}{26}{subsection.9.6}
+\contentsline {section}{References}{27}{section*.1}

@@ -3,7 +3,7 @@ Package: TripleR
 Type: Package
 Title: Social Relation Model (SRM) Analyses for Single or Multiple Groups
 Version: 1.5
-Date: 2015-11-06
+Date: 2016-03-16
 Author: F. D. Schönbrodt, M. D. Back, S. C. Schmukle
 Maintainer: Felix Schönbrodt <felix.schoenbrodt@psy.lmu.de>
 Depends:
@@ -18,9 +18,10 @@ Description: Social Relation Model (SRM) analyses for single or multiple
     manifest variable, one latent construct measured by two manifest variables,
     two manifest variables and their bivariate relations, or two latent
     constructs each measured by two manifest variables. Within-group t-tests
-    for variance components and covariances are provided for single groups. 
-	For multiple groups two types of significance tests are provided:
-    between-groups t-tests (as in SOREMO) and enhanced standard errors based on 
-	Lashely and Bond (1997). Handling for missing values is provided.
+    for variance components and covariances are provided for single groups.
+    For multiple groups two types of significance tests are provided:
+    between-groups t-tests (as in SOREMO) and enhanced standard errors based on
+    Lashely and Bond (1997). Handling for missing values is provided.
 License: GPL (>= 2)
 LazyLoad: yes
+RoxygenNote: 5.0.1
