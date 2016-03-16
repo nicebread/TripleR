@@ -270,7 +270,8 @@ RR.univariate <- function(RRMatrix, na.rm=FALSE, verbose=TRUE, corr.fac="1", ind
 	attr(eff$eff[,3], "reliability") <- rel.b
 	
 	# join everything in one dataframe
-	univariate <- data.frame(type=unilabels_b, estimate, standardized, se=SE, t.value, p.value)
+	univariate <- data.frame(type=unilabels_b, estimate, standardized, se=SE, SEVAR=SEVAR, t.value, p.value)
+	#univariate <- data.frame(type=unilabels_b, estimate, standardized, se=SE, t.value, p.value)
 	
 	# if one variance component is below zero: erase covariances
 	# erase indices for negative variances
@@ -431,9 +432,10 @@ if (analysis=="manifest") {
 	estimate <- c(saf,sbg,sag,sbf,sch,schs)
 	standardized <- clamp(raf,rbg,rag,rbf,rch,rchs)
 	
-	t.value <- c(taf,tbg,tag,tbf,tch,tchs)
+	t.value <- c(taf, tbg, tag, tbf, tch, tchs)
 	pvalues <- (1-pt(abs(t.value), n-1))*2 	# alles Kovarianzen, daher zweiseitig testen!
 	bivariate <- data.frame(type=bilabels_bb, estimate, standardized, se=biSE, biSEVAR=biSEVAR, t.value, p.value=pvalues)
+	#bivariate <- data.frame(type=bilabels_bb, estimate, standardized, se=biSE, t.value, p.value=pvalues)
 	
 	if (noCorrection==FALSE) {
 		# erase covariances if one variance component is < 0
@@ -464,6 +466,7 @@ if (analysis=="manifest") {
 	pvalues[4:5] <- pvalues[4:5]*2
 	
 	results <- data.frame(type=unilabels_b, estimate=unstand, standardized=stand, se=se, SEVAR=c(biSEVAR[1:2], biSEVAR["sesch2"], NA, (biSE["sesag"]^2+biSE["sesbf"]^2)/2, biSEVAR[6]), t.value=tvalues, p.value=pvalues)
+	#results <- data.frame(type=unilabels_b, estimate=unstand, standardized=stand, se=se, t.value=tvalues, p.value=pvalues)
 	
 	# erase indices for negative variances
 	results[1:3,][results$estimate[1:3]<0, c("standardized", "se", "t.value", "p.value")] <- NaN
@@ -883,8 +886,9 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 	
 	if (typ=="univariate") {
 		if (length(RR0$univariate)==2) {varComp <- RR0$univariate[[1]]$varComp} else {varComp <- RR0$varComp}
-		varComp$p.value <- NA
-		varComp$estimate <- NA
+		
+		# create empty template for varComp
+		varComp[, -1] <- NA
 
 		for (v in names(table(res1$type))) {
 			
@@ -897,6 +901,7 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				w.t <- weighted.t.test(res1$estimate[res1$type == v], res1$group.size[res1$type == v]-1, mu=0)
 				varComp[varComp$type==v,]$estimate <- w.t$estimate
 				varComp[varComp$type==v,]$se <- w.t$se
+				varComp[varComp$type==v,]$SEVAR <- w.t$se^2
 				varComp[varComp$type==v,]$t.value <- w.t$statistic
 				varComp[varComp$type==v,]$p.value <- w.t$p.value
 			}
@@ -925,12 +930,13 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				
 				varComp[varComp$type==v,]$estimate <- VAR.mean.weighted
 				varComp[varComp$type==v,]$se <- as.vector(SE.mean.weighted)
+				varComp[varComp$type==v,]$SEVAR <- as.vector(SE.mean.weighted)^2
 				varComp[varComp$type==v,]$t.value <- t.value
 				varComp[varComp$type==v,]$p.value <- p.value
 			}
 		}
 
-		#stop()
+
 		varComp$p.value[1:4] <- varComp$p.value[1:4] / 2
 		# Varianzen nur einseitig testen (Voreinstellung bei weighted.t.test ist zweiseitig)
 		
@@ -969,7 +975,8 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 	
 	if (typ=="bivariate") {
 		bivariate <- RR0$bivariate
-		bivariate$p.value <- NA
+		bivariate[, -1] <- NA
+		#bivariate$p.value <- NA
 
 		for (v in names(table(res1$type))) {
 			#------------------------------------
@@ -981,6 +988,7 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				w.t <- weighted.t.test(res1$estimate[res1$type == v], res1$group.size[res1$type == v]-1, mu=0)
 				bivariate[bivariate$type==v,]$estimate <- w.t$estimate
 				bivariate[bivariate$type==v,]$se <- w.t$se
+				bivariate[bivariate$type==v,]$biSEVAR <- w.t$se^2
 				bivariate[bivariate$type==v,]$t.value <- w.t$statistic
 				bivariate[bivariate$type==v,]$p.value <- w.t$p.value
 			}
@@ -1008,12 +1016,11 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				
 				bivariate[bivariate$type==v,]$estimate <- VAR.mean.weighted
 				bivariate[bivariate$type==v,]$se <- as.vector(SE.mean.weighted)
+				bivariate[bivariate$type==v,]$biSEVAR <- as.vector(SE.mean.weighted)^2
 				bivariate[bivariate$type==v,]$t.value <- t.value
 				bivariate[bivariate$type==v,]$p.value <- p.value
 			}			
 		}
-		
-		#stop();
 		
 		#standardized coefficients need special treatment ...
 		w <- getOption("warn")
@@ -1152,7 +1159,6 @@ RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", min
 	# get weighted variance components
 	varComp <- getWTest(RR1, res, unstable=ifelse(is.null(unstable.raw.m), NULL, unstable.raw.m), se=se)
 
-
 	# calculate reliability for actor and partner effects, and variance of group means
 	group.var <- NA
 	
@@ -1199,15 +1205,21 @@ RR.multi.uni <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", min
 		# group mean & group variance		
 		group.means <- tapply(data[, all.vars(f1)[1]], data[, group.id], mean, na.rm=TRUE)
 		group.var <- var(group.means) - ((varComp$estimate[1] + varComp$estimate[2] + 2*varComp$estimate[5])/n + (varComp$estimate[3]+varComp$estimate[6])/(n*(n-1)))
-		
-		
+				
 	}	
 	
-		
-	anal.type <- paste0(RR1$anal.type, " in multiple groups (significance test based on ", se, ")")
+	
+	if (se == "LashleyBond") {
+		ST <- "(significance test based on Lashley & Bond, 1997, Psychological Methods)"
+	}
+	if (se == "SOREMO") {
+		ST <- "(significance test based on SOREMO; Kenny & LaVoie, 1984)"
+	}
+	anal.type <- paste0(RR1$anal.type, " in multiple groups ", ST)
 
 	if (!is.null(varComp)) {
 
+		#res2 <- list(effects = effect, effectsRel = effectRel, effects.gm = eff.gm, varComp = varComp, groups = g.uni, varComp.groups=res, group.var=group.var, biSEVAR=varComp$se^2, anal.type=anal.type)
 		res2 <- list(effects = effect, effectsRel = effectRel, effects.gm = eff.gm, varComp = varComp, groups = g.uni, varComp.groups=res, group.var=group.var, anal.type=anal.type)
 		class(res2) <- "RRmulti"
 		attr(res2, "varname") <- attr(g.uni[[1]], "varname")
@@ -1253,6 +1265,8 @@ RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData
 		return(RR.multi.uni(formule, data, na.rm, verbose, index=index, minData=minData, exclude.ids=exclude.ids, varname=varname, se=se, ...))
 	}
 
+
+
 	# ... ansonsten bi-mode durchfuehren
 	
 	# find out, which participants are excluded and exclude them from all variables
@@ -1273,7 +1287,6 @@ RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData
 	V2 <- RR.multi.uni(formula(paste(f3[2], "~", f4)), data, na.rm, verbose=FALSE, index=index, minData=minData, exclude.ids=ex3, se=se)
 	V2$varComp.groups$variable <- 2
 		
-	res <- data.frame()
 	res.bi <- data.frame()
 	bi.groups <- list()
 	
@@ -1294,7 +1307,7 @@ RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData
 	
 	bivariate <- getWTest(RR1, res.bi, typ="bivariate", V1$varComp, V2$varComp, se=se)
 	
-	res <- list(univariate = list(V1, V2), bivariate = bivariate, anal.type=anal.type, groups=bi.groups)
+	res <- list(univariate = list(V1, V2), bivariate = bivariate, SEVAR=bivariate$se^2, anal.type=anal.type, groups=bi.groups)
 	class(res) <- "RRmulti"
 
 	return(res)

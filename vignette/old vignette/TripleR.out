@@ -1,0 +1,28 @@
+\BOOKMARK [1][-]{section.1}{Installing R and TripleR}{}
+\BOOKMARK [1][-]{section.2}{Getting the data into the right format}{}
+\BOOKMARK [1][-]{section.3}{Importing your data into R}{}
+\BOOKMARK [1][-]{section.4}{How to do the analyses}{}
+\BOOKMARK [2][-]{subsection.4.1}{Univariate manifest analysis}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Univariate latent analyses}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Bivariate manifest analysis}{section.4}
+\BOOKMARK [2][-]{subsection.4.4}{Bivariate latent analysis}{section.4}
+\BOOKMARK [2][-]{subsection.4.5}{Multiple groups}{section.4}
+\BOOKMARK [2][-]{subsection.4.6}{Missing values}{section.4}
+\BOOKMARK [2][-]{subsection.4.7}{Inspecting the results object}{section.4}
+\BOOKMARK [1][-]{section.5}{Plots}{}
+\BOOKMARK [1][-]{section.6}{Formatting the output}{}
+\BOOKMARK [1][-]{section.7}{Subsequent analyses}{}
+\BOOKMARK [2][-]{subsection.7.1}{Assumed similarity and self-other agreement: Correlations with self-ratings}{section.7}
+\BOOKMARK [2][-]{subsection.7.2}{Calculating partial correlations with external variables: Treating groups as fixed effects}{section.7}
+\BOOKMARK [2][-]{subsection.7.3}{Calculating partial correlations with external variables: Treating groups as random effects - the multilevel approach}{section.7}
+\BOOKMARK [2][-]{subsection.7.4}{Subsequent analyses of relationship effects}{section.7}
+\BOOKMARK [1][-]{section.8}{Exporting results}{}
+\BOOKMARK [1][-]{section.9}{FAQ}{}
+\BOOKMARK [2][-]{subsection.9.1}{This is an excellent introduction - but where can I get more information or pose a question?}{section.9}
+\BOOKMARK [2][-]{subsection.9.2}{How can I calculate a bivariate analysis between one manifest variable and a latent construct indicated by two variables?}{section.9}
+\BOOKMARK [2][-]{subsection.9.3}{This long data format really sounds good. But unfortunately my data already are in the wide format - how can I convert them into the long format?}{section.9}
+\BOOKMARK [2][-]{subsection.9.4}{I have to run many, many round robin analyses in a huge data set. What is the most convenient way to do this?}{section.9}
+\BOOKMARK [2][-]{subsection.9.5}{An error occurs: `Aggregation requires fun.aggregate: length used as default'}{section.9}
+\BOOKMARK [2][-]{subsection.9.6}{My original multi group data set has X participants - the effects of the RR analysis, however, only have Y \(Y < X\) rows!}{section.9}
+\BOOKMARK [2][-]{subsection.9.7}{A comparison with SOREMO.exe}{section.9}
+\BOOKMARK [1][-]{section*.1}{References}{}
