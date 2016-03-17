@@ -35,21 +35,21 @@ compute_bivariate_LB_SE2 <- function(varComp.1, varComp.2, saf, sag, sbg, sbf, s
 	coef7 <- (n-3)*n*(n^6-9*n^5+35*n^4-75*n^3+76*n^2-12*n-48)
 
 	suppressWarnings({
-		sesaf2 <- ((n-1)*varComp.1[1]*varComp.2[1]+(n-3)*saf^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[1]*varComp.2[3]+varComp.1[3]*varComp.2[1])+(n-1)*(varComp.1[1]*varComp.2[5]+varComp.1[5]*varComp.2[1])+2*(n-3)*saf*((n-1)*sch+schs))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[5]+varComp.1[5]*varComp.2[3])+coef3*varComp.1[5]*varComp.2[5]+coef4*sch^2+coef5*schs^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
+		sesaf2 <- ((n-1)*varComp.1[1]*varComp.2[1]+(n-3)*saf^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[1]*varComp.2[3]+varComp.1[3]*varComp.2[1])+(n-1)*(varComp.1[1]*varComp.2[6]+varComp.1[6]*varComp.2[1])+2*(n-3)*saf*((n-1)*sch+schs))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[6]+varComp.1[6]*varComp.2[3])+coef3*varComp.1[6]*varComp.2[6]+coef4*sch^2+coef5*schs^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
 
 	
-		sesbg2 <- ((n-1)*varComp.1[2]*varComp.2[2]+(n-3)*sbg^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[2]*varComp.2[3]+varComp.1[3]*varComp.2[2])+(n-1)*(varComp.1[2]*varComp.2[5]+varComp.1[5]*varComp.2[2])+2*(n-3)*sbg*((n-1)*sch+schs))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[5]+varComp.1[5]*varComp.2[3])+coef3*varComp.1[5]*varComp.2[5]+coef4*sch^2+coef5*schs^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
+		sesbg2 <- ((n-1)*varComp.1[2]*varComp.2[2]+(n-3)*sbg^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[2]*varComp.2[3]+varComp.1[3]*varComp.2[2])+(n-1)*(varComp.1[2]*varComp.2[6]+varComp.1[6]*varComp.2[2])+2*(n-3)*sbg*((n-1)*sch+schs))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[6]+varComp.1[6]*varComp.2[3])+coef3*varComp.1[6]*varComp.2[6]+coef4*sch^2+coef5*schs^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
 	
-	sesch2 <- ((n^6-9*n^5+32*n^4-57*n^3+43*n^2+6*n-8)*(varComp.1[3]*varComp.2[3]+varComp.1[5]*varComp.2[5])+2*(n^4-6*n^3+3*n^2+18*n-8)*sch*schs)/coef7 + ((n^4-6*n^3+11*n^2-6*n+8)*(varComp.1[3]*varComp.2[5]+varComp.1[5]*varComp.2[3])+(n^6-9*n^5+28*n^4-33*n^3-9*n^2+54*n+8)*(sch^2 + schs^2))/coef7
+	sesch2 <- ((n^6-9*n^5+32*n^4-57*n^3+43*n^2+6*n-8)*(varComp.1[3]*varComp.2[3]+varComp.1[6]*varComp.2[6])+2*(n^4-6*n^3+3*n^2+18*n-8)*sch*schs)/coef7 + ((n^4-6*n^3+11*n^2-6*n+8)*(varComp.1[3]*varComp.2[6]+varComp.1[6]*varComp.2[3])+(n^6-9*n^5+28*n^4-33*n^3-9*n^2+54*n+8)*(sch^2 + schs^2))/coef7
 		
 	
-	sesag2 <- ((n-1)*varComp.1[1]*varComp.2[2]+(n-3)*sag^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[1]*varComp.2[3]+varComp.1[3]*varComp.2[2])+(n-1)*(varComp.1[1]*varComp.2[5]+varComp.1[5]*varComp.2[2])+2*(n-3)*sag*((n-1)*schs+sch))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[5]+varComp.1[5]*varComp.2[3])+coef3*varComp.1[5]*varComp.2[5]+coef4*schs^2+coef5*sch^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
+	sesag2 <- ((n-1)*varComp.1[1]*varComp.2[2]+(n-3)*sag^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[1]*varComp.2[3]+varComp.1[3]*varComp.2[2])+(n-1)*(varComp.1[1]*varComp.2[6]+varComp.1[6]*varComp.2[2])+2*(n-3)*sag*((n-1)*schs+sch))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[6]+varComp.1[6]*varComp.2[3])+coef3*varComp.1[6]*varComp.2[6]+coef4*schs^2+coef5*sch^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
 
 	
-	sesbf2 <- ((n-1)*varComp.1[2]*varComp.2[1]+(n-3)*sbf^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[2]*varComp.2[3]+varComp.1[3]*varComp.2[1])+(n-1)*(varComp.1[2]*varComp.2[5]+varComp.1[5]*varComp.2[1])+2*(n-3)*sbf*((n-1)*schs+sch))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[5]+varComp.1[5]*varComp.2[3])+coef3*varComp.1[5]*varComp.2[5]+coef4*schs^2+coef5*sch^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
+	sesbf2 <- ((n-1)*varComp.1[2]*varComp.2[1]+(n-3)*sbf^2)/((n-2)*(n+1)) + ((n-1)^2*(varComp.1[2]*varComp.2[3]+varComp.1[3]*varComp.2[1])+(n-1)*(varComp.1[2]*varComp.2[6]+varComp.1[6]*varComp.2[1])+2*(n-3)*sbf*((n-1)*schs+sch))/((n-2)^2*n*(n+1)) + (coef1*varComp.1[3]*varComp.2[3]+coef2*(varComp.1[3]*varComp.2[6]+varComp.1[6]*varComp.2[3])+coef3*varComp.1[6]*varComp.2[6]+coef4*schs^2+coef5*sch^2+coef6*sch*schs)/((n-2)^3*n^2*(n+1)*coef7)
 
 
-	seschs2 <- ((n^6-9*n^5+32*n^4-57*n^3+43*n^2+6*n-8)*(varComp.1[3]*varComp.2[3]+varComp.1[5]*varComp.2[5])+2*(n^4-6*n^3+3*n^2+18*n-8)*sch*schs)/coef7 + ((n^4-6*n^3+11*n^2-6*n+8)*(varComp.1[3]*varComp.2[5]+varComp.1[5]*varComp.2[3])+(n^6-9*n^5+28*n^4-33*n^3-9*n^2+54*n+8)*(sch^2 + schs^2))/coef7
+	seschs2 <- ((n^6-9*n^5+32*n^4-57*n^3+43*n^2+6*n-8)*(varComp.1[3]*varComp.2[3]+varComp.1[6]*varComp.2[6])+2*(n^4-6*n^3+3*n^2+18*n-8)*sch*schs)/coef7 + ((n^4-6*n^3+11*n^2-6*n+8)*(varComp.1[3]*varComp.2[6]+varComp.1[6]*varComp.2[3])+(n^6-9*n^5+28*n^4-33*n^3-9*n^2+54*n+8)*(sch^2 + schs^2))/coef7
 	
 	})
 	

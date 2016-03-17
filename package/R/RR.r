@@ -393,7 +393,6 @@ RR.bivariate <- function(RRMatrix1, RRMatrix2, analysis="manifest", na.rm=FALSE,
 		stabdycor1 <- ifelse(sch2>0, stabdycov1/sch2, NaN)
 		stabapcor1 <- ifelse(saf>0 & sbg>0, stabapcov1 / sqrt(saf*sbg), NaN)
 	}
-	
 
 	# Compute standard errors (se) und t-values (t) of bivariate srm-parameters
 	biSEVAR <- compute_bivariate_LB_SE2(varComp.1, varComp.2, saf, sag, sbg, sbf, sch, schs, n)
