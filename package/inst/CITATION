@@ -4,7 +4,7 @@ note <- sprintf("R package version %s", meta$Version)
 citHeader("To cite TripleR in publications please use:")
 
 citEntry(entry = "Article",
-	title = "{TripleR:} An R package for social relations analyses based on round-robin designs",
+	title = "{TripleR:} An {R} package for social relations analyses based on round-robin designs",
 	volume = "44",
 	doi = "10.3758/s13428-011-0150-4",
 	number = {2},
@@ -22,7 +22,7 @@ citEntry(entry = "misc",
 	author = c(as.person("Schönbrodt, F. D."), as.person("Back, M. D."), as.person("Schmukle, S. C.")),
 	year = year,
 	note = note,
-	url = "http://cran.r-project.org/web/packages/TripleR",
+	url = "http://cran.r-project.org/package=TripleR",
 	
-	textVersion  = paste0("Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (", year, "). TripleR: Social Relation Model (SRM) analyses for single or multiple groups (", note, "). Retrieved from http://cran.r-project.org/web/packages/TripleR.")
+	textVersion  = paste0("Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (", year, "). TripleR: Social Relation Model (SRM) analyses for single or multiple groups (", note, "). Retrieved from http://cran.r-project.org/package=TripleR.")
 )
