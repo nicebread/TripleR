@@ -26,9 +26,9 @@ print.uni <- function(x, ..., measure=NA, digits=3, r.names=NULL, minVar=0) {
 		groupsizes <- laply(x$groups, function(y) return(attr(y, "group.size")))
 		av.groupsize <- round(mean(groupsizes), 2)
 		
-		 print(paste("Group descriptives: n = ",length(x$groups),"; average group size = ",av.groupsize, "; range: ", min(groupsizes), "-", max(groupsizes)))
+		 cat(paste("Group descriptives: n = ",length(x$groups),"; average group size = ",av.groupsize, "; range: ", min(groupsizes), "-", max(groupsizes), "\n"))
 	} else {
-		print("Round robin analysis for a single group; using the formula of Lashley & Bond (1997).")
+		cat("Round robin analysis for a single group; using the formula of Lashley & Bond (1997).\n\n")
 	}
 	
 	uni <- round(x$varComp[,2:ncol(x$varComp)], digits)	
@@ -59,13 +59,13 @@ print.uni <- function(x, ..., measure=NA, digits=3, r.names=NULL, minVar=0) {
 	
 	
 	# Actor effect reliability
-	if (!is.null(x$effects[,grep(localOptions$suffixes[1], colnames(x$effects), fixed=TRUE)])) print(paste(role[[measure]][1], "effect reliability:",f2(attr(x$effects[,grep(localOptions$suffixes[1], colnames(x$effects), fixed=TRUE)], "reliability"), 3)))
+	if (!is.null(x$effects[,grep(localOptions$suffixes[1], colnames(x$effects), fixed=TRUE)])) cat(paste(role[[measure]][1], "effect reliability:",f2(attr(x$effects[,grep(localOptions$suffixes[1], colnames(x$effects), fixed=TRUE)], "reliability"), 3), "\n"))
 	
 	# Partner effect reliability
-	if (!is.null(x$effects[,grep(localOptions$suffixes[2], colnames(x$effects), fixed=TRUE)])) print(paste(role[[measure]][2], "effect reliability:",f2(attr(x$effects[,grep(localOptions$suffixes[2], colnames(x$effects), fixed=TRUE)], "reliability"), 3)))
+	if (!is.null(x$effects[,grep(localOptions$suffixes[2], colnames(x$effects), fixed=TRUE)])) cat(paste(role[[measure]][2], "effect reliability:",f2(attr(x$effects[,grep(localOptions$suffixes[2], colnames(x$effects), fixed=TRUE)], "reliability"), 3), "\n"))
 	
 	# Relationship effect reliability
-	if (!is.null(attr(x$effectsRel$relationship, "reliability"))) print(paste(role[[measure]][3], "effect reliability:",f2(attr(x$effectsRel$relationship, "reliability"), 3)))
+	if (!is.null(attr(x$effectsRel$relationship, "reliability"))) cat(paste(role[[measure]][3], "effect reliability:",f2(attr(x$effectsRel$relationship, "reliability"), 3), "\n"))
 	
 	selfCor(x, measure=measure)
 }
@@ -87,8 +87,10 @@ print.RR <- function(x, ..., measure1=NA, measure2=NA, digits=3, measure=NULL) {
 		measure2 <- match.arg(measure2, c("behavior", "perception", "metaperception"))
 	}
 	
-	print("Round-Robin object ('RR'), calculated by TripleR")
-	print(x$anal.type)
+	cat("Round-Robin object ('RR'), calculated by TripleR\n")
+	cat("------------------------------------------------\n")
+	cat(x$anal.type)
+	cat("\n\n")
 	
 	
 	if (!is.null(measure)) {measure1 <- measure}
@@ -130,13 +132,17 @@ print.RR <- function(x, ..., measure1=NA, measure2=NA, digits=3, measure=NULL) {
 		} else {
 			stop("This combination of measurement labels does not fit.")
 		}
-		print(paste("Univariate analyses for:", attr(uni[[1]], "varname")))
+		cat(paste("Univariate analyses for:", attr(uni[[1]], "varname"), "\n"))
+		cat("---------\n")		
 		print.uni(uni[[1]], measure=measure1, r.names=r.names1, minVar=x$minVar, digits=digits)
-		cat("\n")
-		print(paste("Univariate analyses for:", attr(uni[[2]], "varname")))
+		cat("\n\n")
+		
+		cat(paste("Univariate analyses for:", attr(uni[[2]], "varname"), "\n"))
+		cat("---------\n")
 		print.uni(uni[[2]], measure=measure2, r.names=r.names2, minVar=x$minVar, digits=digits)
-		cat("\n")
-		print("Bivariate analyses:")
+		cat("\n\n")
+		cat(paste0("Bivariate analyses:", "\n"))
+		cat("---------\n")
 		
 		print(bi)
 		
@@ -148,7 +154,8 @@ print.RR <- function(x, ..., measure1=NA, measure2=NA, digits=3, measure=NULL) {
 	
 	# univariate case
 	{
-		print(paste("Univariate analyses for:", attr(x, "varname")))
+		cat(paste("Univariate analyses for:", attr(x, "varname"), "\n"))
+		cat("---------\n")
 		print.uni(x, measure=measure1, minVar=x$minVar, digits=digits)
 	}
 }

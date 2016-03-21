@@ -4,7 +4,7 @@
 \docType{package}
 \title{Triple R: A Package for Round-Robin Analyses Using R}
 \description{
-Social Relation Model (SRM) analyses for single or multiple round-robin groups are performed. These analyses are either based on one manifest variable, one latent construct measured by two manifest variables, two manifest variables and their bivariate relations, or bivariate relations between two latent constructs each measured by two manifest variables. Within-group t-tests for variance components are provided for single group, between-groups t-tests for multiple groups. Preliminary handling for missing values is provided.
+Social Relation Model (SRM) analyses for single or multiple round-robin groups are performed. These analyses are either based on one manifest variable, one latent construct measured by two manifest variables, two manifest variables and their bivariate relations, or bivariate relations between two latent constructs each measured by two manifest variables.
 }
 
 \details{
@@ -12,8 +12,6 @@ For further information of usage see \code{\link{RR}} or the built in pdf docume
 
 If you use this package in your research, please cite it as:
 Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (2012). TripleR: An R package for social relations analyses based on round-robin designs. \emph{Behavior Research Methods, 44}, 455–470. doi:10.3758/s13428-011-0150-4
-
-Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (2015). \emph{TripleR: Social Relation Model (SRM) analyses for single or multiple groups}. Retrieved from http://cran.r-project.org/web/packages/TripleR.
 }
 
 \author{Felix D. Schönbrodt, Mitja D. Back, & Stefan C. Schmukle

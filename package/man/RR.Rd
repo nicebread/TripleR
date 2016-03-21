@@ -38,7 +38,7 @@ RR(formula, data, na.rm=FALSE, minData=1, verbose=TRUE, g.id=NULL, index="",
 \details{
 Please note: detailed instructions on how to use the TripleR package are provided in the built in pdf document `How to use TripleR'. You can open this document either by on this link: \url{../doc/TripleR.pdf}, or you can browse all included vignettes by opening the index of the package documentation (scroll down to the very end of this page and click on `Index'; than click on `Overview of user guides and package vignettes'). These help files are only for quick references.
 
-The estimation of the parameters of the Social Relation Model (SRM) is based on formulae provided by Kenny (1994; p. 236-244). If multiple groups are provided, SRMs are computed within each single group. Variance components then are calculated as the weighted average across groups (weighted with N – 1).
+The estimation of the parameters of the Social Relation Model (SRM) is based on formulae provided by Kenny (1994; p. 236-244). If multiple groups are provided, SRMs are computed within each single group. Variance components then are calculated as the weighted average across groups (weighted with N – 1). Please note that in case of largely varying group sizes a precision weighting based on  inverse-variance weights might be preferable but is not currently implemented in TripleR.
 For tests of significance of a single group, Triple R computes standard errors by using formulae published by Bond and Lashley (1996) for the case of a univariate SRM analysis. The formulae for the standard errors of the bivariate SRM parameters were kindly provided to us by C.F. Bond in personal communication. If multiple groups are provided, by default the standard error is computed as the square root of the weighted mean of the squared group-specific standard errors, as recommended by Lashley and Bond (1997), For \code{se = “SOREMO”} a between-group t-test is employed to calculate the significance which was suggested by Kenny and La Voie (1984) and is used in the software SOREMO. Particularly in case of a small number of groups, the significance test based on Lashley and Bond (1997) gives more accurate results.
 
 The formula to specify the round robin design has following notation:
@@ -107,6 +107,8 @@ These settings from RR.style, however, can be overwritten for each \code{print} 
 	\code{print(RRobject, measure1="perception", measure2="behavior")}: prints output for a bivariate analysis of behavior and perception data.
 	
 	\item \code{print(RRobject, measure1="perception", measure2="metaperception")}: is for the special case that a perception and a corresponding metaperception was measured. In this case, additionally the appropriate output labels for bivariate SRM analyses of other- and metaperceptions (reciprocities, assumed reciprocities, meta-accuracies; see Kenny, 1994) are presented.
+	
+	\item \code{print(RRobject, digits=6)}: Provide the number of displayed digits.
 }
 
 
