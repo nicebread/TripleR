@@ -2,12 +2,13 @@
 # ---- Changes in TripleR version 1.5
 #------------------------------------------------------------
 
-- Refactored a lot for a (somewhat) cleaner structure of the package
 - New computation of significance tests in multiple groups.
 	- Standard errors and p-values of multiple groups are now based on the single-group SE derived by Lashley & Bond (1997)
 	- You can get the old behavior by setting RR(..., se = "SOREMO")
 	- PLEASE NOTE: We changed the default behavior. From version 1.5 on, you get the new Lashley & Bond (1997) standard errors by default.
 - Fixed a minor bug in bivariate computations of single-group Lashley-Bond standard errors
+- Improved output
+- Refactored a lot for a cleaner structure of the package
 
 #------------------------------------------------------------
 # ---- Changes in TripleR version 1.4.1

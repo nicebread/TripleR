@@ -1302,7 +1302,13 @@ RR.multi <- function(formule, data, na.rm=FALSE, verbose=TRUE, index="", minData
 		
 	}
 	
-	anal.type <- paste(RR1$anal.type, "in multiple groups")
+	if (se == "LashleyBond") {
+		ST <- "(significance test based on Lashley & Bond, 1997, Psychological Methods)"
+	}
+	if (se == "SOREMO") {
+		ST <- "(significance test based on SOREMO; Kenny & LaVoie, 1984)"
+	}
+	anal.type <- paste0(RR1$anal.type, " in multiple groups ", ST)
 	
 	bivariate <- getWTest(RR1, res.bi, typ="bivariate", V1$varComp, V2$varComp, se=se)
 	

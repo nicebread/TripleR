@@ -39,7 +39,7 @@ data(multiLikingLong)
 #manifest bivariate SRM analysis
 (RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, 
 	data=multiLikingLong, se="SOREMO"))
-(RR2m <- RR(liking_a + metaliking_a ~ perceiver.id*target.id|group.id, 
+(RR2m <- RR(liking_a+metaliking_a ~ perceiver.id*target.id|group.id, 
 	data=multiLikingLong, se="LashleyBond"))
 
 #' ### Univariate latent
@@ -76,6 +76,7 @@ print(RR1, digits=6)
 
 data(likingLong)
 
+RR(liking_a~perceiver.id*target.id, data=likingLong, na.rm=TRUE, se="LashleyBond")
 RR2 <- RR(liking_a+liking_a~perceiver.id*target.id, data=likingLong, na.rm=TRUE, se="LashleyBond")
 
 
