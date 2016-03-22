@@ -28,11 +28,13 @@ plot_missings <- function(formule, data, show.ids=TRUE) {
 
 
 #' @export
+#' @method plot RRbi
 plot.RRbi <- function(x, ...) {
 	plot.RRuni(x, ...)
 }
 
 #' @export
+#' @method plot RRuni
 plot.RRuni <- function(x, ..., measure=NA, geom="bar") {
 	
 	RRu <- x
@@ -71,6 +73,7 @@ plot.RRuni <- function(x, ..., measure=NA, geom="bar") {
 
 
 #' @export
+#' @method plot RRmulti
 plot.RRmulti <- function(x, ..., measure=NA, geom="scatter", conf.level=0.95, connect=FALSE) {
 	RRm <- x
 	
