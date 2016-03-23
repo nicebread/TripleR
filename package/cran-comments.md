@@ -7,4 +7,4 @@
 There were no ERRORs, WARNINGs, or relevant NOTEs. 
 
 ## Downstream dependencies
-None.
+pointRes (passed install with new TripleR version)
