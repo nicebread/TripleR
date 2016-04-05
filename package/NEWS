@@ -1,4 +1,12 @@
 #------------------------------------------------------------
+# ---- Changes in TripleR version 1.5.1
+#------------------------------------------------------------
+
+Added more information in the help files about the new standard errors; new reference:
+
+Lashley, B. R. & Kenny, D. A. (1998). Power estimation in social relations analyses. \emph{Psychological Methods, 3}, 328-338.
+
+#------------------------------------------------------------
 # ---- Changes in TripleR version 1.5
 #------------------------------------------------------------
 

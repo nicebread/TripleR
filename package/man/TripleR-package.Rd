@@ -17,13 +17,15 @@ Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (2012). TripleR: An R package
 \author{Felix D. Schönbrodt, Mitja D. Back, & Stefan C. Schmukle
 }
 \references{
-Back, M. D., Schmukle, S. C., & Egloff, B. (in press). From first sight to friendship: A longitudinal social relations analysis of stability and change in interpersonal attraction. \emph{European Journal of Personality}.
+Back, M. D., Schmukle, S. C. & Egloff, B. (2011). A closer look at first sight: Social relations lens model analyses of personality and interpersonal attraction at zero acquaintance. \emph{European Journal of Personality, 25}, 225-238.
 
-Bonito, J. A., & Kenny, D. A. (2010). The measurement of reliability of social relations components from round-robin designs. \emph{Personal Relationships, 17,} 235 - 251.
+Bonito, J. A., & Kenny, D. A. (2010). The measurement of reliability of social relations components from round-robin designs. \emph{Personal Relationships, 17,} 235-251.
 
 Kenny, D. A. (1994). \emph{Interpersonal perception: A social relations analysis}. New York: Guilford Press.
 
 Lashley, B. R., & Bond, C. F., Jr. (1997). Significance testing for round robin data. \emph{Psychological Methods, 2,} 278-291.
+
+Lashley, B. R. & Kenny, D. A. (1998). Power estimation in social relations analyses. \emph{Psychological Methods, 3}, 328-338.
 
 Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (2012). TripleR: An R package for social relations analyses based on round-robin designs. \emph{Behavior Research Methods, 44}, 455–470. doi:10.3758/s13428-011-0150-4
 }
