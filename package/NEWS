@@ -1,4 +1,18 @@
 #------------------------------------------------------------
+# ---- Changes in TripleR version 1.5.3
+#------------------------------------------------------------
+
+- Fixed a bug where the p-value of negative bivariate covariances computed with Lashley-Bond standard errors was incorrect.
+
+
+#------------------------------------------------------------
+# ---- Changes in TripleR version 1.5.2
+#------------------------------------------------------------
+
+- Added warning when SOREMO standard errors are chosen with <= 8 groups
+- Added warning when SOREMO standard errors are chosen with a single group
+
+#------------------------------------------------------------
 # ---- Changes in TripleR version 1.5.1
 #------------------------------------------------------------
 

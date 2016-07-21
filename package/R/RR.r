@@ -571,7 +571,11 @@ RR <- function(formula, data, na.rm=FALSE, minData = 1, verbose=TRUE, g.id=NULL,
 
 	# if a grouping factor is provided: forward to RR.multi
 	if (!is.null(group.id)) {
+		
 		res <- RR.multi(f1, data=data, na.rm=na.rm, verbose=verbose, index=index, minData=minData, exclude.ids=exclude.ids, varname=varname, se=se, ...)
+		
+		if (length(res$groups) <= 8 & se == "SOREMO")
+			warning(paste0("You chose 'SOREMO' standard errors, which are based on a between-group t-test. With only ", length(res$groups), " groups we recommend to use the Lashley-Bond standard errors (use 'se = \"LashleyBond\"')"))
 		
 		if (!is.null(res$univariate)) {
 			
@@ -626,6 +630,8 @@ RR <- function(formula, data, na.rm=FALSE, minData = 1, verbose=TRUE, g.id=NULL,
 
 	# ---------------------------------------------------------------------
 	#  Single group
+	
+	if (se == "SOREMO") warning("SOREMO standard errors are only defined with multiple groups. You are analyzing a single round-robin group; switching to Lashley-Bond standard errors.")
 
 	# univariater Fall:
 	if (length(lhs)==1) {
@@ -1011,7 +1017,7 @@ getWTest <- function(RR0, res1, typ="univariate", uni1=NA, uni2=NA, unstable=NA,
 				t.value <- VAR.mean.weighted / SE.mean.weighted
 								
 				df <- sum(res1$group.size[res1$type == v]-1)
- 				p.value <- pt(t.value, df, lower.tail=FALSE)
+ 				p.value <- pt(abs(t.value), df, lower.tail=FALSE)
 				
 				bivariate[bivariate$type==v,]$estimate <- VAR.mean.weighted
 				bivariate[bivariate$type==v,]$se <- as.vector(SE.mean.weighted)
