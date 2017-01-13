@@ -113,7 +113,7 @@ plot.RRmulti <- function(x, ..., measure=NA, geom="scatter", conf.level=0.95, co
 		for (i in names(table(df$group.id))) df$jit.x[df$group.id==i] <- rnorm(1,0,0.1)
 		
 		grouplevel$type2 <- factor(grouplevel$type, levels=unilabels_b, labels=lab)
-		grouplevel$tcrit <- abs(qt((1-conf.level)/2,length(RRm$groups)-1))
+		grouplevel$tcrit <- abs(qt((1-conf.level)/2, length(RRm$groups)-1))
 
 		
 		p1 <- ggplot(df, aes_string(y="estimate"), na.rm=TRUE)
