@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [main, master]
 
-defaults:
-  run:
-    working-directory: package
-
 name: R-CMD-check
 
 jobs:
@@ -46,5 +42,8 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
           extra-packages: rcmdcheck
+          working-directory: package
 
       - uses: r-lib/actions/check-r-package@v1
+        with:
+          working-directory: package
