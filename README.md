@@ -7,7 +7,7 @@ rmarkdown::render("README.rmd")
 Status](https://travis-ci.org/nicebread/TripleR.svg)](https://travis-ci.org/nicebread/TripleR)
 [![Last-changedate](https://img.shields.io/badge/last%20change-2022--04--25-yellowgreen.svg)](/commits/master)
 [![](https://www.r-pkg.org/badges/version/TripleR?color=orange)](https://cran.r-project.org/package=TripleR)
-[![packageversion](https://img.shields.io/badge/Package%20version-1.5.3-orange.svg?style=flat-square)](commits/master)
+[![packageversion](https://img.shields.io/badge/Package%20version-1.5.4-orange.svg?style=flat-square)](commits/master)
 ![](http://cranlogs.r-pkg.org/badges/TripleR)
 [![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:e90f8d849adb0ba98566e7670dd953f90125e259/)](https://archive.softwareheritage.org/swh:1:dir:e90f8d849adb0ba98566e7670dd953f90125e259;origin=https://github.com/nicebread/TripleR;visit=swh:1:snp:5252dbbb315b873bf5f438914c6802a736934196;anchor=swh:1:rev:7e506c6d81dac91f239af4c8db8dea5dfd1ebd1f)
 
