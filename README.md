@@ -3,8 +3,7 @@ library(badger)
 rmarkdown::render("README.rmd")
 -->
 
-[![Build
-Status](https://travis-ci.org/nicebread/TripleR.svg)](https://travis-ci.org/nicebread/TripleR)
+[![R-CMD-check](https://github.com/nicebread/TripleR/workflows/R-CMD-check/badge.svg)](https://github.com/nicebread/TripleR/actions)
 [![Last-changedate](https://img.shields.io/badge/last%20change-2022--04--25-yellowgreen.svg)](/commits/master)
 [![](https://www.r-pkg.org/badges/version/TripleR?color=orange)](https://cran.r-project.org/package=TripleR)
 [![packageversion](https://img.shields.io/badge/Package%20version-1.5.4-orange.svg?style=flat-square)](commits/master)
