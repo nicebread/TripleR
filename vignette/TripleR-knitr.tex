@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}\usepackage[]{graphicx}\usepackage[]{color}
-%% maxwidth is the original width if it is less than linewidth
-%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
 \def\maxwidth{ %
   \ifdim\Gin@nat@width>\linewidth
@@ -12,6 +12,9 @@
 \makeatother
 
 \definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\makeatletter
+\@ifundefined{AddToHook}{}{\AddToHook{package/xcolor/after}{\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}}}
+\makeatother
 \newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
 \newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
 \newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
@@ -21,6 +24,7 @@
 \newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
 \newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
 
 \usepackage{framed}
 \makeatletter
@@ -45,6 +49,14 @@
 \definecolor{messagecolor}{rgb}{0, 0, 0}
 \definecolor{warningcolor}{rgb}{1, 0, 1}
 \definecolor{errorcolor}{rgb}{1, 0, 0}
+\makeatletter
+\@ifundefined{AddToHook}{}{\AddToHook{package/xcolor/after}{
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+}}
+\makeatother
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
 \usepackage{alltt}
@@ -125,7 +137,9 @@ In dyadic data analyses, one often finds two data formats: either the ``wide for
 
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{verbatim}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Lade n"{}otiges Paket: ggplot2}}\begin{verbatim}
 ##    A  B  C  D  E
 ## A NA  3  1  0  5
 ## B  2 NA  5  4  1
@@ -295,8 +309,8 @@ It may also be possible to import your data directly by using the package foreig
 \begin{alltt}
 \hlkwd{library}\hlstd{(foreign)}
 
-\hlcom{# We would always recommend to set 'to.data.frame' to TRUE, as the resulting object is much}
-\hlcom{# more versatile ...}
+\hlcom{# We would always recommend to set 'to.data.frame' to TRUE, as the resulting object is}
+\hlcom{# much more versatile ...}
 \hlstd{dat} \hlkwb{<-} \hlkwd{read.spss}\hlstd{(}\hlstr{"SPSSfile.sav"}\hlstd{,} \hlkwc{to.data.frame} \hlstd{=} \hlnum{TRUE}\hlstd{)}
 \end{alltt}
 \end{kframe}
@@ -316,7 +330,7 @@ If you have successfully imported your data into R, you can look at the data by 
 
 
 \section{How to do the analyses}
-TripleR is capable of doing 4 different types of analyses\footnote{Please make sure that you use the most recent version of TripleR (this document was built using TripleR 1.5). You can check the installed version using \texttt{sessionInfo()}.}:
+TripleR is capable of doing 4 different types of analyses\footnote{Please make sure that you use the most recent version of TripleR (this document was built using TripleR 1.5.4). You can check the installed version using \texttt{sessionInfo()}.}:
 \begin{itemize}
 
 	\item Univariate manifest analyses (i.e., one measured variable)
@@ -395,10 +409,14 @@ When we run the command, an object of the class \texttt{RR} is returned. If we p
 \hlstd{RR1}
 \end{alltt}
 \begin{verbatim}
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Univariate analysis of one round robin variable"
-## [1] "Univariate analyses for: liking_a"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Univariate analysis of one round robin variable
+## 
+## Univariate analyses for: liking_a 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
 ## perceiver variance             0.172        0.194 0.035   4.914   0.000
 ## target variance                0.105        0.119 0.022   4.727   0.000
@@ -406,8 +424,8 @@ When we run the command, an object of the class \texttt{RR} is returned. If we p
 ## error variance                    NA           NA    NA      NA      NA
 ## perceiver-target covariance    0.014        0.105 0.020   0.703   0.485
 ## relationship covariance        0.080        0.131 0.017   4.809   0.000
-## [1] "Perceiver effect reliability: .937"
-## [1] "Target effect reliability: .901"
+## Perceiver effect reliability: .937 
+## Target effect reliability: .901 
 ## NULL
 \end{verbatim}
 \end{kframe}
@@ -428,20 +446,24 @@ If you have two indicators to assess a latent construct, error variance can be s
 \hlstd{RR2}
 \end{alltt}
 \begin{verbatim}
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Latent construct analysis of one construct measured by two round robin variables"
-## [1] "Univariate analyses for: liking_a/liking_b"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Latent construct analysis of one construct measured by two round robin variables
+## 
+## Univariate analyses for: liking_a/liking_b 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
-## perceiver variance             0.161        0.164 0.036   4.525   0.000
+## perceiver variance             0.161        0.164 0.036   4.524   0.000
 ## target variance                0.105        0.107 0.023   4.678   0.000
-## relationship variance          0.507        0.518 0.016  31.294   0.000
+## relationship variance          0.507        0.518 0.016  31.125   0.000
 ## error variance                 0.206        0.211    NA      NA      NA
 ## perceiver-target covariance    0.012        0.094 0.021   0.573   0.569
-## relationship covariance        0.079        0.156 0.016   4.887   0.000
-## [1] "Perceiver effect reliability: .865"
-## [1] "Target effect reliability: .893"
-## [1] "Relationship effect reliability: .852"
+## relationship covariance        0.079        0.156 0.016   4.861   0.000
+## Perceiver effect reliability: .865 
+## Target effect reliability: .893 
+## Relationship effect reliability: .852 
 ## NULL
 \end{verbatim}
 \end{kframe}
@@ -464,10 +486,14 @@ If you have two different variables (each assessing another construct), bivariat
 \hlstd{RR3}
 \end{alltt}
 \begin{verbatim}
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Bivariate analysis of two variables, each measured by one round robin variable"
-## [1] "Univariate analyses for: liking_a"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Bivariate analysis of two variables, each measured by one round robin variable
+## 
+## Univariate analyses for: liking_a 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
 ## perceiver variance             0.172        0.194 0.035   4.914   0.000
 ## target variance                0.105        0.119 0.022   4.727   0.000
@@ -475,12 +501,15 @@ If you have two different variables (each assessing another construct), bivariat
 ## error variance                    NA           NA    NA      NA      NA
 ## perceiver-target covariance    0.014        0.105 0.020   0.703   0.485
 ## relationship covariance        0.080        0.131 0.017   4.809   0.000
-## [1] "Perceiver effect reliability: .937"
-## [1] "Target effect reliability: .901"
+## Perceiver effect reliability: .937 
+## Target effect reliability: .901 
 ## NULL
 ## 
-## [1] "Univariate analyses for: metaliking_a"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## 
+## Univariate analyses for: metaliking_a 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
 ## perceiver variance             0.140        0.233 0.028   4.953   0.000
 ## target variance                0.027        0.044 0.007   4.005   0.000
@@ -488,18 +517,20 @@ If you have two different variables (each assessing another construct), bivariat
 ## error variance                    NA           NA    NA      NA      NA
 ## perceiver-target covariance    0.002        0.031 0.010   0.195   0.846
 ## relationship covariance        0.062        0.143 0.012   5.247   0.000
-## [1] "Perceiver effect reliability: .944"
-## [1] "Target effect reliability: .764"
+## Perceiver effect reliability: .944 
+## Target effect reliability: .764 
 ## NULL
 ## 
-## [1] "Bivariate analyses:"
+## 
+## Bivariate analyses:
+## ---------
 ##                                       estimate standardized    se t.value p.value
 ## perceiver-perceiver covariance           0.072        0.462 0.025   2.900   0.005
-## target-target covariance                 0.049        0.920 0.011   4.310   0.000
+## target-target covariance                 0.049        0.920 0.011   4.309   0.000
 ## perceiver-target covariance              0.014        0.206 0.011   1.258   0.214
 ## target-perceiver covariance              0.000        0.003 0.018   0.021   0.983
-## intrapersonal relationship covariance    0.289        0.560 0.011  25.498   0.000
-## interpersonal relationship covariance    0.067        0.129 0.011   5.893   0.000
+## intrapersonal relationship covariance    0.289        0.560 0.011  25.321   0.000
+## interpersonal relationship covariance    0.067        0.129 0.011   5.852   0.000
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -516,62 +547,70 @@ In this case, two latent constructs are measured by two indicators each. In the 
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{RR4} \hlkwb{<-} \hlkwd{RR}\hlstd{(liking_a}\hlopt{/}\hlstd{liking_b} \hlopt{+} \hlstd{metaliking_a}\hlopt{/}\hlstd{metaliking_b} \hlopt{~} \hlstd{perceiver.id} \hlopt{*} \hlstd{target.id,} \hlkwc{data} \hlstd{= likingLong)}
-\hlcom{# if you type the formula *don't* type the '+' sign - in the R print out it only indicates}
-\hlcom{# that the command continues in the second line}
+\hlcom{# if you type the formula *don't* type the '+' sign - in the R print out it only}
+\hlcom{# indicates that the command continues in the second line}
 \hlstd{RR4}
 \end{alltt}
 \begin{verbatim}
 ## $univariate
 ## $univariate[[1]]
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Latent construct analysis of one construct measured by two round robin variables"
-## [1] "Univariate analyses for: liking_a/liking_b"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Latent construct analysis of one construct measured by two round robin variables
+## 
+## Univariate analyses for: liking_a/liking_b 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
-## perceiver variance             0.161        0.164 0.036   4.525   0.000
+## perceiver variance             0.161        0.164 0.036   4.524   0.000
 ## target variance                0.105        0.107 0.023   4.678   0.000
-## relationship variance          0.507        0.518 0.016  31.294   0.000
+## relationship variance          0.507        0.518 0.016  31.125   0.000
 ## error variance                 0.206        0.211    NA      NA      NA
 ## perceiver-target covariance    0.012        0.094 0.021   0.573   0.569
-## relationship covariance        0.079        0.156 0.016   4.887   0.000
-## [1] "Perceiver effect reliability: .865"
-## [1] "Target effect reliability: .893"
-## [1] "Relationship effect reliability: .852"
+## relationship covariance        0.079        0.156 0.016   4.861   0.000
+## Perceiver effect reliability: .865 
+## Target effect reliability: .893 
+## Relationship effect reliability: .852 
 ## NULL
 ## 
 ## $univariate[[2]]
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Latent construct analysis of one construct measured by two round robin variables"
-## [1] "Univariate analyses for: metaliking_a/metaliking_b"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Latent construct analysis of one construct measured by two round robin variables
+## 
+## Univariate analyses for: metaliking_a/metaliking_b 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
-## perceiver variance             0.148        0.217 0.031   4.730   0.000
-## target variance                0.026        0.038 0.007   3.980   0.000
-## relationship variance          0.357        0.522 0.012  30.776   0.000
+## perceiver variance             0.148        0.217 0.031   4.729   0.000
+## target variance                0.026        0.038 0.007   3.978   0.000
+## relationship variance          0.357        0.522 0.012  30.568   0.000
 ## error variance                 0.153        0.223    NA      NA      NA
 ## perceiver-target covariance    0.000        0.002 0.011   0.014   0.989
-## relationship covariance        0.071        0.197 0.012   6.075   0.000
-## [1] "Perceiver effect reliability: .899"
-## [1] "Target effect reliability: .761"
-## [1] "Relationship effect reliability: .841"
+## relationship covariance        0.071        0.197 0.012   6.034   0.000
+## Perceiver effect reliability: .899 
+## Target effect reliability: .761 
+## Relationship effect reliability: .841 
 ## NULL
 ## 
 ## 
 ## $bivariate
 ##                                         type    estimate standardized         se
-## sesaf                 actor-actor covariance 0.091737622   0.59330340 0.02722245
-## sesbg             partner-partner covariance 0.048567501   0.92809821 0.01132879
-## sesag               actor-partner covariance 0.007382948   0.11407774 0.01092695
-## sesbf               partner-actor covariance 0.003979599   0.03183066 0.01901573
-## sesch  intrapersonal relationship covariance 0.329513319   0.77420495 0.01153366
-## seschs interpersonal relationship covariance 0.075332206   0.17699608 0.01153366
+## sesaf                 actor-actor covariance 0.091737622   0.59330340 0.02722553
+## sesbg             partner-partner covariance 0.048567501   0.92809821 0.01133202
+## sesag               actor-partner covariance 0.007382948   0.11407774 0.01093178
+## sesbf               partner-actor covariance 0.003979599   0.03183066 0.01901930
+## sesch  intrapersonal relationship covariance 0.329513319   0.77420495 0.01162831
+## seschs interpersonal relationship covariance 0.075332206   0.17699608 0.01162831
 ##             biSEVAR    t.value      p.value
-## sesaf  0.0007410617  3.3699255 1.408514e-03
-## sesbg  0.0001283414  4.2870876 7.684571e-05
-## sesag  0.0001193983  0.6756639 5.021917e-01
-## sesbf  0.0003615981  0.2092793 8.350326e-01
-## sesch  0.0001330253 28.5697137 0.000000e+00
-## seschs 0.0001330253  6.5315100 2.556583e-08
+## sesaf  0.0007412297  3.3695434 1.410120e-03
+## sesbg  0.0001284146  4.2858651 7.715979e-05
+## sesag  0.0001195038  0.6753656 5.023795e-01
+## sesbf  0.0003617339  0.2092400 8.350631e-01
+## sesch  0.0001352176 28.3371645 0.000000e+00
+## seschs 0.0001352176  6.4783454 3.111736e-08
 ## 
 ## $anal.type
 ## [1] "Bivariate analysis of two constructs, each measured by two round robin variables"
@@ -607,30 +646,33 @@ Using the formula interface, analyses with multiple groups can be performed as w
 \end{alltt}
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 3\ \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 3 \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 6\ \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 6 \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
 \hlstd{RR1m}
 \end{alltt}
 \begin{verbatim}
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Univariate analysis of one round robin variable in multiple groups (significance test based on Lashley & Bond, 1997, Psychological Methods)"
-## [1] "Univariate analyses for: ex"
-## [1] "Group descriptives: n =  10 ; average group size =  21.7 ; range:  19 - 24"
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Univariate analysis of one round robin variable in multiple groups (significance test based on Lashley & Bond, 1997, Psychological Methods)
+## 
+## Univariate analyses for: ex 
+## ---------
+## Group descriptives: n =  10 ; average group size =  21.7 ; range:  19 - 24 
 ##                             estimate standardized    se t.value p.value
 ## perceiver variance             0.236        0.103 0.029   8.140   0.000
 ## target variance                0.845        0.370 0.092   9.197   0.000
@@ -638,8 +680,8 @@ Using the formula interface, analyses with multiple groups can be performed as w
 ## error variance                    NA           NA    NA      NA      NA
 ## perceiver-target covariance   -0.011       -0.024 0.036  -0.302   0.763
 ## relationship covariance        0.106        0.088 0.027   3.963   0.000
-## [1] "Perceiver effect reliability: .801"
-## [1] "Target effect reliability: .935"
+## Perceiver effect reliability: .801 
+## Target effect reliability: .935 
 ## NULL
 ## 
 ## 
@@ -676,7 +718,6 @@ You can inspect the distribution of missing values by using the \texttt{plot\_mi
 \end{alltt}
 \end{kframe}
 \includegraphics[width=\maxwidth]{Sweave-Files/Sw_unnamed-chunk-16-1} 
-
 \end{knitrout}
 \end{center}
 \caption{Plot of missing values}
@@ -717,8 +758,8 @@ As an example, we can analyze another built in data set with missing values:
 \begin{alltt}
 \hlkwd{data}\hlstd{(multiGroup)}
 
-\hlcom{# by default, minData is set to 1 (i.e., at least one observation per row and column has to}
-\hlcom{# be present)}
+\hlcom{# by default, minData is set to 1 (i.e., at least one observation per row and column has}
+\hlcom{# to be present)}
 \hlstd{RR1miss} \hlkwb{<-} \hlkwd{RR}\hlstd{(ex} \hlopt{~} \hlstd{perceiver.id} \hlopt{*} \hlstd{target.id} \hlopt{|} \hlstd{group.id,} \hlkwc{data} \hlstd{= multiGroup,} \hlkwc{na.rm} \hlstd{=} \hlnum{TRUE}\hlstd{)}
 
 
@@ -748,26 +789,26 @@ To see the structure of the object type \texttt{str(object)}:
 \begin{verbatim}
 ## List of 13
 ##  $ effects    :'data.frame':	54 obs. of  3 variables:
-##   ..$ id        : Factor w/ 54 levels "1","10","11",..: 1 2 3 4 5 6 7 8 9 10 ...
-##   ..$ liking_a.p: atomic [1:54] -0.477 -0.367 -0.406 0.152 0.663 ...
+##   ..$ id        : chr [1:54] "1" "10" "11" "12" ...
+##   ..$ liking_a.p: num [1:54] -0.477 -0.367 -0.406 0.152 0.663 ...
 ##   .. ..- attr(*, "type")= chr "actor"
 ##   .. ..- attr(*, "reliability")= num 0.937
-##   ..$ liking_a.t: atomic [1:54] 0.26389 0.07728 0.00107 -0.40349 -0.33725 ...
+##   ..$ liking_a.t: num [1:54] 0.26389 0.07728 0.00107 -0.40349 -0.33725 ...
 ##   .. ..- attr(*, "type")= chr "partner"
 ##   .. ..- attr(*, "reliability")= num 0.901
 ##  $ effectsRel :'data.frame':	2862 obs. of  4 variables:
-##   ..$ actor.id    : Factor w/ 54 levels "1","2","3","4",..: 1 10 1 11 1 12 1 13 1 14 ...
-##   ..$ partner.id  : Factor w/ 54 levels "1","2","3","4",..: 10 1 11 1 12 1 13 1 14 1 ...
+##   ..$ actor.id    : Factor w/ 54 levels "1","2","3","4",..: 10 11 10 12 10 13 10 14 10 15 ...
+##   ..$ partner.id  : Factor w/ 54 levels "1","2","3","4",..: 11 10 12 10 13 10 14 10 15 10 ...
 ##   ..$ dyad        : Factor w/ 1431 levels "1_01","1_02",..: 1 1 2 2 3 3 4 4 5 5 ...
-##   ..$ relationship: num [1:2862] 0.2196 -0.0767 0.2958 -0.0375 -0.2996 ...
+##   ..$ relationship: num [1:2862] 1.186 1.149 0.591 0.591 -0.476 ...
 ##  $ effects.gm :'data.frame':	54 obs. of  3 variables:
-##   ..$ id        : Factor w/ 54 levels "1","10","11",..: 1 2 3 4 5 6 7 8 9 10 ...
-##   ..$ liking_a.p: atomic [1:54] 2.7 2.81 2.77 3.33 3.84 ...
+##   ..$ id        : chr [1:54] "1" "10" "11" "12" ...
+##   ..$ liking_a.p: num [1:54] 2.7 2.81 2.77 3.33 3.84 ...
 ##   .. ..- attr(*, "type")= chr "actor"
-##   ..$ liking_a.t: atomic [1:54] 3.44 3.26 3.18 2.78 2.84 ...
+##   ..$ liking_a.t: num [1:54] 3.44 3.26 3.18 2.78 2.84 ...
 ##   .. ..- attr(*, "type")= chr "partner"
 ##  $ varComp    :'data.frame':	6 obs. of  7 variables:
-##   ..$ type        : Factor w/ 6 levels "actor variance",..: 1 4 6 3 2 5
+##   ..$ type        : chr [1:6] "actor variance" "partner variance" "relationship variance" "error variance" ...
 ##   ..$ estimate    : num [1:6] 0.1717 0.1053 0.6088 NA 0.0141 ...
 ##   ..$ standardized: num [1:6] 0.194 0.119 0.687 NA 0.105 ...
 ##   ..$ se          : num [1:6] 0.0349 0.0223 0.0165 NA 0.02 ...
@@ -860,7 +901,6 @@ Several plots can be made from the result objects. Simply type \texttt{plot(RR\_
 \begin{knitrout}\small
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 \includegraphics[width=\maxwidth]{Sweave-Files/Sw_unnamed-chunk-21-1} 
-
 \end{knitrout}
 \end{center}
 \caption{Variance decomposition of a single round robin group}
@@ -882,9 +922,11 @@ Several plots can be made from the result objects. Simply type \texttt{plot(RR\_
 \begin{figure} 
 \begin{center} 
 \begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{Sweave-Files/Sw_unnamed-chunk-23-1} 
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 1 rows containing missing values (geom\_segment).}}\end{kframe}
+\includegraphics[width=\maxwidth]{Sweave-Files/Sw_unnamed-chunk-23-1} 
 \end{knitrout}
 \end{center}
 \caption{Variance decomposition of multiple round robin groups, latent analysis}
@@ -965,10 +1007,14 @@ Possible combinations are for the univariate case: \texttt{measure=c(`behavior',
 \hlkwd{print}\hlstd{(RR1,} \hlkwc{measure1} \hlstd{=} \hlstr{"perception"}\hlstd{)}
 \end{alltt}
 \begin{verbatim}
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Univariate analysis of one round robin variable"
-## [1] "Univariate analyses for: liking_a"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Univariate analysis of one round robin variable
+## 
+## Univariate analyses for: liking_a 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
 ## perceiver variance             0.172        0.194 0.035   4.914   0.000
 ## target variance                0.105        0.119 0.022   4.727   0.000
@@ -976,8 +1022,8 @@ Possible combinations are for the univariate case: \texttt{measure=c(`behavior',
 ## error variance                    NA           NA    NA      NA      NA
 ## perceiver-target covariance    0.014        0.105 0.020   0.703   0.485
 ## relationship covariance        0.080        0.131 0.017   4.809   0.000
-## [1] "Perceiver effect reliability: .937"
-## [1] "Target effect reliability: .901"
+## Perceiver effect reliability: .937 
+## Target effect reliability: .901 
 ## NULL
 \end{verbatim}
 \end{kframe}
@@ -993,55 +1039,63 @@ Possible combinations are for the univariate case: \texttt{measure=c(`behavior',
 \begin{verbatim}
 ## $univariate
 ## $univariate[[1]]
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Latent construct analysis of one construct measured by two round robin variables"
-## [1] "Univariate analyses for: liking_a/liking_b"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
-##                             estimate standardized    se t.value p.value
-## perceiver variance             0.161        0.164 0.036   4.525   0.000
-## target variance                0.105        0.107 0.023   4.678   0.000
-## relationship variance          0.507        0.518 0.016  31.294   0.000
-## error variance                 0.206        0.211    NA      NA      NA
-## perceiver-target covariance    0.012        0.094 0.021   0.573   0.569
-## relationship covariance        0.079        0.156 0.016   4.887   0.000
-## [1] "Perceiver effect reliability: .865"
-## [1] "Target effect reliability: .893"
-## [1] "Relationship effect reliability: .852"
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Latent construct analysis of one construct measured by two round robin variables
+## 
+## Univariate analyses for: liking_a/liking_b 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
+##                          estimate standardized    se t.value p.value
+## actor variance              0.161        0.164 0.036   4.524   0.000
+## partner variance            0.105        0.107 0.023   4.678   0.000
+## relationship variance       0.507        0.518 0.016  31.125   0.000
+## error variance              0.206        0.211    NA      NA      NA
+## actor-partner covariance    0.012        0.094 0.021   0.573   0.569
+## relationship covariance     0.079        0.156 0.016   4.861   0.000
+## Actor effect reliability: .865 
+## Partner effect reliability: .893 
+## Relationship effect reliability: .852 
 ## NULL
 ## 
 ## $univariate[[2]]
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Latent construct analysis of one construct measured by two round robin variables"
-## [1] "Univariate analyses for: metaliking_a/metaliking_b"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
-##                             estimate standardized    se t.value p.value
-## perceiver variance             0.148        0.217 0.031   4.730   0.000
-## target variance                0.026        0.038 0.007   3.980   0.000
-## relationship variance          0.357        0.522 0.012  30.776   0.000
-## error variance                 0.153        0.223    NA      NA      NA
-## perceiver-target covariance    0.000        0.002 0.011   0.014   0.989
-## relationship covariance        0.071        0.197 0.012   6.075   0.000
-## [1] "Perceiver effect reliability: .899"
-## [1] "Target effect reliability: .761"
-## [1] "Relationship effect reliability: .841"
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Latent construct analysis of one construct measured by two round robin variables
+## 
+## Univariate analyses for: metaliking_a/metaliking_b 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
+##                          estimate standardized    se t.value p.value
+## actor variance              0.148        0.217 0.031   4.729   0.000
+## partner variance            0.026        0.038 0.007   3.978   0.000
+## relationship variance       0.357        0.522 0.012  30.568   0.000
+## error variance              0.153        0.223    NA      NA      NA
+## actor-partner covariance    0.000        0.002 0.011   0.014   0.989
+## relationship covariance     0.071        0.197 0.012   6.034   0.000
+## Actor effect reliability: .899 
+## Partner effect reliability: .761 
+## Relationship effect reliability: .841 
 ## NULL
 ## 
 ## 
 ## $bivariate
 ##                                         type    estimate standardized         se
-## sesaf                 actor-actor covariance 0.091737622   0.59330340 0.02722245
-## sesbg             partner-partner covariance 0.048567501   0.92809821 0.01132879
-## sesag               actor-partner covariance 0.007382948   0.11407774 0.01092695
-## sesbf               partner-actor covariance 0.003979599   0.03183066 0.01901573
-## sesch  intrapersonal relationship covariance 0.329513319   0.77420495 0.01153366
-## seschs interpersonal relationship covariance 0.075332206   0.17699608 0.01153366
+## sesaf                 actor-actor covariance 0.091737622   0.59330340 0.02722553
+## sesbg             partner-partner covariance 0.048567501   0.92809821 0.01133202
+## sesag               actor-partner covariance 0.007382948   0.11407774 0.01093178
+## sesbf               partner-actor covariance 0.003979599   0.03183066 0.01901930
+## sesch  intrapersonal relationship covariance 0.329513319   0.77420495 0.01162831
+## seschs interpersonal relationship covariance 0.075332206   0.17699608 0.01162831
 ##             biSEVAR    t.value      p.value
-## sesaf  0.0007410617  3.3699255 1.408514e-03
-## sesbg  0.0001283414  4.2870876 7.684571e-05
-## sesag  0.0001193983  0.6756639 5.021917e-01
-## sesbf  0.0003615981  0.2092793 8.350326e-01
-## sesch  0.0001330253 28.5697137 0.000000e+00
-## seschs 0.0001330253  6.5315100 2.556583e-08
+## sesaf  0.0007412297  3.3695434 1.410120e-03
+## sesbg  0.0001284146  4.2858651 7.715979e-05
+## sesag  0.0001195038  0.6753656 5.023795e-01
+## sesbf  0.0003617339  0.2092400 8.350631e-01
+## sesch  0.0001352176 28.3371645 0.000000e+00
+## seschs 0.0001352176  6.4783454 3.111736e-08
 ## 
 ## $anal.type
 ## [1] "Bivariate analysis of two constructs, each measured by two round robin variables"
@@ -1068,55 +1122,63 @@ Possible combinations are for the univariate case: \texttt{measure=c(`behavior',
 \begin{verbatim}
 ## $univariate
 ## $univariate[[1]]
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Latent construct analysis of one construct measured by two round robin variables"
-## [1] "Univariate analyses for: liking_a/liking_b"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Latent construct analysis of one construct measured by two round robin variables
+## 
+## Univariate analyses for: liking_a/liking_b 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
-## perceiver variance             0.161        0.164 0.036   4.525   0.000
+## perceiver variance             0.161        0.164 0.036   4.524   0.000
 ## target variance                0.105        0.107 0.023   4.678   0.000
-## relationship variance          0.507        0.518 0.016  31.294   0.000
+## relationship variance          0.507        0.518 0.016  31.125   0.000
 ## error variance                 0.206        0.211    NA      NA      NA
 ## perceiver-target covariance    0.012        0.094 0.021   0.573   0.569
-## relationship covariance        0.079        0.156 0.016   4.887   0.000
-## [1] "Perceiver effect reliability: .865"
-## [1] "Target effect reliability: .893"
-## [1] "Relationship effect reliability: .852"
+## relationship covariance        0.079        0.156 0.016   4.861   0.000
+## Perceiver effect reliability: .865 
+## Target effect reliability: .893 
+## Relationship effect reliability: .852 
 ## NULL
 ## 
 ## $univariate[[2]]
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Latent construct analysis of one construct measured by two round robin variables"
-## [1] "Univariate analyses for: metaliking_a/metaliking_b"
-## [1] "Round robin analysis for a single group; using the formula of Lashley & Bond (1997)."
+## Round-Robin object ('RR'), calculated by TripleR
+## ------------------------------------------------
+## Latent construct analysis of one construct measured by two round robin variables
+## 
+## Univariate analyses for: metaliking_a/metaliking_b 
+## ---------
+## Round robin analysis for a single group; using the formula of Lashley & Bond (1997).
+## 
 ##                             estimate standardized    se t.value p.value
-## perceiver variance             0.148        0.217 0.031   4.730   0.000
-## target variance                0.026        0.038 0.007   3.980   0.000
-## relationship variance          0.357        0.522 0.012  30.776   0.000
+## perceiver variance             0.148        0.217 0.031   4.729   0.000
+## target variance                0.026        0.038 0.007   3.978   0.000
+## relationship variance          0.357        0.522 0.012  30.568   0.000
 ## error variance                 0.153        0.223    NA      NA      NA
 ## perceiver-target covariance    0.000        0.002 0.011   0.014   0.989
-## relationship covariance        0.071        0.197 0.012   6.075   0.000
-## [1] "Perceiver effect reliability: .899"
-## [1] "Target effect reliability: .761"
-## [1] "Relationship effect reliability: .841"
+## relationship covariance        0.071        0.197 0.012   6.034   0.000
+## Perceiver effect reliability: .899 
+## Target effect reliability: .761 
+## Relationship effect reliability: .841 
 ## NULL
 ## 
 ## 
 ## $bivariate
 ##                                         type    estimate standardized         se
-## sesaf                 actor-actor covariance 0.091737622   0.59330340 0.02722245
-## sesbg             partner-partner covariance 0.048567501   0.92809821 0.01132879
-## sesag               actor-partner covariance 0.007382948   0.11407774 0.01092695
-## sesbf               partner-actor covariance 0.003979599   0.03183066 0.01901573
-## sesch  intrapersonal relationship covariance 0.329513319   0.77420495 0.01153366
-## seschs interpersonal relationship covariance 0.075332206   0.17699608 0.01153366
+## sesaf                 actor-actor covariance 0.091737622   0.59330340 0.02722553
+## sesbg             partner-partner covariance 0.048567501   0.92809821 0.01133202
+## sesag               actor-partner covariance 0.007382948   0.11407774 0.01093178
+## sesbf               partner-actor covariance 0.003979599   0.03183066 0.01901930
+## sesch  intrapersonal relationship covariance 0.329513319   0.77420495 0.01162831
+## seschs interpersonal relationship covariance 0.075332206   0.17699608 0.01162831
 ##             biSEVAR    t.value      p.value
-## sesaf  0.0007410617  3.3699255 1.408514e-03
-## sesbg  0.0001283414  4.2870876 7.684571e-05
-## sesag  0.0001193983  0.6756639 5.021917e-01
-## sesbf  0.0003615981  0.2092793 8.350326e-01
-## sesch  0.0001330253 28.5697137 0.000000e+00
-## seschs 0.0001330253  6.5315100 2.556583e-08
+## sesaf  0.0007412297  3.3695434 1.410120e-03
+## sesbg  0.0001284146  4.2858651 7.715979e-05
+## sesag  0.0001195038  0.6753656 5.023795e-01
+## sesbf  0.0003617339  0.2092400 8.350631e-01
+## sesch  0.0001352176 28.3371645 0.000000e+00
+## seschs 0.0001352176  6.4783454 3.111736e-08
 ## 
 ## $anal.type
 ## [1] "Bivariate analysis of two constructs, each measured by two round robin variables"
@@ -1160,23 +1222,23 @@ The data set \texttt{multiGroup} contains round robin ratings and self ratings o
 \end{alltt}
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 3\ \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 3 \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 6\ \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 6 \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
 \hlcom{# extract the effects}
 \hlstd{eff} \hlkwb{<-} \hlstd{RR1m}\hlopt{$}\hlstd{effects}
 \hlkwd{head}\hlstd{(eff)}
@@ -1217,7 +1279,7 @@ In data sets where self ratings are provided (in the diagonal of the round-robin
 \end{alltt}
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}\begin{alltt}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}\begin{alltt}
 \hlkwd{selfCor}\hlstd{(RR1)}
 \end{alltt}
 \begin{verbatim}
@@ -1235,23 +1297,23 @@ In data sets where self ratings are provided (in the diagonal of the round-robin
 \end{alltt}
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 3\ \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 3 \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 6\ \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 6 \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
 \hlstd{c1} \hlkwb{<-} \hlkwd{selfCor}\hlstd{(RR2)}
 \end{alltt}
 \begin{verbatim}
@@ -1310,23 +1372,23 @@ Probably, you have other external variables except the self rating. These are va
 \end{alltt}
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 2 due to exceedingly missing data; id(s) = 90202, 90204, 90208, 90217 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 3\ \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 3 \ participant(s) have been excluded from group 5 due to exceedingly missing data; id(s) = 90509, 90504, 90521 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 6 due to exceedingly missing data; id(s) = 90606, 90608, 90614, 90616 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 8 due to exceedingly missing data; id(s) = 90811 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 9 due to exceedingly missing data; id(s) = 90918 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 1\ \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 1 \ participant(s) have been excluded from group 12 due to exceedingly missing data; id(s) = 91213 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 6\ \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 6 \ participant(s) have been excluded from group 14 due to exceedingly missing data; id(s) = 91404, 91405, 91406, 91408, 91424, 91421 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 18 due to exceedingly missing data; id(s) = 91807, 91808, 91810, 91821 .}}
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex :\ \ 4\ \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: ex : \ 4 \ participant(s) have been excluded from group 20 due to exceedingly missing data; id(s) = 92002, 92009, 92013, 92019 .}}\begin{alltt}
 \hlcom{# merge variables}
 \hlstd{dat} \hlkwb{<-} \hlkwd{merge}\hlstd{(RR1}\hlopt{$}\hlstd{effects, multiNarc,} \hlkwc{by} \hlstd{=} \hlstr{"id"}\hlstd{)}
 
@@ -1361,7 +1423,10 @@ Using the approach of group centering, groups are treated as fixed factors. Both
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{library}\hlstd{(lme4)}
+\end{alltt}
 
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Lade n"{}otiges Paket: Matrix}}\begin{alltt}
 \hlstd{eff.gm} \hlkwb{<-} \hlstd{RR1m}\hlopt{$}\hlstd{effects.gm}
 \hlcom{# scale all continuous variables to obtain standardized estimates}
 \hlstd{eff.gm[,} \hlnum{3}\hlopt{:}\hlnum{5}\hlstd{]} \hlkwb{<-} \hlkwd{apply}\hlstd{(eff.gm[,} \hlnum{3}\hlopt{:}\hlnum{5}\hlstd{],} \hlnum{2}\hlstd{, scale)}
@@ -1370,7 +1435,9 @@ Using the approach of group centering, groups are treated as fixed factors. Both
 \hlcom{# approach, only with random effects).  Additionally, allow slopes to vary:}
 \hlkwd{lmer}\hlstd{(ex.s} \hlopt{~} \hlstd{ex.t} \hlopt{+} \hlstd{(ex.t} \hlopt{|} \hlstd{group.id), eff.gm)}
 \end{alltt}
-\begin{verbatim}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# boundary (singular) fit: see help('isSingular')}}\begin{verbatim}
 ## Linear mixed model fit by REML ['lmerMod']
 ## Formula: ex.s ~ ex.t + (ex.t | group.id)
 ##    Data: eff.gm
@@ -1378,12 +1445,13 @@ Using the approach of group centering, groups are treated as fixed factors. Both
 ## Random effects:
 ##  Groups   Name        Std.Dev.  Corr
 ##  group.id (Intercept) 0.000e+00     
-##           ex.t        3.483e-11  NaN
+##           ex.t        1.860e-08  NaN
 ##  Residual             8.012e-01     
 ## Number of obs: 217, groups:  group.id, 10
 ## Fixed Effects:
 ## (Intercept)         ex.t  
-##   7.893e-17    6.009e-01
+##   1.162e-15    6.009e-01  
+## optimizer (nloptwrap) convergence code: 0 (OK) ; 0 optimizer warnings; 1 lme4 warnings
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -1590,145 +1658,63 @@ The function \texttt{matrix2long} essentially is a wrapper for the much more pow
 
 
 
-\subsection{I have to run many, many round robin analyses in a huge data set. What is the most convenient way to do this?} % (fold)
-\label{sub:i_have_to_run_many_many_round_robin_analyses_in_huge_data_set_what_is_the_most_convenient_way_to_do_this_}
-Imagine you assessed 50 variables in round robin style, and want to extract the effects for all variables and to store them in a new data frame (e.g., for subsequent analyses). Of course, you can type the \texttt{RR} command 50 times, but there are more convenient ways to do this.
+% \subsection{I have to run many, many round robin analyses in a huge data set. What is the most convenient way to do this?} % (fold)
+% \label{sub:i_have_to_run_many_many_round_robin_analyses_in_huge_data_set_what_is_the_most_convenient_way_to_do_this_}
+% Imagine you assessed 50 variables in round robin style, and want to extract the effects for all variables and to store them in a new data frame (e.g., for subsequent analyses). Of course, you can type the \texttt{RR} command 50 times, but there are more convenient ways to do this.
 
-You can construct the formula by a loop, and iterate through all measured variables, and combine the results at the end. As an example, let's take the \texttt{likingLong} data set, which has 4 round robin variables:
+% You can construct the formula by a loop, and iterate through all measured variables, and combine the results at the end. As an example, let's take the \texttt{likingLong} data set, which has 4 round robin variables:
 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{data}\hlstd{(likingLong)}
-\hlkwd{str}\hlstd{(likingLong)}
-\end{alltt}
-\begin{verbatim}
-## 'data.frame':	2916 obs. of  6 variables:
-##  $ perceiver.id: int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ target.id   : int  1 1 1 1 1 1 1 1 1 1 ...
-##  $ liking_a    : int  NA 4 4 3 5 3 5 4 3 3 ...
-##  $ liking_b    : int  NA 5 4 3 5 4 4 3 4 3 ...
-##  $ metaliking_a: int  NA 3 4 3 3 4 3 3 3 2 ...
-##  $ metaliking_b: int  NA 2 4 3 3 3 3 3 3 2 ...
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
+% <<echo=TRUE>>=
+% data(likingLong)
+% str(likingLong)
+% @
 
-If we want to extract the effects for all 4 variables, we could either type:
+% If we want to extract the effects for all 4 variables, we could either type:
 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{RR}\hlstd{(liking_a} \hlopt{~} \hlstd{perceiver.id} \hlopt{*} \hlstd{target.id,} \hlkwc{data} \hlstd{= likingLong)}
-\hlkwd{RR}\hlstd{(liking_b} \hlopt{~} \hlstd{perceiver.id} \hlopt{*} \hlstd{target.id,} \hlkwc{data} \hlstd{= likingLong)}
-\hlkwd{RR}\hlstd{(metaliking_a} \hlopt{~} \hlstd{perceiver.id} \hlopt{*} \hlstd{target.id,} \hlkwc{data} \hlstd{= likingLong)}
-\hlkwd{RR}\hlstd{(metaliking_b} \hlopt{~} \hlstd{perceiver.id} \hlopt{*} \hlstd{target.id,} \hlkwc{data} \hlstd{= likingLong)}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
+% <<echo=TRUE,results='hide'>>=
+% RR(liking_a~perceiver.id*target.id, data=likingLong)
+% RR(liking_b~perceiver.id*target.id, data=likingLong)
+% RR(metaliking_a~perceiver.id*target.id, data=likingLong)
+% RR(metaliking_b~perceiver.id*target.id, data=likingLong)
+% @
 
 
-Or, we do it in a loop, store the results and combine them at the end:
+% Or, we do it in a loop, store the results and combine them at the end:
 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{varnames} \hlkwb{<-} \hlkwd{colnames}\hlstd{(likingLong)[}\hlnum{3}\hlopt{:}\hlnum{6}\hlstd{]}
+% <<label=merging, echo=TRUE>>=
+% varnames <- colnames(likingLong)[3:6]
 
-\hlcom{# run a RR analysis for each variable and store results in a list}
-\hlstd{res_list} \hlkwb{<-} \hlkwd{list}\hlstd{()}
-\hlkwa{for} \hlstd{(v} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(varnames)) \{}
-    \hlstd{f1} \hlkwb{<-} \hlkwd{formula}\hlstd{(}\hlkwd{paste}\hlstd{(varnames[v],} \hlstr{"~perceiver.id*target.id"}\hlstd{))}
-    \hlstd{RR1} \hlkwb{<-} \hlkwd{RR}\hlstd{(f1,} \hlkwc{data} \hlstd{= likingLong)}
-    \hlstd{res_list} \hlkwb{<-} \hlkwd{c}\hlstd{(res_list,} \hlkwd{list}\hlstd{(RR1}\hlopt{$}\hlstd{effects))}
-\hlstd{\}}
+% # run a RR analysis for each variable and store results in a list
+% res_list <- list()
+% for (v in 1:length(varnames)) {
+% 	f1 <- formula(paste(varnames[v], "~perceiver.id*target.id"))
+% 	RR1 <- RR(f1, data=likingLong)
+% 	res_list <- c(res_list, list(RR1$effects))
+% }
 
 
-\hlcom{# now combine all effects in a single data frame; merge by id}
-\hlkwd{library}\hlstd{(reshape)}
-\hlstd{res} \hlkwb{<-} \hlkwd{merge_recurse}\hlstd{(res_list,} \hlkwc{by} \hlstd{=} \hlstr{"id"}\hlstd{)}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
+% # now combine all effects in a single data frame; merge by id
+% library(reshape)
+% res <- merge_recurse(res_list, by="id")
+% @ 
 
 
-As you can see, there's a new data frame with all perceiver and target effects. On this data frame you can run subsequent analyses, for example correlations:
+% As you can see, there's a new data frame with all perceiver and target effects. On this data frame you can run subsequent analyses, for example correlations:
 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{str}\hlstd{(res)}
-\end{alltt}
-\begin{verbatim}
-## 'data.frame':	54 obs. of  9 variables:
-##  $ id            : Factor w/ 54 levels "1","10","11",..: 1 2 3 4 5 6 7 8 9 10 ...
-##  $ liking_a.p    : num  -0.477 -0.367 -0.406 0.152 0.663 ...
-##  $ liking_a.t    : num  0.26389 0.07728 0.00107 -0.40349 -0.33725 ...
-##  $ liking_b.p    : num  -0.228 -0.265 -0.498 0.099 0.404 ...
-##  $ liking_b.t    : num  0.253 0.309 -0.016 -0.401 -0.244 ...
-##  $ metaliking_a.p: num  -0.251 -0.173 -0.478 0.348 1.085 ...
-##  $ metaliking_a.t: num  0.00855 0.10434 -0.03348 -0.2443 -0.21154 ...
-##  $ metaliking_b.p: num  -0.0958 -0.338 -0.3219 0.0894 0.7098 ...
-##  $ metaliking_b.t: num  0.0524 0.2176 0.067 -0.1328 -0.2532 ...
-\end{verbatim}
-\begin{alltt}
-\hlkwd{round}\hlstd{(}\hlkwd{cor}\hlstd{(res[,} \hlnum{2}\hlopt{:}\hlnum{9}\hlstd{]),} \hlnum{2}\hlstd{)}
-\end{alltt}
-\begin{verbatim}
-##                liking_a.p liking_a.t liking_b.p liking_b.t metaliking_a.p metaliking_a.t
-## liking_a.p           1.00       0.11       0.85       0.14           0.47           0.19
-## liking_a.t           0.11       1.00       0.04       0.95           0.01           0.85
-## liking_b.p           0.85       0.04       1.00       0.08           0.55           0.12
-## liking_b.t           0.14       0.95       0.08       1.00           0.03           0.88
-## metaliking_a.p       0.47       0.01       0.55       0.03           1.00           0.04
-## metaliking_a.t       0.19       0.85       0.12       0.88           0.04           1.00
-## metaliking_b.p       0.43       0.03       0.63       0.07           0.90           0.08
-## metaliking_b.t       0.10       0.77       0.01       0.84          -0.05           0.92
-##                metaliking_b.p metaliking_b.t
-## liking_a.p               0.43           0.10
-## liking_a.t               0.03           0.77
-## liking_b.p               0.63           0.01
-## liking_b.t               0.07           0.84
-## metaliking_a.p           0.90          -0.05
-## metaliking_a.t           0.08           0.92
-## metaliking_b.p           1.00          -0.03
-## metaliking_b.t          -0.03           1.00
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
+% <<echo=TRUE>>=
+% str(res)
+
+% round(cor(res[,2:9]), 2)
+% @
 
 
-For convenience, this short script is also implemented as a function in TripleR (\texttt{?getEffects}), which reduces the code to one or two lines. The function works both with single and multiple groups.
+% For convenience, this short script is also implemented as a function in TripleR (\texttt{?getEffects}), which reduces the code to one or two lines. The function works both with single and multiple groups.
 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{res} \hlkwb{<-} \hlkwd{getEffects}\hlstd{(}\hlopt{~}\hlstd{perceiver.id} \hlopt{*} \hlstd{target.id,} \hlkwc{data} \hlstd{= likingLong,} \hlkwc{varlist} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"liking_a"}\hlstd{,} \hlstr{"liking_b"}\hlstd{,}
-    \hlstr{"metaliking_a"}\hlstd{,} \hlstr{"metaliking_b"}\hlstd{))}
-\end{alltt}
-\begin{verbatim}
-## [1] "Calculate: liking_a"
-## [1] "Calculate: liking_b"
-## [1] "Calculate: metaliking_a"
-## [1] "Calculate: metaliking_b"
-\end{verbatim}
-\begin{alltt}
-\hlkwd{str}\hlstd{(res)}
-\end{alltt}
-\begin{verbatim}
-## 'data.frame':	54 obs. of  9 variables:
-##  $ id            : Factor w/ 54 levels "1","10","11",..: 1 2 3 4 5 6 7 8 9 10 ...
-##  $ liking_a.p    : num  -0.477 -0.367 -0.406 0.152 0.663 ...
-##  $ liking_a.t    : num  0.26389 0.07728 0.00107 -0.40349 -0.33725 ...
-##  $ liking_b.p    : num  -0.228 -0.265 -0.498 0.099 0.404 ...
-##  $ liking_b.t    : num  0.253 0.309 -0.016 -0.401 -0.244 ...
-##  $ metaliking_a.p: num  -0.251 -0.173 -0.478 0.348 1.085 ...
-##  $ metaliking_a.t: num  0.00855 0.10434 -0.03348 -0.2443 -0.21154 ...
-##  $ metaliking_b.p: num  -0.0958 -0.338 -0.3219 0.0894 0.7098 ...
-##  $ metaliking_b.t: num  0.0524 0.2176 0.067 -0.1328 -0.2532 ...
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
+% <<echo=TRUE>>=
+% res <- getEffects(~perceiver.id*target.id, data=likingLong, 
+% 				varlist=c("liking_a", "liking_b", "metaliking_a", "metaliking_b"))
+% str(res)
+% @
 
 
 
@@ -1755,54 +1741,27 @@ This happens, whenever single groups are excluded from the SRA. SRAs need a mini
 
 
 
-\subsection{A comparison with SOREMO.exe} % (fold)
-\label{sub:an_example_from_david_kenny}
-David Kenny describes how to estimate SRMs with other software programs \\(http://www.davidakenny.net/doc/srmsoftware.doc) and also provides a data set. We can do the analysis in TripleR as well:
+% \subsection{A comparison with SOREMO.exe} % (fold)
+% \label{sub:an_example_from_david_kenny}
+% David Kenny describes how to estimate SRMs with other software programs \\(http://www.davidakenny.net/doc/srmsoftware.doc) and also provides a data set. We can do the analysis in TripleR as well:
 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlkwd{library}\hlstd{(TripleR)}
-\hlkwd{library}\hlstd{(foreign)}
+% <<echo=TRUE>>=
+% library(TripleR)
+% library(foreign)
 
-\hlstd{dat} \hlkwb{<-} \hlkwd{read.spss}\hlstd{(}\hlstr{"http://www.davidakenny.net/doc/contribute.sav"}\hlstd{,} \hlkwc{to.data.frame} \hlstd{=} \hlnum{TRUE}\hlstd{)}
-\hlstd{RR.Kenny} \hlkwb{<-} \hlkwd{RR}\hlstd{(l1} \hlopt{~} \hlstd{Actor} \hlopt{*} \hlstd{Partner} \hlopt{|} \hlstd{Group,} \hlkwc{data} \hlstd{= dat,} \hlkwc{se} \hlstd{=} \hlstr{"SOREMO"}\hlstd{)}
-\hlstd{RR.Kenny}
-\end{alltt}
-\begin{verbatim}
-## [1] "Round-Robin object ('RR'), calculated by TripleR"
-## [1] "Univariate analysis of one round robin variable in multiple groups (significance test based on SOREMO; Kenny & LaVoie, 1984)"
-## [1] "Univariate analyses for: l1"
-## [1] "Group descriptives: n =  24 ; average group size =  4 ; range:  4 - 4"
-##                             estimate standardized    se t.value p.value
-## perceiver variance             0.233        0.335 0.054   4.307   0.000
-## target variance                0.240        0.345 0.045   5.330   0.000
-## relationship variance          0.222        0.320 0.030   7.316   0.000
-## error variance                    NA           NA    NA      NA      NA
-## perceiver-target covariance    0.059        0.250 0.047   1.244   0.226
-## relationship covariance        0.014        0.063 0.034   0.414   0.682
-## [1] "Perceiver effect reliability: .732"
-## [1] "Target effect reliability: .738"
-## NULL
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
+% dat <- read.spss("http://www.davidakenny.net/doc/contribute.sav", to.data.frame=TRUE)
+% RR.Kenny <- RR(l1~Actor*Partner|Group, data=dat, se="SOREMO")
+% RR.Kenny
+% @
 
-Group variance is not printed in the standard \texttt{RR}-output, but it can be accessed by:
+% Group variance is not printed in the standard \texttt{RR}-output, but it can be accessed by:
 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{RR.Kenny}\hlopt{$}\hlstd{group.var}
-\end{alltt}
-\begin{verbatim}
-## [1] -0.09060487
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
+% <<echo=TRUE>>=
+% RR.Kenny$group.var
+% @
 
-If you compare these results with Table 1 from the \texttt{srmsoftware.doc} document, you will see that all results are identical to SOREMO.
-% subsection an_example_from_david_kenny (end)
+% If you compare these results with Table 1 from the \texttt{srmsoftware.doc} document, you will see that all results are identical to SOREMO.
+% % subsection an_example_from_david_kenny (end)
 
 
 % section faq (end)

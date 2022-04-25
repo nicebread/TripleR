@@ -2,8 +2,8 @@ Encoding: UTF-8
 Package: TripleR
 Type: Package
 Title: Social Relation Model (SRM) Analyses for Single or Multiple Groups
-Version: 1.5.3
-Date: 2016-07-21
+Version: 1.5.4
+Date: 2022-04-25
 Author: F. D. Schönbrodt, M. D. Back, S. C. Schmukle
 Maintainer: Felix Schönbrodt <felix.schoenbrodt@psy.lmu.de>
 Depends:
@@ -12,7 +12,9 @@ Imports:
     reshape2,
     plyr
 Suggests:
-    lme4
+    lme4,
+    R.rsp
+VignetteBuilder: R.rsp
 Description: Social Relation Model (SRM) analyses for single or multiple
     round-robin groups are performed. These analyses are either based on one
     manifest variable, one latent construct measured by two manifest variables,
@@ -24,4 +26,4 @@ Description: Social Relation Model (SRM) analyses for single or multiple
     Lashley and Bond (1997) <DOI:10.1037/1082-989X.2.3.278>. Handling for missing values is provided.
 License: GPL (>= 2)
 LazyLoad: yes
-RoxygenNote: 5.0.1
+RoxygenNote: 7.1.2

@@ -757,63 +757,63 @@ The function \texttt{matrix2long} essentially is a wrapper for the much more pow
 
 
 
-\subsection{I have to run many, many round robin analyses in a huge data set. What is the most convenient way to do this?} % (fold)
-\label{sub:i_have_to_run_many_many_round_robin_analyses_in_huge_data_set_what_is_the_most_convenient_way_to_do_this_}
-Imagine you assessed 50 variables in round robin style, and want to extract the effects for all variables and to store them in a new data frame (e.g., for subsequent analyses). Of course, you can type the \texttt{RR} command 50 times, but there are more convenient ways to do this.
+% \subsection{I have to run many, many round robin analyses in a huge data set. What is the most convenient way to do this?} % (fold)
+% \label{sub:i_have_to_run_many_many_round_robin_analyses_in_huge_data_set_what_is_the_most_convenient_way_to_do_this_}
+% Imagine you assessed 50 variables in round robin style, and want to extract the effects for all variables and to store them in a new data frame (e.g., for subsequent analyses). Of course, you can type the \texttt{RR} command 50 times, but there are more convenient ways to do this.
 
-You can construct the formula by a loop, and iterate through all measured variables, and combine the results at the end. As an example, let's take the \texttt{likingLong} data set, which has 4 round robin variables:
+% You can construct the formula by a loop, and iterate through all measured variables, and combine the results at the end. As an example, let's take the \texttt{likingLong} data set, which has 4 round robin variables:
 
-<<echo=TRUE>>=
-data(likingLong)
-str(likingLong)
-@
+% <<echo=TRUE>>=
+% data(likingLong)
+% str(likingLong)
+% @
 
-If we want to extract the effects for all 4 variables, we could either type:
+% If we want to extract the effects for all 4 variables, we could either type:
 
-<<echo=TRUE,results='hide'>>=
-RR(liking_a~perceiver.id*target.id, data=likingLong)
-RR(liking_b~perceiver.id*target.id, data=likingLong)
-RR(metaliking_a~perceiver.id*target.id, data=likingLong)
-RR(metaliking_b~perceiver.id*target.id, data=likingLong)
-@
-
-
-Or, we do it in a loop, store the results and combine them at the end:
-
-<<label=merging, echo=TRUE>>=
-varnames <- colnames(likingLong)[3:6]
-
-# run a RR analysis for each variable and store results in a list
-res_list <- list()
-for (v in 1:length(varnames)) {
-	f1 <- formula(paste(varnames[v], "~perceiver.id*target.id"))
-	RR1 <- RR(f1, data=likingLong)
-	res_list <- c(res_list, list(RR1$effects))
-}
+% <<echo=TRUE,results='hide'>>=
+% RR(liking_a~perceiver.id*target.id, data=likingLong)
+% RR(liking_b~perceiver.id*target.id, data=likingLong)
+% RR(metaliking_a~perceiver.id*target.id, data=likingLong)
+% RR(metaliking_b~perceiver.id*target.id, data=likingLong)
+% @
 
 
-# now combine all effects in a single data frame; merge by id
-library(reshape)
-res <- merge_recurse(res_list, by="id")
-@ 
+% Or, we do it in a loop, store the results and combine them at the end:
+
+% <<label=merging, echo=TRUE>>=
+% varnames <- colnames(likingLong)[3:6]
+
+% # run a RR analysis for each variable and store results in a list
+% res_list <- list()
+% for (v in 1:length(varnames)) {
+% 	f1 <- formula(paste(varnames[v], "~perceiver.id*target.id"))
+% 	RR1 <- RR(f1, data=likingLong)
+% 	res_list <- c(res_list, list(RR1$effects))
+% }
 
 
-As you can see, there's a new data frame with all perceiver and target effects. On this data frame you can run subsequent analyses, for example correlations:
-
-<<echo=TRUE>>=
-str(res)
-
-round(cor(res[,2:9]), 2)
-@
+% # now combine all effects in a single data frame; merge by id
+% library(reshape)
+% res <- merge_recurse(res_list, by="id")
+% @ 
 
 
-For convenience, this short script is also implemented as a function in TripleR (\texttt{?getEffects}), which reduces the code to one or two lines. The function works both with single and multiple groups.
+% As you can see, there's a new data frame with all perceiver and target effects. On this data frame you can run subsequent analyses, for example correlations:
 
-<<echo=TRUE>>=
-res <- getEffects(~perceiver.id*target.id, data=likingLong, 
-				varlist=c("liking_a", "liking_b", "metaliking_a", "metaliking_b"))
-str(res)
-@
+% <<echo=TRUE>>=
+% str(res)
+
+% round(cor(res[,2:9]), 2)
+% @
+
+
+% For convenience, this short script is also implemented as a function in TripleR (\texttt{?getEffects}), which reduces the code to one or two lines. The function works both with single and multiple groups.
+
+% <<echo=TRUE>>=
+% res <- getEffects(~perceiver.id*target.id, data=likingLong, 
+% 				varlist=c("liking_a", "liking_b", "metaliking_a", "metaliking_b"))
+% str(res)
+% @
 
 
 
@@ -840,27 +840,27 @@ This happens, whenever single groups are excluded from the SRA. SRAs need a mini
 
 
 
-\subsection{A comparison with SOREMO.exe} % (fold)
-\label{sub:an_example_from_david_kenny}
-David Kenny describes how to estimate SRMs with other software programs \\(http://www.davidakenny.net/doc/srmsoftware.doc) and also provides a data set. We can do the analysis in TripleR as well:
+% \subsection{A comparison with SOREMO.exe} % (fold)
+% \label{sub:an_example_from_david_kenny}
+% David Kenny describes how to estimate SRMs with other software programs \\(http://www.davidakenny.net/doc/srmsoftware.doc) and also provides a data set. We can do the analysis in TripleR as well:
 
-<<echo=TRUE>>=
-library(TripleR)
-library(foreign)
+% <<echo=TRUE>>=
+% library(TripleR)
+% library(foreign)
 
-dat <- read.spss("http://www.davidakenny.net/doc/contribute.sav", to.data.frame=TRUE)
-RR.Kenny <- RR(l1~Actor*Partner|Group, data=dat, se="SOREMO")
-RR.Kenny
-@
+% dat <- read.spss("http://www.davidakenny.net/doc/contribute.sav", to.data.frame=TRUE)
+% RR.Kenny <- RR(l1~Actor*Partner|Group, data=dat, se="SOREMO")
+% RR.Kenny
+% @
 
-Group variance is not printed in the standard \texttt{RR}-output, but it can be accessed by:
+% Group variance is not printed in the standard \texttt{RR}-output, but it can be accessed by:
 
-<<echo=TRUE>>=
-RR.Kenny$group.var
-@
+% <<echo=TRUE>>=
+% RR.Kenny$group.var
+% @
 
-If you compare these results with Table 1 from the \texttt{srmsoftware.doc} document, you will see that all results are identical to SOREMO.
-% subsection an_example_from_david_kenny (end)
+% If you compare these results with Table 1 from the \texttt{srmsoftware.doc} document, you will see that all results are identical to SOREMO.
+% % subsection an_example_from_david_kenny (end)
 
 
 % section faq (end)

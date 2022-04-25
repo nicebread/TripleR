@@ -22,7 +22,7 @@ citEntry(entry = "misc",
 	author = c(as.person("Schönbrodt, F. D."), as.person("Back, M. D."), as.person("Schmukle, S. C.")),
 	year = year,
 	note = note,
-	url = "http://cran.r-project.org/package=TripleR",
+	url = "https://CRAN.R-project.org/package=TripleR",
 	
-	textVersion  = paste0("Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (", year, "). TripleR: Social Relation Model (SRM) analyses for single or multiple groups (", note, "). Retrieved from http://cran.r-project.org/package=TripleR.")
+	textVersion  = paste0("Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (", year, "). TripleR: Social Relation Model (SRM) analyses for single or multiple groups (", note, "). Retrieved from https://CRAN.R-project.org/package=TripleR.")
 )

@@ -1,27 +1,25 @@
-\BOOKMARK [1][-]{section.1}{Installing R and TripleR}{}% 1
-\BOOKMARK [1][-]{section.2}{Getting the data into the right format}{}% 2
-\BOOKMARK [1][-]{section.3}{Importing your data into R}{}% 3
-\BOOKMARK [1][-]{section.4}{How to do the analyses}{}% 4
-\BOOKMARK [2][-]{subsection.4.1}{Univariate manifest analysis}{section.4}% 5
-\BOOKMARK [2][-]{subsection.4.2}{Univariate latent analyses}{section.4}% 6
-\BOOKMARK [2][-]{subsection.4.3}{Bivariate manifest analysis}{section.4}% 7
-\BOOKMARK [2][-]{subsection.4.4}{Bivariate latent analysis}{section.4}% 8
-\BOOKMARK [2][-]{subsection.4.5}{Multiple groups}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.6}{Missing values}{section.4}% 10
-\BOOKMARK [2][-]{subsection.4.7}{Inspecting the results object}{section.4}% 11
-\BOOKMARK [1][-]{section.5}{Plots}{}% 12
-\BOOKMARK [1][-]{section.6}{Formatting the output}{}% 13
-\BOOKMARK [1][-]{section.7}{Subsequent analyses}{}% 14
-\BOOKMARK [2][-]{subsection.7.1}{Assumed similarity and self-other agreement: Correlations with self-ratings}{section.7}% 15
-\BOOKMARK [2][-]{subsection.7.2}{Calculating partial correlations with external variables: Treating groups as fixed effects}{section.7}% 16
-\BOOKMARK [2][-]{subsection.7.3}{Calculating partial correlations with external variables: Treating groups as random effects - the multilevel approach}{section.7}% 17
-\BOOKMARK [2][-]{subsection.7.4}{Subsequent analyses of relationship effects}{section.7}% 18
-\BOOKMARK [1][-]{section.8}{Exporting results}{}% 19
-\BOOKMARK [1][-]{section.9}{FAQ}{}% 20
-\BOOKMARK [2][-]{subsection.9.1}{How can I calculate a bivariate analysis between one manifest variable and a latent construct indicated by two variables?}{section.9}% 21
-\BOOKMARK [2][-]{subsection.9.2}{This long data format really sounds good. But unfortunately my data already are in the wide format - how can I convert them into the long format?}{section.9}% 22
-\BOOKMARK [2][-]{subsection.9.3}{I have to run many, many round robin analyses in a huge data set. What is the most convenient way to do this?}{section.9}% 23
-\BOOKMARK [2][-]{subsection.9.4}{An error occurs: `Aggregation requires fun.aggregate: length used as default'}{section.9}% 24
-\BOOKMARK [2][-]{subsection.9.5}{My original multi group data set has X participants - the effects of the RR analysis, however, only have Y \(Y<X\) rows!}{section.9}% 25
-\BOOKMARK [2][-]{subsection.9.6}{A comparison with SOREMO.exe}{section.9}% 26
-\BOOKMARK [1][-]{section*.1}{References}{}% 27
+\BOOKMARK [1][-]{section.1}{\376\377\000I\000n\000s\000t\000a\000l\000l\000i\000n\000g\000\040\000R\000\040\000a\000n\000d\000\040\000T\000r\000i\000p\000l\000e\000R}{}% 1
+\BOOKMARK [1][-]{section.2}{\376\377\000G\000e\000t\000t\000i\000n\000g\000\040\000t\000h\000e\000\040\000d\000a\000t\000a\000\040\000i\000n\000t\000o\000\040\000t\000h\000e\000\040\000r\000i\000g\000h\000t\000\040\000f\000o\000r\000m\000a\000t}{}% 2
+\BOOKMARK [1][-]{section.3}{\376\377\000I\000m\000p\000o\000r\000t\000i\000n\000g\000\040\000y\000o\000u\000r\000\040\000d\000a\000t\000a\000\040\000i\000n\000t\000o\000\040\000R}{}% 3
+\BOOKMARK [1][-]{section.4}{\376\377\000H\000o\000w\000\040\000t\000o\000\040\000d\000o\000\040\000t\000h\000e\000\040\000a\000n\000a\000l\000y\000s\000e\000s}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{\376\377\000U\000n\000i\000v\000a\000r\000i\000a\000t\000e\000\040\000m\000a\000n\000i\000f\000e\000s\000t\000\040\000a\000n\000a\000l\000y\000s\000i\000s}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{\376\377\000U\000n\000i\000v\000a\000r\000i\000a\000t\000e\000\040\000l\000a\000t\000e\000n\000t\000\040\000a\000n\000a\000l\000y\000s\000e\000s}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{\376\377\000B\000i\000v\000a\000r\000i\000a\000t\000e\000\040\000m\000a\000n\000i\000f\000e\000s\000t\000\040\000a\000n\000a\000l\000y\000s\000i\000s}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{\376\377\000B\000i\000v\000a\000r\000i\000a\000t\000e\000\040\000l\000a\000t\000e\000n\000t\000\040\000a\000n\000a\000l\000y\000s\000i\000s}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.5}{\376\377\000M\000u\000l\000t\000i\000p\000l\000e\000\040\000g\000r\000o\000u\000p\000s}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.6}{\376\377\000M\000i\000s\000s\000i\000n\000g\000\040\000v\000a\000l\000u\000e\000s}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.7}{\376\377\000I\000n\000s\000p\000e\000c\000t\000i\000n\000g\000\040\000t\000h\000e\000\040\000r\000e\000s\000u\000l\000t\000s\000\040\000o\000b\000j\000e\000c\000t}{section.4}% 11
+\BOOKMARK [1][-]{section.5}{\376\377\000P\000l\000o\000t\000s}{}% 12
+\BOOKMARK [1][-]{section.6}{\376\377\000F\000o\000r\000m\000a\000t\000t\000i\000n\000g\000\040\000t\000h\000e\000\040\000o\000u\000t\000p\000u\000t}{}% 13
+\BOOKMARK [1][-]{section.7}{\376\377\000S\000u\000b\000s\000e\000q\000u\000e\000n\000t\000\040\000a\000n\000a\000l\000y\000s\000e\000s}{}% 14
+\BOOKMARK [2][-]{subsection.7.1}{\376\377\000A\000s\000s\000u\000m\000e\000d\000\040\000s\000i\000m\000i\000l\000a\000r\000i\000t\000y\000\040\000a\000n\000d\000\040\000s\000e\000l\000f\000-\000o\000t\000h\000e\000r\000\040\000a\000g\000r\000e\000e\000m\000e\000n\000t\000:\000\040\000C\000o\000r\000r\000e\000l\000a\000t\000i\000o\000n\000s\000\040\000w\000i\000t\000h\000\040\000s\000e\000l\000f\000-\000r\000a\000t\000i\000n\000g\000s}{section.7}% 15
+\BOOKMARK [2][-]{subsection.7.2}{\376\377\000C\000a\000l\000c\000u\000l\000a\000t\000i\000n\000g\000\040\000p\000a\000r\000t\000i\000a\000l\000\040\000c\000o\000r\000r\000e\000l\000a\000t\000i\000o\000n\000s\000\040\000w\000i\000t\000h\000\040\000e\000x\000t\000e\000r\000n\000a\000l\000\040\000v\000a\000r\000i\000a\000b\000l\000e\000s\000:\000\040\000T\000r\000e\000a\000t\000i\000n\000g\000\040\000g\000r\000o\000u\000p\000s\000\040\000a\000s\000\040\000f\000i\000x\000e\000d\000\040\000e\000f\000f\000e\000c\000t\000s}{section.7}% 16
+\BOOKMARK [2][-]{subsection.7.3}{\376\377\000C\000a\000l\000c\000u\000l\000a\000t\000i\000n\000g\000\040\000p\000a\000r\000t\000i\000a\000l\000\040\000c\000o\000r\000r\000e\000l\000a\000t\000i\000o\000n\000s\000\040\000w\000i\000t\000h\000\040\000e\000x\000t\000e\000r\000n\000a\000l\000\040\000v\000a\000r\000i\000a\000b\000l\000e\000s\000:\000\040\000T\000r\000e\000a\000t\000i\000n\000g\000\040\000g\000r\000o\000u\000p\000s\000\040\000a\000s\000\040\000r\000a\000n\000d\000o\000m\000\040\000e\000f\000f\000e\000c\000t\000s\000\040\000-\000\040\000t\000h\000e\000\040\000m\000u\000l\000t\000i\000l\000e\000v\000e\000l\000\040\000a\000p\000p\000r\000o\000a\000c\000h}{section.7}% 17
+\BOOKMARK [2][-]{subsection.7.4}{\376\377\000S\000u\000b\000s\000e\000q\000u\000e\000n\000t\000\040\000a\000n\000a\000l\000y\000s\000e\000s\000\040\000o\000f\000\040\000r\000e\000l\000a\000t\000i\000o\000n\000s\000h\000i\000p\000\040\000e\000f\000f\000e\000c\000t\000s}{section.7}% 18
+\BOOKMARK [1][-]{section.8}{\376\377\000E\000x\000p\000o\000r\000t\000i\000n\000g\000\040\000r\000e\000s\000u\000l\000t\000s}{}% 19
+\BOOKMARK [1][-]{section.9}{\376\377\000F\000A\000Q}{}% 20
+\BOOKMARK [2][-]{subsection.9.1}{\376\377\000H\000o\000w\000\040\000c\000a\000n\000\040\000I\000\040\000c\000a\000l\000c\000u\000l\000a\000t\000e\000\040\000a\000\040\000b\000i\000v\000a\000r\000i\000a\000t\000e\000\040\000a\000n\000a\000l\000y\000s\000i\000s\000\040\000b\000e\000t\000w\000e\000e\000n\000\040\000o\000n\000e\000\040\000m\000a\000n\000i\000f\000e\000s\000t\000\040\000v\000a\000r\000i\000a\000b\000l\000e\000\040\000a\000n\000d\000\040\000a\000\040\000l\000a\000t\000e\000n\000t\000\040\000c\000o\000n\000s\000t\000r\000u\000c\000t\000\040\000i\000n\000d\000i\000c\000a\000t\000e\000d\000\040\000b\000y\000\040\000t\000w\000o\000\040\000v\000a\000r\000i\000a\000b\000l\000e\000s\000?}{section.9}% 21
+\BOOKMARK [2][-]{subsection.9.2}{\376\377\000T\000h\000i\000s\000\040\000l\000o\000n\000g\000\040\000d\000a\000t\000a\000\040\000f\000o\000r\000m\000a\000t\000\040\000r\000e\000a\000l\000l\000y\000\040\000s\000o\000u\000n\000d\000s\000\040\000g\000o\000o\000d\000.\000\040\000B\000u\000t\000\040\000u\000n\000f\000o\000r\000t\000u\000n\000a\000t\000e\000l\000y\000\040\000m\000y\000\040\000d\000a\000t\000a\000\040\000a\000l\000r\000e\000a\000d\000y\000\040\000a\000r\000e\000\040\000i\000n\000\040\000t\000h\000e\000\040\000w\000i\000d\000e\000\040\000f\000o\000r\000m\000a\000t\000\040\000-\000\040\000h\000o\000w\000\040\000c\000a\000n\000\040\000I\000\040\000c\000o\000n\000v\000e\000r\000t\000\040\000t\000h\000e\000m\000\040\000i\000n\000t\000o\000\040\000t\000h\000e\000\040\000l\000o\000n\000g\000\040\000f\000o\000r\000m\000a\000t\000?}{section.9}% 22
+\BOOKMARK [2][-]{subsection.9.3}{\376\377\000A\000n\000\040\000e\000r\000r\000o\000r\000\040\000o\000c\000c\000u\000r\000s\000:\000\040\000`\000A\000g\000g\000r\000e\000g\000a\000t\000i\000o\000n\000\040\000r\000e\000q\000u\000i\000r\000e\000s\000\040\000f\000u\000n\000.\000a\000g\000g\000r\000e\000g\000a\000t\000e\000:\000\040\000l\000e\000n\000g\000t\000h\000\040\000u\000s\000e\000d\000\040\000a\000s\000\040\000d\000e\000f\000a\000u\000l\000t\000'}{section.9}% 23
+\BOOKMARK [2][-]{subsection.9.4}{\376\377\000M\000y\000\040\000o\000r\000i\000g\000i\000n\000a\000l\000\040\000m\000u\000l\000t\000i\000\040\000g\000r\000o\000u\000p\000\040\000d\000a\000t\000a\000\040\000s\000e\000t\000\040\000h\000a\000s\000\040\000X\000\040\000p\000a\000r\000t\000i\000c\000i\000p\000a\000n\000t\000s\000\040\000-\000\040\000t\000h\000e\000\040\000e\000f\000f\000e\000c\000t\000s\000\040\000o\000f\000\040\000t\000h\000e\000\040\000R\000R\000\040\000a\000n\000a\000l\000y\000s\000i\000s\000,\000\040\000h\000o\000w\000e\000v\000e\000r\000,\000\040\000o\000n\000l\000y\000\040\000h\000a\000v\000e\000\040\000Y\000\040\000\050\000Y\000<\000X\000\051\000\040\000r\000o\000w\000s\000!}{section.9}% 24
+\BOOKMARK [1][-]{section*.1}{\376\377\000R\000e\000f\000e\000r\000e\000n\000c\000e\000s}{}% 25

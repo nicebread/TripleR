@@ -7,3 +7,5 @@ checks
 .Rapp.history
 .travis.yml
 cran-comments.md
+^doc$
+^Meta$

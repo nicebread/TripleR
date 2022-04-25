@@ -8,7 +8,7 @@ Social Relation Model (SRM) analyses for single or multiple round-robin groups a
 }
 
 \details{
-For further information of usage see \code{\link{RR}} or the built in pdf document `How to use TripleR'. You can open this document either by on this link: \url{../doc/TripleR.pdf}, or you can browse all included vignettes by opening the index of the package documentation (scroll down to the very end of this page and click on `Index'; than click on `Overview of user guides and package vignettes').
+For further information of usage see \code{\link{RR}} or the built in pdf document `How to use TripleR'. You can browse all included vignettes by opening the index of the package documentation (scroll down to the very end of this page and click on `Index'; than click on `Overview of user guides and package vignettes').
 
 If you use this package in your research, please cite it as:
 Schönbrodt, F. D., Back, M. D., & Schmukle, S. C. (2012). TripleR: An R package for social relations analyses based on round-robin designs. \emph{Behavior Research Methods, 44}, 455–470. doi:10.3758/s13428-011-0150-4
